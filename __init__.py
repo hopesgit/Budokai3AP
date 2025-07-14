@@ -147,4 +147,4 @@ class Budokai3World(World):
     #     )
     #
     # def fill_slot_data(self) -> Mapping[str, Any]:
-        return self.get_options_as_dict()
+    #     return self.get_options_as_dict()

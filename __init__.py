@@ -7,12 +7,11 @@ import settings
 from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Item, Tutorial, ItemClassification
 
-from . import ItemPool
-from .data import Items, Locations, Planets
-from .data.Items import EquipmentData
-from .data.Planets import PlanetData
-from .Regions import create_regions
-from .Container import Budokai3ProcedurePatch, generate_patch
+# from . import ItemPool
+# from .data import Items, Locations
+# from .data.Items import EquipmentData
+# from .Regions import create_regions
+# from .Container import Budokai3ProcedurePatch, generate_patch
 from .Budokai3Options import Budokai3Options
 
 
@@ -77,75 +76,75 @@ class Budokai3World(World):
     options_dataclass = "Budokai3Options"
     options: Budokai3Options
     topology_present = True
-    item_name_to_id = {item.name: item.item_id for item in Items.ALL}
-    location_name_to_id = {location.name: location.location_id for location in Planets.ALL_LOCATIONS if location.location_id}
-    item_name_groups = Items.get_item_groups()
-    location_name_groups = Planets.get_location_groups()
+    # item_name_to_id = {item.name: item.item_id for item in Items.ALL}
+    # location_name_to_id = {location.name: location.location_id for location in Planets.ALL_LOCATIONS if location.location_id}
+    # item_name_groups = Items.get_item_groups()
+    # location_name_groups = Planets.get_location_groups()
     settings: Budokai3Settings
-    starting_planet: Optional[PlanetData] = None
-    starting_weapons: list[EquipmentData] = []
+    # starting_planet: Optional[PlanetData] = None
+    # starting_weapons: list[EquipmentData] = []
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
 
-    def get_filler_item_name(self) -> str:
-        return Items.BOLT_PACK.name
+    # def get_filler_item_name(self) -> str:
+    #     return Items.BOLT_PACK.name
 
-    def create_regions(self) -> None:
-        create_regions(self)
+    # def create_regions(self) -> None:
+    #     create_regions(self)
 
-    def create_item(self, name: str, override: Optional[ItemClassification] = None) -> "Item":
-        if override:
-            return Budokai3Item(name, override, self.item_name_to_id[name], self.player)
-        item_data = Items.from_name(name)
-        return Budokai3Item(name, ItemPool.get_classification(item_data), self.item_name_to_id[name], self.player)
+    # def create_item(self, name: str, override: Optional[ItemClassification] = None) -> "Item":
+    #     if override:
+    #         return Budokai3Item(name, override, self.item_name_to_id[name], self.player)
+    #     item_data = Items.from_name(name)
+    #     return Budokai3Item(name, ItemPool.get_classification(item_data), self.item_name_to_id[name], self.player)
 
-    def create_event(self, name: str) -> "Item":
-        return Budokai3Item(name, ItemClassification.progression, None, self.player)
+    # def create_event(self, name: str) -> "Item":
+    #     return Budokai3Item(name, ItemClassification.progression, None, self.player)
 
-    def pre_fill(self) -> None:
-        for location_name, item_name in self.prefilled_item_map.items():
-            location = self.get_location(location_name)
-            item = self.create_item(item_name, ItemClassification.progression)
-            location.place_locked_item(item)
+    # def pre_fill(self) -> None:
+    #     for location_name, item_name in self.prefilled_item_map.items():
+    #         location = self.get_location(location_name)
+    #         item = self.create_item(item_name, ItemClassification.progression)
+    #         location.place_locked_item(item)
+    #
+    # def create_items(self) -> None:
+    #     items_to_add: list["Item"] = []
+    #     items_to_add += ItemPool.create_planets(self)
+    #     items_to_add += ItemPool.create_equipment(self)
+    #     items_to_add += ItemPool.create_collectables(self)
+    #     items_to_add += ItemPool.create_upgrades(self)
 
-    def create_items(self) -> None:
-        items_to_add: list["Item"] = []
-        items_to_add += ItemPool.create_planets(self)
-        items_to_add += ItemPool.create_equipment(self)
-        items_to_add += ItemPool.create_collectables(self)
-        items_to_add += ItemPool.create_upgrades(self)
+        # # add platinum bolts in whatever slots we have left
+        # unfilled = [i for i in self.multiworld.get_unfilled_locations(self.player) if not i.is_event]
+        # remain = len(unfilled) - len(items_to_add)
+        # assert remain >= 0, "There are more items than locations. This is not supported."
+        # print(f"Not enough items to fill all locations. Adding {remain} filler items to the item pool")
+        # for _ in range(remain):
+        #     items_to_add.append(self.create_item(Items.BOLT_PACK.name, ItemClassification.filler))
+        #
+        # self.multiworld.itempool += items_to_add
 
-        # add platinum bolts in whatever slots we have left
-        unfilled = [i for i in self.multiworld.get_unfilled_locations(self.player) if not i.is_event]
-        remain = len(unfilled) - len(items_to_add)
-        assert remain >= 0, "There are more items than locations. This is not supported."
-        print(f"Not enough items to fill all locations. Adding {remain} filler items to the item pool")
-        for _ in range(remain):
-            items_to_add.append(self.create_item(Items.BOLT_PACK.name, ItemClassification.filler))
-
-        self.multiworld.itempool += items_to_add
-
-    def set_rules(self) -> None:
-        boss_location = self.multiworld.get_location(Locations.YEEDIL_DEFEAT_MUTATED_PROTOPET.name, self.player)
-        boss_location.place_locked_item(self.create_event("Victory"))
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
-
-    def generate_output(self, output_directory: str) -> None:
-        apdbzb3 = Budokai3ProcedurePatch(player=self.player, player_name=self.multiworld.get_player_name(self.player))
-        generate_patch(self, apdbzb3)
-        rom_path = os.path.join(output_directory,
-                                f"{self.multiworld.get_out_file_name_base(self.player)}{apdbzb3.patch_file_ending}")
-        apdbzb3.write(rom_path)
-
-    def get_options_as_dict(self) -> Dict[str, Any]:
-        return self.options.as_dict(
-            "death_link",
-            "skip_wupash_nebula",
-            "extra_spaceship_challenge_locations",
-            "starting_weapons",
-            "randomize_megacorp_vendor",
-            "randomize_gadgetron_vendor",
-            "extend_weapon_progression",
-        )
-
-    def fill_slot_data(self) -> Mapping[str, Any]:
+    # def set_rules(self) -> None:
+    #     boss_location = self.multiworld.get_location(Locations.YEEDIL_DEFEAT_MUTATED_PROTOPET.name, self.player)
+    #     boss_location.place_locked_item(self.create_event("Victory"))
+    #     self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+    #
+    # def generate_output(self, output_directory: str) -> None:
+    #     apdbzb3 = Budokai3ProcedurePatch(player=self.player, player_name=self.multiworld.get_player_name(self.player))
+    #     generate_patch(self, apdbzb3)
+    #     rom_path = os.path.join(output_directory,
+    #                             f"{self.multiworld.get_out_file_name_base(self.player)}{apdbzb3.patch_file_ending}")
+    #     apdbzb3.write(rom_path)
+    #
+    # def get_options_as_dict(self) -> Dict[str, Any]:
+    #     return self.options.as_dict(
+    #         "death_link",
+    #         "skip_wupash_nebula",
+    #         "extra_spaceship_challenge_locations",
+    #         "starting_weapons",
+    #         "randomize_megacorp_vendor",
+    #         "randomize_gadgetron_vendor",
+    #         "extend_weapon_progression",
+    #     )
+    #
+    # def fill_slot_data(self) -> Mapping[str, Any]:
         return self.get_options_as_dict()

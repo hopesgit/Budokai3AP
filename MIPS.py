@@ -1,4 +1,4 @@
-
+# note to self: PS2 CPU is LITTLE ENDIAN
 def jal(addr: int) -> bytes:
     if addr is None:
         # If address is None (which can happen in some cases with lists where an address is unspecified for a given

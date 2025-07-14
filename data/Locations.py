@@ -177,6 +177,11 @@ REENACTMENT_18 = LocationData(location_id=132, name = "Reenactment 18") # Goku -
 REENACTMENT_19 = LocationData(location_id=133, name = "Reenactment 19") # Broly - Use fully-powered Gigantic Meteor against Gohan 1
 REENACTMENT_20 = LocationData(location_id=134, name = "Reenactment 20") # Uub - Use Ki Cannon against Goku 1
 
+## Difficulty-related
+VERY_HARD_CLEAR = LocationData(location_id=135, name="Clear DW on Very Hard")
+Z1_CLEAR = LocationData(location_id=136, name="Clear DW on Z1")
+Z2_CLEAR = LocationData(location_id=137, name="Clear DW on Z2")
+
 # Training Mode Checks
 TRAINING_1_COMPLETED = LocationData(location_id=400, name="Training Mode - Complete Training 1")
 TRAINING_2_COMPLETED = LocationData(location_id=401, name="Training Mode - Complete Training 2")

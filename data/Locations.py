@@ -181,6 +181,201 @@ REENACTMENT_20 = LocationData(location_id=134, name = "Reenactment 20") # Uub - 
 VERY_HARD_CLEAR = LocationData(location_id=135, name="Clear DW on Very Hard")
 Z1_CLEAR = LocationData(location_id=136, name="Clear DW on Z1")
 Z2_CLEAR = LocationData(location_id=137, name="Clear DW on Z2")
+Z3_CLEAR = LocationData(location_id=138, name="Clear DW on Z3")
+
+## Wishes
+GOKU_WISH_1 = LocationData(location_id=139, name="Goku Wish 1 - Breakthrough")
+GOKU_WISH_2 = LocationData(location_id=140, name="Goku Wish 2 - Memories of Goku")
+GOKU_WISH_3 = LocationData(location_id=141, name="Goku Wish 3 - Mysterious Vest")
+KGOHAN_WISH_1 = LocationData(location_id=142, name="Kid Gohan Wish 1 - Breakthrough")
+KGOHAN_WISH_2 = LocationData(location_id=143, name="Kid Gohan Wish 2 - Memories of Kid Gohan")
+KGOHAN_WISH_3 = LocationData(location_id=144, name="Kid Gohan Wish 3 - Mysterious Evil Uniform")
+TGOHAN_WISH_1 = LocationData(location_id=145, name="Teen Gohan Wish 1 - Breakthrough")
+TGOHAN_WISH_2 = LocationData(location_id=146, name="Teen Gohan Wish 2 - Memories of Teen Gohan")
+TGOHAN_WISH_3 = LocationData(location_id=147, name="Teen Gohan Wish 3 - Evil Mystery Uniform")
+GOHAN_WISH_1 = LocationData(location_id=148, name="Gohan Wish 1 - Breakthrough")
+GOHAN_WISH_2 = LocationData(location_id=149, name="Gohan Wish 2 - Memories of Gohan")
+GOHAN_WISH_3 = LocationData(location_id=150, name="Gohan Wish 3 - Supreme Kai's Outfit")
+VEGETA_WISH_1 = LocationData(location_id=151, name="Vegeta Wish 1 - Breakthrough")
+VEGETA_WISH_2 = LocationData(location_id=152, name="Vegeta Wish 2 - Memories of Vegeta")
+VEGETA_WISH_3 = LocationData(location_id=153, name="Vegeta Wish 1 - Bulma's Armor")
+KRILLIN_WISH_1 = LocationData(location_id=154, name="Krillin Wish 1 - Breakthrough")
+KRILLIN_WISH_2 = LocationData(location_id=155, name="Krillin Wish 2 - Memories of Krillin")
+KRILLIN_WISH_3 = LocationData(location_id=156, name="Krillin Wish 3 - Mysterious Vest")
+PICCOLO_WISH_1 = LocationData(location_id=157, name="Piccolo Wish 1 - Breakthrough")
+PICCOLO_WISH_2 = LocationData(location_id=158, name="Piccolo Wish 2 - Memories of Piccolo")
+PICCOLO_WISH_3 = LocationData(location_id=159, name="Piccolo Wish 3 - Evil Mystery Uniform")
+TIEN_WISH_1 = LocationData(location_id=160, name="Tien Wish 1 - Breakthrough")
+TIEN_WISH_2 = LocationData(location_id=161, name="Tien Wish 2 - Memories of Tien")
+TIEN_WISH_3 = LocationData(location_id=162, name="Tien Wish 3 - Mysterious Vest")
+YAMCHA_WISH_1 = LocationData(location_id=163, name="Yamcha Wish 1 - Breakthrough")
+YAMCHA_WISH_2 = LocationData(location_id=164, name="Yamcha Wish 2 - Memories of Yamcha")
+YAMCHA_WISH_3 = LocationData(location_id=165, name="Yamcha Wish 3 - Mysterious Vest")
+UUB_WISH_1 = LocationData(location_id=166, name="Uub Wish 1 - Breakthrough")
+UUB_WISH_2 = LocationData(location_id=167, name="Uub Wish 2 - Memories of Uub")
+UUB_WISH_3 = LocationData(location_id=168, name="Uub Wish 3 - Majin Belt")
+BROLY_WISH_1 = LocationData(location_id=169, name="Broly Wish 1 - Breakthrough")
+BROLY_WISH_2 = LocationData(location_id=170, name="Broly Wish 2 - Memories of Broly")
+BROLY_WISH_3 = LocationData(location_id=171, name="Broly Wish 3 - Legendary Body Wrap")
+
+## DW Static Capsules
+GOKU_CAPSULE_1 = LocationData(location_id=, name="Goku - Saiyan Saga - Starting Capsule")
+GOKU_CAPSULE_2 = LocationData(location_id=, name="Goku - Saiyan Saga - Capsule at Plains Marker")
+GOKU_CAPSULE_3 = LocationData(location_id=, name="Goku - Saiyan Saga - Capsule at Plains")
+GOKU_CAPSULE_4 = LocationData(location_id=, name="Goku - Saiyan Saga - Vegeta Reward")
+GOKU_CAPSULE_5 = LocationData(location_id=, name="Goku - Namek Saga - Capsule at Capsule House")
+GOKU_CAPSULE_6 = LocationData(location_id=, name="Goku - Namek Saga - Recoome Reward 1")
+GOKU_CAPSULE_7 = LocationData(location_id=, name="Goku - Namek Saga - Recoome Reward 2")
+GOKU_CAPSULE_8 = LocationData(location_id=, name="Goku - Namek Saga - Ginyu Reward")
+GOKU_CAPSULE_9 = LocationData(location_id=, name="Goku - Namek Saga - Capsule given before 100% Final Power Frieza Battle")
+GOKU_CAPSULE_10 = LocationData(location_id=, name="Goku - Namek Saga - 100% Full Power Frieza Reward")
+GOKU_CAPSULE_11 = LocationData(location_id=, name="Goku - Android Saga - Capsule at Plains near Cell Ring")
+GOKU_CAPSULE_12 = LocationData(location_id=, name="Goku - Android Saga - Capsule near Baba's House")
+GOKU_CAPSULE_13 = LocationData(location_id=, name="Goku - Android Saga - Perfect Form Cell Reward")
+GOKU_CAPSULE_14 = LocationData(location_id=, name="Goku - Buu Saga - Capsule given in Saga Intro")
+GOKU_CAPSULE_15 = LocationData(location_id=, name="Goku - Buu Saga - Capsule at Forest near West City")
+GOKU_CAPSULE_16 = LocationData(location_id=, name="Goku - Buu Saga - Capsule at North City")
+GOKU_CAPSULE_17 = LocationData(location_id=, name="Goku - Buu Saga - Capsule given before Majin Buu Battle")
+GOKU_CAPSULE_18 = LocationData(location_id=, name="Goku - Buu Saga - Majin Buu Reward")
+GOKU_CAPSULE_19 = LocationData(location_id=, name="Goku - Buu Saga - Capsule given before Super Buu (Gohan) Battle at ??? Marker")
+GOKU_CAPSULE_20 = LocationData(location_id=, name="Goku - Buu Saga - Super Buu (Gohan) Reward")
+GOKU_CAPSULE_21 = LocationData(location_id=, name="Goku - Buu Saga - Super Buu Reward")
+GOKU_CAPSULE_22 = LocationData(location_id=, name="Goku - Buu Saga - Kid Buu Reward")
+GOKU_CAPSULE_23 = LocationData(location_id=, name="Goku - Extra Saga - Capsule at ??? in SE Islands")
+GOKU_CAPSULE_24 = LocationData(location_id=, name="Goku - Extra Saga - Uub Reward")
+GOKU_CAPSULE_25 = LocationData(location_id=, name="Goku 2 - Saiyan Saga - Capsule at Saiyan's Spaceship near East City")
+GOKU_CAPSULE_26 = LocationData(location_id=, name="Goku 2 - Saiyan Saga - Capsule at Grandpa Gohan's House")
+GOKU_CAPSULE_27 = LocationData(location_id=, name="Goku 2 - Saiyan Saga - Capsule at Korin's Tower")
+GOKU_CAPSULE_28 = LocationData(location_id=, name="Goku 2 - Namek Saga - Capsule at ??? on Lone Central Island")
+GOKU_CAPSULE_29 = LocationData(location_id=, name="Goku 2 - Namek Saga - Capsule at Namek Village in Southwest Continent")
+GOKU_CAPSULE_30 = LocationData(location_id=, name="Goku 2 - Namek Saga - Capsule given at ??? Marker after Cooler Battle")
+GOKU_CAPSULE_31 = LocationData(location_id=, name="Goku 2 - Namek Saga - Cooler Reward (Cooler Battle after Vegeta Battle)")
+GOKU_CAPSULE_32 = LocationData(location_id=, name="Goku 2 - Buu Saga - Broly Reward")
+GOKU_CAPSULE_33 = LocationData(location_id=, name="Goku 2 - Extra Saga - Capsule given before Gotenks Battle at World Tournament")
+GOKU_CAPSULE_34 = LocationData(location_id=, name="Goku 2 - Extra Saga - Capsule given before Omega Shenron Battle at Central City")
+GOKU_CAPSULE_35 = LocationData(location_id=, name="Goku 2 - Extra Saga - Omega Shenron Reward")
+"Kid Gohan - Saiyan Saga - Capsule at Mountains near Baba's Palace"
+"Kid Gohan - Namek Saga - Capsule at Guru's House"
+"Kid Gohan - Namek Saga - Recoome Reward"
+"Kid Gohan - Namek Saga - Capsule given upon Completion"
+"Kid Gohan 2 - Saiyan Saga - Goku Reward"
+"Teen Gohan - Starting Capsule"
+"Teen Gohan - Capsule at Central City"
+"Teen Gohan - Capsule at Kami's Lookout"
+"Teen Gohan - Capsule 1 at Cell Ring"
+"Teen Gohan - Capsule 2 at Cell Ring"
+"Teen Gohan - Super Perfect Cell Reward"
+"Teen Gohan - Capsule given upon Completion"
+"Teen Gohan 2 - Chi-Chi's Wish Capsule at Goku's House"
+"Gohan - Starting Capsule 1"
+"Gohan - Starting Capsule 2"
+"Gohan - Capsule at Goku's House 1"
+"Gohan - Goten Reward"
+"Gohan - Capsule at End of Videl Story Quests"
+"Gohan - Capsule at Mountains Marker near Babidi's Spaceship"
+"Gohan - Capsule at Goku's House 2"
+"Gohan - Dabura Reward"
+"Gohan - Capsule given before Majin Buu Battle at Forest Marker"
+"Gohan - Capsule given after Majin Buu Battle"
+"Gohan - Capsule at ??? in Snowy Continent"
+"Gohan - Capsule given upon Completion"
+"Gohan 2 - Capsule at Plains near Central City"
+"Gohan 2 - Capsule at Forest North of Kami's Lookout"
+"Vegeta - Saiyan Saga - Starting Capsule"
+"Vegeta - Namek Saga - Capsule at Planet Namek in Northwest Continent"
+"Vegeta - Namek Saga - Recoome Reward"
+"Vegeta - Android Saga - Capsule given in Saga Intro 1"
+"Vegeta - Android Saga - Capsule given in Saga Intro 2"
+"Vegeta - Android Saga - Capsule at West City"
+"Vegeta - Buu Saga - Capsule given in Saga Intro"
+"Vegeta - Buu Saga - Capsule given before Super Saiyan 2 Goku Battle at Plains Marker"
+"Vegeta - Buu Saga - Capsule given after Majin Buu Battle"
+"Vegeta - Buu Saga - Capsule given before Super Buu (Gohan) Battle at Plains Marker"
+"Vegeta - Buu Saga - Super Buu Reward"
+"Vegeta - Buu Saga - Kid Buu Reward"
+"Vegeta - Capsule given upon Completion"
+"Vegeta 2 - Buu Saga - Broly Reward"
+"Vegeta 2 - Extra Saga - Capsule given before Gotenks Battle at World Tournament Marker"
+"Vegeta 2 - Extra Saga - Capsule at ??? Marker"
+"Vegeta 2 - Extra Saga - Goku Reward"
+"Krillin - Saiyan Saga - Starting Capsule"
+"Krillin - Saiyan Saga - Capsule at Mountains in Southwest"
+"Krillin - Namek Saga - Capsule at Guru's House"
+"Krillin - Namek Saga - Recoome Reward"
+"Krillin - Namek Saga - Capsule given before Third Form Frieza Battle"
+"Krillin - Capsule given upon Completion"
+"Krillin 2 - Android Saga - Capsule at South City"
+"Krillin 2 - Android Saga - Capsule at West City after Rescuing Android 16 at Plains near World Tournament Ring"
+"Piccolo - Saiyan Saga - Starting Capsule"
+"Piccolo - Saiyan Saga - Capsule given before Raditz Battle at Plains Marker"
+"Piccolo - Saiyan Saga - Capsule at Mountains in Northwest Continent"
+"Piccolo - Namek Saga - Capsule given in Saga Intro"
+"Piccolo - Namek Saga - Capsule at ??? in Southwest Island"
+"Piccolo - Namek Saga - Second Form Frieza Reward"
+"Piccolo - Android Saga - Capsule at Kami's Lookout"
+"Piccolo - Android Saga - Capsule given before Android 17 Battle at Kame House"
+"Piccolo - Android Saga - Android 17 Reward"
+"Piccolo - Buu Saga - Capsule at Central City after Rescuing Hercule at Desert in Southwest"
+"Piccolo - Buu Saga - Capsule at Mountains in Northwest Continent"
+"Piccolo 2 - Namek Saga - Capsule at Rightmost Red Marker after Defeating Second Form Frieza"
+"Tien - Saiyan Saga - Starting Capsule"
+"Tien - Saiyan Saga - Capsule at Plains near West City"
+"Tien - Saiyan Saga - Capsule after Saibamen Battle"
+"Tien - Android Saga - Capsule at Kami's Lookout"
+"Yamcha - Saiyan Saga - Starting Capsule"
+"Yamcha - Saiyan Saga - Capsule at End of Break-up Side-Story"
+"Yamcha - Saiyan Saga - Capsule at Plains Red Marker"
+"Yamcha - Android Saga - Dr Gero Reward"
+"Yamcha 2 - Saiyan Saga - Capsule after Saibamen Battle"
+"Uub - Starting Capsule"
+"Broly - Starting Capsule"
+"Broly - Capsule at Grandpa Gohan's House"
+"Broly - Capsule at ??? near Kami's Lookout"
+"Broly - Capsule Given Before Gohan 1"
+"Broly - Capsule Given upon Completion"
+"Broly 2 - Capsule at Plains near Northern Mountains"
+### everything else are random capsules. Some of these locations give a specified capsule once and then a random capsule afterward
+
+# Dragon Arena Checks
+GOKU_BREAK_IN = LocationData(location_id=200, name="Dragon Arena - Defeat Break-In Challenger - Goku")
+KGOKU_BREAK_IN = LocationData(location_id=201, name="Dragon Arena - Defeat Break-In Challenger - Kid Goku")
+KGOHAN_BREAK_IN = LocationData(location_id=202, name="Dragon Arena - Defeat Break-In Challenger - Kid Gohan")
+TGOHAN_BREAK_IN = LocationData(location_id=203, name="Dragon Arena - Defeat Break-In Challenger - Teen Gohan")
+GOHAN_BREAK_IN  = LocationData(location_id=204, name="Dragon Arena - Defeat Break-In Challenger - Gohan")
+GTS_BREAK_IN = LocationData(location_id=205, name="Dragon Arena - Defeat Break-In Challenger - Gt Saiyaman")
+GOTEN_BREAK_IN = LocationData(location_id=206, name="Dragon Arena - Defeat Break-In Challenger - Goten")
+VEGETA_BREAK_IN = LocationData(location_id=207, name="Dragon Arena - Defeat Break-In Challenger - Vegeta")
+TRUNKS_BREAK_IN = LocationData(location_id=208, name="Dragon Arena - Defeat Break-In Challenger - Trunks")
+KTRUNKS_BREAK_IN = LocationData(location_id=209, name="Dragon Arena - Defeat Break-In Challenger - Kid Trunks")
+KRILLIN_BREAK_IN = LocationData(location_id=210, name="Dragon Arena - Defeat Break-In Challenger - Krillin")
+PICCOLO_BREAK_IN = LocationData(location_id=211, name="Dragon Arena - Defeat Break-In Challenger - Piccolo")
+TIEN_BREAK_IN = LocationData(location_id=212, name="Dragon Arena - Defeat Break-In Challenger - Tien")
+YAMCHA_BREAK_IN = LocationData(location_id=213, name="Dragon Arena - Defeat Break-In Challenger - Yamcha")
+VIDEL_BREAK_IN = LocationData(location_id=214, name="Dragon Arena - Defeat Break-In Challenger - Videl")
+HERCULE_BREAK_IN = LocationData(location_id=215, name="Dragon Arena - Defeat Break-In Challenger - Hercule")
+SUPREME_KAI_BREAK_IN = LocationData(location_id=216, name="Dragon Arena - Defeat Break-In Challenger - Supreme Kai")
+UUB_BREAK_IN = LocationData(location_id=217, name="Dragon Arena - Defeat Break-In Challenger - Uub")
+RADITZ_BREAK_IN = LocationData(location_id=218, name="Dragon Arena - Defeat Break-In Challenger - Raditz")
+NAPPA_BREAK_IN = LocationData(location_id=219, name="Dragon Arena - Defeat Break-In Challenger - Nappa")
+GINYU_BREAK_IN = LocationData(location_id=220, name="Dragon Arena - Defeat Break-In Challenger - Ginyu")
+RECOOME_BREAK_IN = LocationData(location_id=221, name="Dragon Arena - Defeat Break-In Challenger - Recoome")
+FRIEZA_BREAK_IN = LocationData(location_id=222, name="Dragon Arena - Defeat Break-In Challenger - Frieza")
+ANDROID_16_BREAK_IN = LocationData(location_id=223, name="Dragon Arena - Defeat Break-In Challenger - Android 16")
+ANDROID_17_BREAK_IN = LocationData(location_id=224, name="Dragon Arena - Defeat Break-In Challenger - Android 17")
+ANDROID_18_BREAK_IN = LocationData(location_id=225, name="Dragon Arena - Defeat Break-In Challenger - Android 18")
+DR_GERO_BREAK_IN = LocationData(location_id=226, name="Dragon Arena - Defeat Break-In Challenger - Dr Gero")
+CELL_BREAK_IN = LocationData(location_id=227, name="Dragon Arena - Defeat Break-In Challenger - Cell")
+MAJIN_BUU_BREAK_IN = LocationData(location_id=228, name="Dragon Arena - Defeat Break-In Challenger - Majin Buu")
+SUPER_BUU_BREAK_IN = LocationData(location_id=229, name="Dragon Arena - Defeat Break-In Challenger - Super Buu")
+KID_BUU_BREAK_IN = LocationData(location_id=230, name="Dragon Arena - Defeat Break-In Challenger - Kid Buu")
+DABURA_BREAK_IN = LocationData(location_id=231, name="Dragon Arena - Defeat Break-In Challenger - Dabura")
+COOLER_BREAK_IN = LocationData(location_id=232, name="Dragon Arena - Defeat Break-In Challenger - Cooler")
+BARDOCK_BREAK_IN = LocationData(location_id=233, name="Dragon Arena - Defeat Break-In Challenger - Bardock")
+BROLY_BREAK_IN = LocationData(location_id=234, name="Dragon Arena - Defeat Break-In Challenger - Broly")
+OMEGA_BREAK_IN = LocationData(location_id=235, name="Dragon Arena - Defeat Break-In Challenger - Omega")
+SAIBAMEN_BREAK_IN = LocationData(location_id=236, name="Dragon Arena - Defeat Break-In Challenger - Saibamen")
+CELL_JR_BREAK_IN = LocationData(location_id=237, name="Dragon Arena - Defeat Break-In Challenger - Cell Jr")
+
 
 # Training Mode Checks
 TRAINING_1_COMPLETED = LocationData(location_id=400, name="Training Mode - Complete Training 1")
@@ -195,6 +390,7 @@ TRAINING_9_COMPLETED = LocationData(location_id=408, name="Training Mode - Compl
 TRAINING_10_COMPLETED = LocationData(location_id=409, name="Training Mode - Complete Training 10")
 TRAINING_11_COMPLETED = LocationData(location_id=410, name="Training Mode - Complete Training 11")
 TRAINING_12_COMPLETED = LocationData(location_id=411, name="Training Mode - Complete Training 12")
+
 # World Tournament Checks
 NOVICE_CLEARED = LocationData(location_id=420, name="World Tournament - Novice Tournament Champion")
 ADEPT_CLEARED = LocationData(location_id=421, name="World Tournament - Adept Tournament Champion")

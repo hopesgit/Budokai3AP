@@ -8,7 +8,7 @@ from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Item, Tutorial, ItemClassification
 
 # from . import ItemPool
-# from .data import Items, Locations
+from .data import Items, Locations
 # from .data.Items import EquipmentData
 # from .Regions import create_regions
 # from .Container import Budokai3ProcedurePatch, generate_patch
@@ -76,13 +76,11 @@ class Budokai3World(World):
     options_dataclass = "Budokai3Options"
     options: Budokai3Options
     topology_present = True
-    # item_name_to_id = {item.name: item.item_id for item in Items.ALL}
+    item_name_to_id = Items.get_name_pairs()
     # location_name_to_id = {location.name: location.location_id for location in Planets.ALL_LOCATIONS if location.location_id}
     # item_name_groups = Items.get_item_groups()
     # location_name_groups = Planets.get_location_groups()
     settings: Budokai3Settings
-    # starting_planet: Optional[PlanetData] = None
-    # starting_weapons: list[EquipmentData] = []
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
 
     # def get_filler_item_name(self) -> str:

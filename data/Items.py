@@ -7,6 +7,10 @@ if TYPE_CHECKING:
     from ..Budokai3Interface import Budokai3Interface
 
 
+## vanilla starting items:
+## Goku, Kid Gohan, Krillin, Piccolo, Tien, Yamcha, Raditz, Nappa, Training 1, Green Membership Card,
+## World Tournament (Novice), World Tournament Stage, Hyperbolic Time Chamber, Archipelago, Mountains, Plains
+## I'd like to find out what happens if those are removed
 @dataclass
 class ItemData(ABC):
     item_id: int
@@ -834,27 +838,33 @@ ALL_ITEMS = [
     # *CUSTOM_ITEMS
 ]
 
+DW_CHARACTERS = [GOKU, KID_GOHAN, TEEN_GOHAN, GOHAN, PICCOLO, KRILLIN, TIEN, VEGETA, BROLY, UUB, YAMCHA]
 
-def get_name_pairs() -> Dict[int, str]:
+dw_character_names = []
+for char in DW_CHARACTERS:
+    dw_character_names.append(char.name)
+DW_CHARACTER_NAMES = dw_character_names
+
+def get_name_pairs() -> Dict[int, ItemData]:
     collector = {}
     for item in ALL_ITEMS:
-        collector[item.name] = item.item_id
+        collector[item.name] = item
     return collector
 
 
-def get_id_pairs() -> Dict[str, int]:
+def get_id_pairs() -> Dict[str, ItemData]:
     collector = {}
     for item in ALL_ITEMS:
-        collector[item.item_id] = item.name
+        collector[item.item_id] = item
     return collector
 
+NAME_PAIRS = get_name_pairs()
+
+ID_PAIRS = get_id_pairs()
 
 def item_name_to_id(name) -> int | None:
-    return NAME_PAIRS[name]
+    return NAME_PAIRS[name].item_id
 
 
 def item_id_to_name(id) -> str | None:
-    return ID_PAIRS[id]
-
-NAME_PAIRS = get_name_pairs()
-ID_PAIRS = get_id_pairs()
+    return ID_PAIRS[id].name

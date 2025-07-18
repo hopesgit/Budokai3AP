@@ -6,24 +6,48 @@ from Options import (
     DefaultOnToggle,
     Toggle,
     Range,
-    NamedRange
+    NamedRange,
+    ItemGroup
 )
+
+from data.Items import DW_CHARACTER_NAMES
 from dataclasses import dataclass
 
 
 class StartWithStoryCharacters(Toggle):
     """
-    Start with all story characters. Makes it easier to jump into your favorite Dragon world story.
+    Start with all story characters. Makes it easier to jump into your favorite Dragon World story.
     Adds Goku, Kid Gohan, Teen Gohan, Gohan, Piccolo, Vegeta, Krillin, Tien, Yamcha, Uub, and Broly to the starting items.
     """
     default = False
 
 
-class StartWithSuperAttacks(Toggle):
+class StartWithSuperAttacks(Choice):
+    """Turn this on if you want to ensure that you have a special attack for a character before you can use them in Dragon World.
+    For example, if you have Goku, you wouldn't be considered being able to use him until you acquire Kamehameha or Dragon Fist.
+
+    NOTE: The starting capsule(s) in each Dragon World route will still be checkable with only the character, so be sure
+    to start a route if you have the character! This does not apply to Kid Gohan, who has no starting items.
+
+    Choices:\n
+    Off - You don't want for the logic to consider whether you have any super attacks for a route to be playable.\n
+    Random - You do want for the logic to consider whether you have any super attacks, and you don't want to be given them.\n
+    Plando - A super move for your character will be in the starting items for the route.\n
+    NOTE: Plando is how the unmodified game works. Once you start a character's route, you are given a red capsule or two for that character.
+    Except for Kid Gohan.\n
+    Start - You will be given a random special move for each Dragon World story character when you first connect.\n
+    Choose - You choose who to start with a special attack for. You might want this if you want to be challenged with
+    Goku, but not with Krillin, for example.
     """
-    Start with a random red capsule for each of your starting characters.
-    """
-    default = True
+    default = 'off'
+    choices = ['off', 'random', 'plando', 'start', 'choose']
+
+
+class SuperAttackStarters(ItemGroup):
+    """List of character names whom you want to start with one of their super attacks (red capsules). Only has an effect
+    if 'Start with Super Attacks' is 'choose'."""
+    choices = DW_CHARACTER_NAMES
+    default = []
 
 
 class StartWithDragonRadar(Toggle):
@@ -97,6 +121,7 @@ class ExpMultiplier(NamedRange):
 class Budokai3Options(PerGameCommonOptions):
     start_with_story_characters = StartWithStoryCharacters
     start_with_super_attacks = StartWithSuperAttacks
+    super_attack_starters = SuperAttackStarters
     start_with_dragon_radar = StartWithDragonRadar
     ball_sanity = BallSanity
     attack_sanity = AttackSanity

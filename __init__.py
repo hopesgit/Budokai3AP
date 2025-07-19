@@ -21,7 +21,7 @@ def run_client(_url: Optional[str] = None):
 
 
 components.append(
-    Component("Budokai3Client", func=run_client, component_type=Type.CLIENT,
+    Component("DBZ Budokai 3 Client", func=run_client, component_type=Type.CLIENT,
               file_identifier=SuffixIdentifier(".apdbzb3"))
 )
 
@@ -74,10 +74,10 @@ class Budokai3World(World):
     game = "Dragon Ball Z Budokai 3"
     web = Budokai3Web()
     options_dataclass = "Budokai3Options"
-    options: Budokai3Options
+    options = Budokai3Options
     topology_present = True
-    item_name_to_id = Items.get_name_pairs()
-    # location_name_to_id = {location.name: location.location_id for location in Planets.ALL_LOCATIONS if location.location_id}
+    item_name_to_id = {item.name: item.item_id for item in Items.ALL_ITEMS}
+    location_name_to_id = {location.name: location.location_id for location in Locations.LOCATIONS}
     # item_name_groups = Items.get_item_groups()
     # location_name_groups = Planets.get_location_groups()
     settings: Budokai3Settings

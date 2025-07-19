@@ -840,10 +840,10 @@ ALL_ITEMS = [
 
 DW_CHARACTERS = [GOKU, KID_GOHAN, TEEN_GOHAN, GOHAN, PICCOLO, KRILLIN, TIEN, VEGETA, BROLY, UUB, YAMCHA]
 
-dw_character_names = []
+dw_characters_as_dict = {}
 for char in DW_CHARACTERS:
-    dw_character_names.append(char.name)
-DW_CHARACTER_NAMES = dw_character_names
+    dw_characters_as_dict[char.name] = char.item_id
+DW_CHARACTER_NAMES = dw_characters_as_dict
 
 def get_name_pairs() -> Dict[int, ItemData]:
     collector = {}

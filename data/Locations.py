@@ -532,8 +532,9 @@ while x < 100:
     x += 1
 
 SHOP_LOCS = []
-for key, value in SHOP_ITEMS:
-  SHOP_LOCS.append(LocationData(value, key))
+for item in SHOP_ITEMS:
+  SHOP_LOCS.append(LocationData(SHOP_ITEMS[item], item))
+
 
 LOCATIONS = [
     *DRAGON_WORLD_LOCS,

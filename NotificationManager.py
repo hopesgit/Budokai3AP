@@ -36,7 +36,7 @@ class NotificationManager:
             return False
         return time.time() - self.last_message_time >= self.message_duration
 
-    def handle_notifications(self, game_interface: Budokai2Interface, text_manager: TextManager):
+    def handle_notifications(self, game_interface: Budokai3Interface, text_manager: TextManager):
         if self.is_waiting_for_message_processing:
             if not game_interface.is_hud_notification_pending():
                 self.is_waiting_for_message_processing = False

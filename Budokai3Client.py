@@ -1,5 +1,10 @@
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
+from .Budokai3Interface import Budokai3Interface, ConnectionState
+from .NotificationManager import NotificationManager
+from typing import Optional
+import Utils, os, asyncio
 
+HUD_MESSAGE_DURATION = 50
 
 
 class Budokai3CommandProcessor(ClientCommandProcessor):
@@ -17,10 +22,7 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
             logger.info(f"Connection status: {'Connected' if self.ctx.is_connected else 'Disconnected'}")
 
 
-
-
 class Budokai3Context(CommonContext):
-    is_pending_death_link_reset = False
     command_processor = Budokai3CommandProcessor
     game_interface: Budokai3Interface
     notification_manager: NotificationManager
@@ -31,24 +33,11 @@ class Budokai3Context(CommonContext):
     is_loading: bool = False
     slot_data: dict[str, Utils.Any] = None
     last_error_message: Optional[str] = None
-    death_link_enabled = False
-    queued_deaths: int = 0
-    previous_decoy_glove_ammo: int = 0
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.game_interface = Budokai3Interface(logger)
         self.notification_manager = NotificationManager(HUD_MESSAGE_DURATION)
-
-    def on_deathlink(self, data: Utils.Dict[str, Utils.Any]) -> None:
-        super().on_deathlink(data)
-        if self.death_link_enabled:
-            self.queued_deaths += 1
-            cause = data.get("cause", "")
-            if cause:
-                self.notification_manager.queue_notification(f"DeathLink: {cause}")
-            else:
-                self.notification_manager.queue_notification(f"DeathLink: Received from {data['source']}")
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
@@ -59,11 +48,6 @@ class Budokai3Context(CommonContext):
     def on_package(self, cmd: str, args: dict):
         if cmd == "Connected":
             self.slot_data = args["slot_data"]
-            # Set death link tag if it was requested in options
-            if "death_link" in args["slot_data"]:
-                self.death_link_enabled = bool(args["slot_data"]["death_link"])
-                Utils.async_start(self.update_death_link(
-                    bool(args["slot_data"]["death_link"])))
 
             # Scout all active locations for lookups that may be required later on
             all_locations = [loc.location_id for loc in get_all_active_locations(self.slot_data)]
@@ -121,22 +105,24 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
 
 
 def launch():
-    Utils.init_logging("RAC2 Client")
+    import multiprocessing
+
+    Utils.init_logging("Budokai 3 Client")
 
     async def main():
         multiprocessing.freeze_support()
         logger.info("main")
         parser = get_base_parser()
-        parser.add_argument('aprac2_file', default="", type=str, nargs="?",
-                            help='Path to an aprac2 file')
+        parser.add_argument('apdbzb3_file', default="", type=str, nargs="?",
+                            help='Path to an apdbzb3 file')
         args = parser.parse_args()
 
-        ctx = Rac2Context(args.connect, args.password)
+        ctx = Budokai3Context(args.connect, args.password)
 
-        if os.path.isfile(args.aprac2_file):
-            logger.info("aprac2 file supplied, beginning patching process...")
-            await patch_and_run_game(args.aprac2_file)
-            ctx.auth = get_name_from_aprac2(args.aprac2_file)
+        if os.path.isfile(args.apdbzb3_file):
+            logger.info("apdbzb3 file supplied, beginning patching process...")
+            await patch_and_run_game(args.apdbz3_file)
+            ctx.auth = get_name_from_aprac2(args.apdbz3_file)
 
         logger.info("Connecting to server...")
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="Server Loop")

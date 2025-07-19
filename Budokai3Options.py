@@ -7,10 +7,10 @@ from Options import (
     Toggle,
     Range,
     NamedRange,
-    ItemGroup
+    OptionSet
 )
 
-from data.Items import DW_CHARACTER_NAMES
+from .data.Items import DW_CHARACTER_NAMES
 from dataclasses import dataclass
 
 
@@ -43,11 +43,10 @@ class StartWithSuperAttacks(Choice):
     choices = ['off', 'random', 'plando', 'start', 'choose']
 
 
-class SuperAttackStarters(ItemGroup):
+class SuperAttackStarters(OptionSet):
     """List of character names whom you want to start with one of their super attacks (red capsules). Only has an effect
     if 'Start with Super Attacks' is 'choose'."""
-    choices = DW_CHARACTER_NAMES
-    default = []
+    options = DW_CHARACTER_NAMES
 
 
 class StartWithDragonRadar(Toggle):
@@ -57,24 +56,27 @@ class StartWithDragonRadar(Toggle):
     default = True
 
 
-class BallSanity(Toggle):
+class BallRando(Toggle):
     """
     Adds Dragon Balls for each story route to the item pool.
     """
+    name = "Dragon Ball Randomizer"
     default = False
 
 
-class AttackSanity(Toggle):
+class AttackRando(Toggle):
     """
     Randomize red capsule attacks (->E or <-E) between characters.
     DOES NOT INCLUDE: Ultimates, Dragon Rushes, transformations
+    NOTE: This is an experimental option and may be removed.
     """
+    name = "Attack Randomizer"
     default = False
 
 
 class Inspiration(Toggle):
     """
-    This APWorld's maintainer finds it more interesting if you don't know what this does.
+    Everyone's suddenly had a "breakthrough"...
     """
     default = False
 
@@ -119,13 +121,13 @@ class ExpMultiplier(NamedRange):
 
 @dataclass
 class Budokai3Options(PerGameCommonOptions):
-    start_with_story_characters = StartWithStoryCharacters
-    start_with_super_attacks = StartWithSuperAttacks
-    super_attack_starters = SuperAttackStarters
-    start_with_dragon_radar = StartWithDragonRadar
-    ball_sanity = BallSanity
-    attack_sanity = AttackSanity
-    inspiration = Inspiration
-    pandemic = Pandemic
-    completionist = Completionist
-    exp_multiplier = ExpMultiplier
+    start_with_story_characters: StartWithStoryCharacters
+    start_with_super_attacks: StartWithSuperAttacks
+    super_attack_starters: SuperAttackStarters
+    start_with_dragon_radar: StartWithDragonRadar
+    ball_rando: BallRando
+    attack_rando: AttackRando
+    inspiration: Inspiration
+    pandemic: Pandemic
+    completionist: Completionist
+    exp_multiplier: ExpMultiplier

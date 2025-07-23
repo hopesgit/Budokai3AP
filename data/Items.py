@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from abc import ABC
 
-from typing import Callable, TYPE_CHECKING, Sequence, Optional, Dict, Set
+from typing import Callable, TYPE_CHECKING, Sequence, Optional, Dict, List
 
 if TYPE_CHECKING:
     from ..Budokai3Interface import Budokai3Interface
@@ -29,11 +29,17 @@ class Capsule(Item):
     offset: int
     capsule_color: int
     stacks: bool
+    max_copies: int
 
-    def __init__(self, id: int, name: str, offset=0x0, stacks = False):
+    def __init__(self, id: int, name: str, offset=0x0, stacks = False, max_copies = 1):
         super().__init__(id, name)
         self.offset = offset
+        # I'd rewrite the stacks vs copies logic if I hadn't already made the entire file
         self.stacks = stacks
+        if max_copies != 1: copies = max_copies
+        elif stacks == True: copies = 3
+        else: copies = 1
+        self.max_copies =  copies
 
 class RedCapsule(Capsule):
     capsule_color = 1
@@ -830,11 +836,41 @@ CUSTOM_ITEMS = [
     DRAGON_RADAR_KRILLIN, DRAGON_RADAR_TIEN, DRAGON_RADAR_VEGETA, DRAGON_RADAR_YAMCHA, DRAGON_RADAR_UUB, DRAGON_RADAR_BROLY,
 ]
 
+## the basic order roughly mirrors how items are given in game
+GOKU_CAPSULES = [GOKU, KAME_GOKU, KAIOKEN, DRAG_FIST_GOKU, SPIRIT_BOMB_GOKU, SSJ_GOKU, WARP_KAME_GOKU, SSJ2_GOKU,
+                 SSJ3_GOKU, SSJ4_GOKU, BREAK_GOKU]
+KID_GOHAN_CAPSULES = [KID_GOHAN, MASENKO, POTENTIAL_KGOHAN, BREAK_KGOHAN]
+TEEN_GOHAN_CAPSULES = [TEEN_GOHAN, KAME_TGOHAN, SSJ_TGOHAN, SSJ2_TGOHAN, SOAR_TGOHAN, FS_KAME, BREAK_TGOHAN]
+GOHAN_CAPSULES = [GOHAN, KAME_GOHAN, SSJ_GOHAN, SSJ2_GOHAN, SOAR_GOHAN, SUPER_KAME_GOHAN, ELDER_UNLOCK, BREAK_GOHAN]
+KRILLIN_CAPSULES = [KRILLIN, KAME_KRILLIN, DD_KRILLIN, POTENTIAL_KRILLIN, FIERCE_DD, BREAK_KRILLIN]
+VEGETA_CAPSULES = [VEGETA, GALICK, FINAL_IMPACT, SSJ_VEGETA, BIG_BANG, FINAL_FLASH, SSJ2_VEGETA, SSJ4_VEGETA, BREAK_VEGETA]
+PICCOLO_CAPSULES = [PICCOLO, DEST_WAVE, SBEAM_CANNON, SYNC_NAIL, FUSE_KAMI, LGRENADE, HZGRENADE, BREAK_PICCOLO]
+TIEN_CAPSULES = [TIEN, BLAST_CANNON, DODON, NEO_BLAST_CANNON, BREAK_TIEN]
+YAMCHA_CAPSULES = [YAMCHA, KAME_YAMCHA, WOLF_FANG, SPIRIT_BALL, BREAK_YAMCHA]
+UUB_CAPSULES = [UUB, KI_CANNON, FIERCE_FLURRY, BREAK_UUB]
+BROLY_CAPSULES = [BROLY, BLASTER_SHELL, LSSJ_BROLY, GIGANT_PRESS, GIGANT_METEOR, BREAK_BROLY]
+
+PROGRESSIVE_GOKU = Capsule(id=531, name="Progressive Goku", max_copies=len(GOKU_CAPSULES))
+PROGRESSIVE_KID_GOHAN = Capsule(id=532, name= "Progressive Kid Gohan", max_copies=len(KID_GOHAN_CAPSULES))
+PROGRESSIVE_TEEN_GOHAN = Capsule(id=533, name= "Progressive Teen Gohan", max_copies=len(TEEN_GOHAN_CAPSULES))
+PROGRESSIVE_GOHAN = Capsule(id=534, name= "Progressive Gohan", max_copies=len(GOHAN_CAPSULES))
+PROGRESSIVE_KRILLIN = Capsule(id=535, name= "Progressive Krillin", max_copies=len(KRILLIN_CAPSULES))
+PROGRESSIVE_PICCOLO = Capsule(id=536, name= "Progressive Piccolo", max_copies=len(PICCOLO_CAPSULES))
+PROGRESSIVE_VEGETA = Capsule(id=537, name= "Progressive Vegeta", max_copies=len(VEGETA_CAPSULES))
+PROGRESSIVE_TIEN = Capsule(id=538, name= "Progressive Tien", max_copies=len(TIEN_CAPSULES))
+PROGRESSIVE_YAMCHA = Capsule(id=539, name= "Progressive Yamcha", max_copies=len(YAMCHA_CAPSULES))
+PROGRESSIVE_UUB = Capsule(id=540, name= "Progressive Uub", max_copies=len(UUB_CAPSULES))
+PROGRESSIVE_BROLY = Capsule(id=541, name= "Progressive Broly", max_copies=len(BROLY_CAPSULES))
+PROGRESSIVE_CAPSULES = [PROGRESSIVE_GOKU, PROGRESSIVE_KID_GOHAN, PROGRESSIVE_TEEN_GOHAN, PROGRESSIVE_GOHAN,
+                        PROGRESSIVE_KRILLIN, PROGRESSIVE_PICCOLO, PROGRESSIVE_VEGETA, PROGRESSIVE_YAMCHA,
+                        PROGRESSIVE_TIEN, PROGRESSIVE_UUB, PROGRESSIVE_BROLY]
+
 ALL_ITEMS = [
     *RED_CAPSULES,
     *GREEN_CAPSULES,
     *YELLOW_CAPSULES,
     *GRAY_CAPSULES,
+    *PROGRESSIVE_CAPSULES,
     # *CUSTOM_ITEMS
 ]
 
@@ -850,7 +886,6 @@ def get_name_pairs() -> Dict[int, ItemData]:
     for item in ALL_ITEMS:
         collector[item.name] = item
     return collector
-
 
 def get_id_pairs() -> Dict[str, ItemData]:
     collector = {}

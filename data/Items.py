@@ -37,7 +37,8 @@ class Capsule(Item):
         # I'd rewrite the stacks vs copies logic if I hadn't already made the entire file
         self.stacks = stacks
         if max_copies != 1: copies = max_copies
-        elif stacks == True: copies = 3
+        # everything that stacks can be applied at most 3 times, so it's a good-enough shortcut
+        elif stacks: copies = 3
         else: copies = 1
         self.max_copies =  copies
 
@@ -706,9 +707,9 @@ COOLER = GrayCapsule(433, "Cooler")
 BARDOCK = GrayCapsule(434, "Bardock")
 BROLY = GrayCapsule(435, "Broly")
 OMEGA_SHENRON = GrayCapsule(436, "Omega Shenron")
-SAIBAMAN = GrayCapsule(437, "Saibaman")
+SAIBAMEN = GrayCapsule(437, "Saibamen")
 CELL_JR = GrayCapsule(438, "Cell Jr")
-TRAINING_1 = GrayCapsule(439, "Training 1 Scouter ")
+TRAINING_1 = GrayCapsule(439, "Training 1 Scouter")
 TRAINING_2 = GrayCapsule(440, "Training 2 Fighting Basics")
 TRAINING_3 = GrayCapsule(441, "Training 3 Ki Control")
 TRAINING_4 = GrayCapsule(442, "Training 4 Death-moves")
@@ -903,3 +904,6 @@ def item_name_to_id(name) -> int | None:
 
 def item_id_to_name(id) -> str | None:
     return ID_PAIRS[id].name
+
+def from_id(id) -> ItemData:
+    return ID_PAIRS[id]

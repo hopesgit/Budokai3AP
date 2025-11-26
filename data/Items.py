@@ -18,6 +18,7 @@ class ItemData(ABC):
 
     def __init__(self, id: int, name: str):
         self.item_id = id
+        # if id is 999, it's not a capsule that should not be in the pool
         self.name = name
 
 class Item(ItemData):
@@ -34,10 +35,10 @@ class Capsule(Item):
     def __init__(self, id: int, name: str, offset=0x0, stacks = False, max_copies = 1):
         super().__init__(id, name)
         self.offset = offset
-        # I'd rewrite the stacks vs copies logic if I hadn't already made the entire file
-        self.stacks = stacks
+        self.stacks = stacks # if the item stacks, go up to that max and don't worry about the rest
+        # this is logically relevant because there's no need for more than 3 of any item, and only Red Capsules at that
         if max_copies != 1: copies = max_copies
-        elif stacks == True: copies = 3
+        elif stacks: copies = 3
         else: copies = 1
         self.max_copies =  copies
 
@@ -56,19 +57,31 @@ class GrayCapsule(Capsule):
 
 # Ability Capsules (Red)
 ## Goku
-KAIOKEN = RedCapsule(1, "Kaioken")
-SSJ_GOKU = RedCapsule(2, "Super Saiyan (Goku)")
-SSJ2_GOKU = RedCapsule(3, "Super Saiyan 2 (Goku)")
-SSJ3_GOKU = RedCapsule(4, "Super Saiyan 3 (Goku)")
-SSJ4_GOKU = RedCapsule(5, "Super Saiyan 4 (Goku)")
-KAME_GOKU = RedCapsule(6, "Kamehameha (Goku)", stacks=True)
-DRAG_FIST_GOKU = RedCapsule(7, "Dragon Fist", stacks=True)
-WARP_KAME_GOKU = RedCapsule(8, "Warp Kamehameha (Goku)", stacks=True)
-SPIRIT_BOMB_GOKU = RedCapsule(9, "Spirit Bomb (Goku)", stacks=True)
-GOGETA_GOKU = RedCapsule(10, "Fusion - Gogeta (Goku)")
-SSJ4_GOGETA_GOKU = RedCapsule(11, "Fusion - Super Saiyan 4 Gogeta (Goku)")
-VEGITO_GOKU = RedCapsule(12, "Potara - Vegito (Goku)")
-BREAK_GOKU = RedCapsule(13, "Breakthrough (Goku)")
+KAIOKEN = RedCapsule(1, "Kaioken", 0x4DFB1A)
+SSJ_GOKU = RedCapsule(2, "Super Saiyan (Goku)", 0x4DFB1B)
+SSJ2_GOKU = RedCapsule(3, "Super Saiyan 2 (Goku)", 0x4DFB1C)
+SSJ3_GOKU = RedCapsule(4, "Super Saiyan 3 (Goku)", 0x4DFB1D)
+SSJ4_GOKU = RedCapsule(5, "Super Saiyan 4 (Goku)", 0x4DFB1E)
+SSJ4_GOKU_GOGETA = RedCapsule(999, "Super Saiyan 4 (SSJ4 Gogeta) (Goku)", 0x4DFBC9)
+KAME_10X_GOKU = RedCapsule(999, "10X Kamehameha (Goku)", 0x4DFB21)
+KAME_10X_GOGETA = RedCapsule(999, "10X Kamehameha (SSJ4 Gogeta) (Goku)", 0x4DFBCB)
+BIG_KAME_100X_GOKU = RedCapsule(999, "100X Big Bang Kamehameha (SSJ4 Gogeta) (Goku)", 0x4DFBCE)
+BIG_KAME_GOKU = RedCapsule(999, "Big Bang Kamehameha (Gogeta) (Goku)", 0x4DFBCC)
+KAME_GOGETA_GOKU = RedCapsule(999, "Kamehameha (Gogeta) (Goku)", 0x4DFBC1)
+KAME_GOGETA_SSJ4_GOKU = RedCapsule(999, "Kamehameha (SSJ4 Gogeta) (Goku)", 0x4DFBCB)
+KAME_GOKU = RedCapsule(6, "Kamehameha (Goku)", 0x4DFB1F, stacks=True)
+DRAG_FIST_GOKU = RedCapsule(7, "Dragon Fist", 0x4DFB21, stacks=True)
+WARP_KAME_GOKU = RedCapsule(8, "Warp Kamehameha (Goku)", 0x4DFB22, stacks=True)
+SPIRIT_BOMB_GOKU = RedCapsule(9, "Spirit Bomb (Goku)", 0x4DFB24, stacks=True)
+SUPER_SPIRIT_BOMB = RedCapsule(999, "Super Spirit Bomb", 0x4DFB24)
+SUPER_DRAG_FIST = RedCapsule(999, "Super Dragon Fist")
+GOGETA_GOKU = RedCapsule(10, "Fusion - Gogeta (Goku)", 0x4DFBC1) # both are listed as "Fusion" so this
+# and SSJ4 are a guess as to which address belongs to which
+SOUL_PUNISHER_GOKU = RedCapsule(999, "Soul Punisher (Goku)", 0x4DFBC3)
+SOUL_STRIKE_GOKU = RedCapsule(999, "Soul Strike (Goku)", 0x4DFBC2)
+SSJ4_GOGETA_GOKU = RedCapsule(11, "Fusion - Super Saiyan 4 Gogeta (Goku)", 0x4DFBC8)
+VEGITO_GOKU = RedCapsule(12, "Potara - Vegito (Goku)", 0x4DFBD4)
+BREAK_GOKU = RedCapsule(13, "Breakthrough (Goku)", 0x4DFBE8)
 
 ## Kid Goku
 KAME_KGOKU = RedCapsule(14, "Kamehameha (Kid Goku)", stacks=True)
@@ -90,26 +103,34 @@ FS_KAME = RedCapsule(25, "Father-Son Kamehameha", stacks=True)
 BREAK_TGOHAN = RedCapsule(26, "Breakthrough (Teen Gohan)")
 
 ## Gohan
-SSJ_GOHAN = RedCapsule(27, "Super Saiyan (Gohan)")
-SSJ2_GOHAN = RedCapsule(28, "Super Saiyan 2 (Gohan)")
-ELDER_UNLOCK = RedCapsule(29, "Elder Kai Unlock Ability")
-KAME_GOHAN = RedCapsule(30, "Kamehameha (Gohan)", stacks=True)
-SOAR_GOHAN = RedCapsule(31, "Soaring Dragon Strike (Gohan)", stacks=True)
-SUPER_KAME_GOHAN = RedCapsule(32, "Super Kamehameha", stacks=True)
-BREAK_GOHAN = RedCapsule(33, "Breakthrough (Gohan)")
+SSJ_GOHAN = RedCapsule(27, "Super Saiyan (Gohan)", 0x4DFB30)
+SSJ2_GOHAN = RedCapsule(28, "Super Saiyan 2 (Gohan)", 0x4DFB31)
+ELDER_UNLOCK = RedCapsule(29, "Elder Kai Unlock Ability", 0x4DFB32)
+KAME_GOHAN = RedCapsule(30, "Kamehameha (Gohan)", 0x4DFB33, stacks=True)
+SOAR_GOHAN = RedCapsule(31, "Soaring Dragon Strike (Gohan)", 0x4DFB34, stacks=True)
+SUPER_KAME_GOHAN = RedCapsule(32, "Super Kamehameha", 0x4DFB35, stacks=True)
+BREAK_GOHAN = RedCapsule(33, "Breakthrough (Gohan)", 0x4DFBEC)
 
 ## Gt. Saiyaman
-JPUNCH = RedCapsule(34, "Justice Punch", stacks=True)
-JKICK = RedCapsule(35, "Justice Kick", stacks=True)
-JPOSE = RedCapsule(36, "Justice Pose") # this is not a mistake, though the move certainly is
-BREAK_GTS = RedCapsule(37, "Breakthrough (Gt Saiyaman)")
+JPUNCH = RedCapsule(34, "Justice Punch", 0x4DFB37, stacks=True)
+JKICK = RedCapsule(35, "Justice Kick", stacks=True) # no address given
+JPOSE = RedCapsule(36, "Justice Pose", 0x4DFB38)
+BREAK_GTS = RedCapsule(37, "Breakthrough (Gt Saiyaman)", 0x4DFBEE)
 
 ## Goten
-SSJ_GOTEN = RedCapsule(38, "Super Saiyan (Goten)")
-KAME_GOTEN = RedCapsule(39, "Kamehameha (Goten)", stacks=True)
-CHARGE = RedCapsule(40, "Charge", stacks=True)
-GOTENKS_GOTEN = RedCapsule(41, "Fusion - Gotenks (Goten)")
-BREAK_GOTEN = RedCapsule(42, "Breakthrough (Goten)")
+SSJ_GOTEN = RedCapsule(38, "Super Saiyan (Goten)", 0x4DFB39)
+KAME_GOTEN = RedCapsule(39, "Kamehameha (Goten)", 0x4DFB3A, stacks=True)
+CHARGE = RedCapsule(40, "Charge", 0x4DFB3B, stacks=True)
+CHARGE_GOTENKS = RedCapsule(999, "Charge (Gotenks)", 0x4DFBB3)
+GOTENKS_GOTEN = RedCapsule(41, "Fusion - Gotenks (Goten)", 0x4DFBAF)
+SSJ_GOTENKS_GOTEN = RedCapsule(999, "Super Saiyan Gotenks (Goten)", 0x4DFBB1)
+SSJ3_GOTENKS_GOTEN = RedCapsule(999, "Super Saiyan 3 Gotenks (Goten)", 0x4DFBB1)
+KAME_GOTENKS_GOTEN = RedCapsule(999, "Kamehameha (Gotenks) (Goten)", 0x4DFBB2)
+KAME_SSJ3_GOTENKS = RedCapsule (999, "Kamehameha (SSJ3 Gotenks) (Goten)", 0x4DFBBB)
+DONUTS_GOTEN = RedCapsule(999, "Galactica Donuts (Goten)", 0x4DFBB5)
+GHOST_GOTEN = RedCapsule(999, "Super Ghost Kamikaze Attk (Goten)", 0x4DFBB6)
+VICTORY_GOTEN = RedCapsule(999, "Victory Cannon (Gotenks) (Goten)", 0x4DFBB4)
+BREAK_GOTEN = RedCapsule(42, "Breakthrough (Goten)", 0x4DFBEE)
 
 ## Vegeta
 SSJ_VEGETA = RedCapsule(43, "Super Saiyan (Vegeta)")
@@ -204,12 +225,12 @@ GIANT_STORM = RedCapsule(107, "Giant Storm", stacks=True)
 BREAK_NAPPA = RedCapsule(108, "Breakthrough (Nappa)")
 
 ## Ginyu
-SFP1 = RedCapsule(109, "Super Fighting Pose 1")
-SFP2 = RedCapsule(110, "Super Fighting Pose 2")
-MILKY_CANNON = RedCapsule(111, "Milky Cannon", stacks=True)
-STRONG_JERSEY = RedCapsule(112, "Strong Jersey", stacks=True)
-BODY_CHANGE = RedCapsule(113, "Body Change", stacks=True)
-BREAK_GINYU = RedCapsule(114, "Breakthrough (Capt Ginyu)")
+SFP1 = RedCapsule(109, "Super Fighting Pose 1", 0x4DFB6F)
+SFP2 = RedCapsule(110, "Super Fighting Pose 2", 0x4DFB71)
+MILKY_CANNON = RedCapsule(111, "Milky Cannon", 0x4DFB71, stacks=True)
+STRONG_JERSEY = RedCapsule(112, "Strong Jersey", 0x4DFB72, stacks=True)
+BODY_CHANGE = RedCapsule(113, "Body Change", 0x4DFB74, stacks=True)
+BREAK_GINYU = RedCapsule(114, "Breakthrough (Capt Ginyu)", 0x4DFBFC)
 
 ## Recoome
 SFP3 = RedCapsule(115, "Super Fighting Pose 3")
@@ -220,46 +241,46 @@ REC_BOMBER = RedCapsule(119, "Recoome Bomber", stacks=True)
 BREAK_REC = RedCapsule(120, "Breakthrough (Recoome)")
 
 ## Frieza
-SECOND_FORM = RedCapsule(121, "Second Form")
-THIRD_FORM = RedCapsule(122, "Third Form")
-FINAL_FORM_FRIEZA = RedCapsule(123, "Final Form (Frieza)")
-HUNDRED_PERCENT = RedCapsule(124, "100% Final Form")
-DEATH_BEAM = RedCapsule(125, "Death Beam", stacks=True)
-DEATH_WAVE = RedCapsule(126, "Death Wave", stacks=True)
-DEATH_BALL = RedCapsule(127, "Death Ball", stacks=True)
-BREAK_FRIEZA = RedCapsule(128, "Breakthrough (Frieza)")
+SECOND_FORM = RedCapsule(121, "Second Form", 0x4DFB79)
+THIRD_FORM = RedCapsule(122, "Third Form", 0x4DFB7A)
+FINAL_FORM_FRIEZA = RedCapsule(123, "Final Form (Frieza)", 0x4DFB7B)
+HUNDRED_PERCENT = RedCapsule(124, "100% Final Form", 0x4DFB7C)
+DEATH_BEAM = RedCapsule(125, "Death Beam", 0x462DF0, stacks=True)
+DEATH_WAVE = RedCapsule(126, "Death Wave", 0x4DFB7E, stacks=True)
+DEATH_BALL = RedCapsule(127, "Death Ball", 0x4DFB7F, stacks=True)
+BREAK_FRIEZA = RedCapsule(128, "Breakthrough (Frieza)", 0x4DFBFE)
 
 ## Android 16
-ROCKET_PUNCH = RedCapsule(129, "Rocket Punch", stacks=True)
-HELL_FLASH = RedCapsule(130, "Hell Flash", stacks=True)
-BREAK_16 = RedCapsule(131, "Breakthrough (16)")
+ROCKET_PUNCH = RedCapsule(129, "Rocket Punch", 0x4DFB81, stacks=True)
+HELL_FLASH = RedCapsule(130, "Hell Flash", 0x4DFB82, stacks=True)
+BREAK_16 = RedCapsule(131, "Breakthrough (16)", 0x4DFBFF)
 
 ## Android 17
-POWER_BLITZ_17 = RedCapsule(132, "Power Blitz (17)", stacks=True)
-ENERGY_FIELD_17 = RedCapsule(133, "Energy Field (17)", stacks=True)
-ACCEL_DANCE_17 = RedCapsule(134, "Accel Dance (17)", stacks=True)
-BREAK_17 = RedCapsule(135, "Breakthrough (17)")
+POWER_BLITZ_17 = RedCapsule(132, "Power Blitz (17)", 0x4DFB82, stacks=True)
+ENERGY_FIELD_17 = RedCapsule(133, "Energy Field (17)", 0x4DFB83, stacks=True)
+ACCEL_DANCE_17 = RedCapsule(134, "Accel Dance (17)", 0x4DFB84, stacks=True)
+BREAK_17 = RedCapsule(135, "Breakthrough (17)", 0x4DFC00)
 
 ## Android 18
-POWER_BLITZ_18 = RedCapsule(136, "Power Blitz (18)", stacks=True)
-DD_18 = RedCapsule(137, "Destructo Disc (18)", stacks=True)
-ACCEL_DANCE_18 = RedCapsule(138, "Accel Dance (18)", stacks=True)
-BREAK_18 = RedCapsule(139, "Breakthrough (18)")
+POWER_BLITZ_18 = RedCapsule(136, "Power Blitz (18)", 0x4DFB85, stacks=True)
+DD_18 = RedCapsule(137, "Destructo Disc (18)", 0x4DFB86, stacks=True)
+ACCEL_DANCE_18 = RedCapsule(138, "Accel Dance (18)", 0x4DFB87, stacks=True)
+BREAK_18 = RedCapsule(139, "Breakthrough (18)", 0x4DFC01)
 
 ## Dr. Gero (Android 20)
-PHOTON_WAVE = RedCapsule(140, "Photon Wave", stacks=True)
-KI_ABSORB = RedCapsule(141, "Ki Blast Absorption", stacks=True)
-LIFE_DRAIN = RedCapsule(142, "Life Drain", stacks=True)
-BREAK_GERO = RedCapsule(143, "Breakthrough (Dr Gero)")
+PHOTON_WAVE = RedCapsule(140, "Photon Wave", 0x4DFB88, stacks=True)
+KI_ABSORB = RedCapsule(141, "Ki Blast Absorption", 0x4DFB89, stacks=True)
+LIFE_DRAIN = RedCapsule(142, "Life Drain", 0x4DFB8A, stacks=True)
+BREAK_GERO = RedCapsule(143, "Breakthrough (Dr Gero)", 0x4DFC02)
 
 ## Cell
-ABSORB_17 = RedCapsule(144, "17 Absorption")
-PERFECT_FORM = RedCapsule(145, "Perfect Form")
-SUPER_PERFECT = RedCapsule(146, "Super Perfect Form")
-KAME_CELL = RedCapsule(147, "Kamehameha (Cell)", stacks=True)
-ENERGY_FIELD_CELL = RedCapsule(148, "Energy Field (Cell)", stacks=True)
-SPIRIT_BOMB_CELL = RedCapsule(149, "Spirit Bomb (Cell)", stacks=True)
-BREAK_CELL = RedCapsule(150, "Breakthrough (Cell)")
+ABSORB_17 = RedCapsule(144, "17 Absorption", 0x4DFB8B)
+PERFECT_FORM = RedCapsule(145, "Perfect Form", 0x4DFB8C)
+SUPER_PERFECT = RedCapsule(146, "Super Perfect Form", 0x4DFB8E)
+KAME_CELL = RedCapsule(147, "Kamehameha (Cell)", 0x4DFB8E, stacks=True)
+ENERGY_FIELD_CELL = RedCapsule(148, "Energy Field (Cell)", 0x4DFB8F, stacks=True)
+SPIRIT_BOMB_CELL = RedCapsule(149, "Spirit Bomb (Cell)", 0x4DFB91, stacks=True)
+BREAK_CELL = RedCapsule(150, "Breakthrough (Cell)", 0x4DFC03)
 
 ## Majin Buu
 INN_CANNON = RedCapsule(151, "Innocence Cannon", stacks=True)
@@ -280,31 +301,31 @@ WARP_KAME_KBUU = RedCapsule(161, "Warp Kamehameha (Kid Buu)", stacks=True)
 BREAK_KBUU = RedCapsule(162, "Breakthrough (Kid Buu)")
 
 ## Dabura
-DEMON_WILL = RedCapsule(163, "Demonic Will")
-HELL_BLITZ = RedCapsule(164, "Hell Blitz", stacks=True)
-EVIL_BLAST = RedCapsule(165, "Evil Blast", stacks=True)
-HELL_RUSH = RedCapsule(166, "Hell Blade Rush", stacks=True)
-BREAK_DABURA = RedCapsule(167, "Breakthrough (Dabura)")
+DEMON_WILL = RedCapsule(163, "Demonic Will", 0x4DFB9A)
+HELL_BLITZ = RedCapsule(164, "Hell Blitz", 0x4DFB9B, stacks=True)
+EVIL_BLAST = RedCapsule(165, "Evil Blast", 0x4DFB9C, stacks=True)
+HELL_RUSH = RedCapsule(166, "Hell Blade Rush", 0x4DFB9E, stacks=True)
+BREAK_DABURA = RedCapsule(167, "Breakthrough (Dabura)", 0x4DFC07)
 
 ## Cooler
-FINAL_FORM_COOLER = RedCapsule(168, "Final Form (Cooler)")
-DESTRUCT_RAY = RedCapsule(169, "Destructive Ray", stacks=True)
-SAUZER_BLADE = RedCapsule(170, "Sauzer Blade", stacks=True)
-SUPERNOVA = RedCapsule(171, "Supernova", stacks=True)
-BREAK_COOLER = RedCapsule(172, "Breakthrough (Cooler)")
+FINAL_FORM_COOLER = RedCapsule(168, "Final Form (Cooler)", 0x4DFB9E)
+DESTRUCT_RAY = RedCapsule(169, "Destructive Ray", 0x4DFB9F, stacks=True)
+SAUZER_BLADE = RedCapsule(170, "Sauzer Blade", 0x4DFBA1, stacks=True)
+SUPERNOVA = RedCapsule(171, "Supernova", 0x4DFBA1, stacks=True)
+BREAK_COOLER = RedCapsule(172, "Breakthrough (Cooler)", 0x4DFC08)
 
 ## Bardock
-RIOT_JAVELIN = RedCapsule(173, "Riot Javelin", stacks=True)
-HEAT_PHALANX = RedCapsule(174, "Heat Phalanx", stacks=True)
-SPIRIT_SAIYANS = RedCapsule(175, "Spirit of Saiyans", stacks=True)
-BREAK_BARDOCK = RedCapsule(176, "Breakthrough (Bardock)")
+RIOT_JAVELIN = RedCapsule(173, "Riot Javelin", 0x4DFBA2, stacks=True)
+HEAT_PHALANX = RedCapsule(174, "Heat Phalanx", 0x4DFBA3, stacks=True)
+SPIRIT_SAIYANS = RedCapsule(175, "Spirit of Saiyans", 0x4DFBA4, stacks=True)
+BREAK_BARDOCK = RedCapsule(176, "Breakthrough (Bardock)", 0x4DFC09)
 
 ## Broly
-LSSJ_BROLY = RedCapsule(177, "Legendary Super Saiyan")
-BLASTER_SHELL = RedCapsule(178, "Blaster Shell", stacks=True)
-GIGANT_PRESS = RedCapsule(179, "Gigantic Press", stacks=True)
-GIGANT_METEOR = RedCapsule(180, "Gigantic Meteor", stacks=True)
-BREAK_BROLY = RedCapsule(181, "Breakthrough (Broly)")
+LSSJ_BROLY = RedCapsule(177, "Legendary Super Saiyan", 0x4DFBA5)
+BLASTER_SHELL = RedCapsule(178, "Blaster Shell", 0x4DFBA6, stacks=True)
+GIGANT_PRESS = RedCapsule(179, "Gigantic Press", 0x4DFBA7, stacks=True)
+GIGANT_METEOR = RedCapsule(180, "Gigantic Meteor", 0x4DFBA8, stacks=True)
+BREAK_BROLY = RedCapsule(181, "Breakthrough (Broly)", 0x4DFC0B)
 
 ## Omega Shenron
 WHIRLWIND = RedCapsule(182, "Whirlwind Spin", stacks=True)
@@ -318,7 +339,7 @@ SELFDESTRUCT = RedCapsule(187, "Self-Destruct") # also does not stack
 BREAK_SAIBA = RedCapsule(188, "Breakthrough (Saibaman)")
 
 ## Cell Jr
-KAME_CELLJR = RedCapsule(189, "Kamehameha (Cell Jr)", stacks=True)
+KAME_CELLJR = RedCapsule(189, "Kamehameha (Cell Jr)", 0x4DFBAE, stacks=True)
 BREAK_CELLJR = RedCapsule(190, "Breakthrough (Cell Jr)")
 
 RED_CAPSULES = [
@@ -625,167 +646,176 @@ GREEN_CAPSULES = [
 ]
 
 # Item Capsules (Yellow)
-TEMPURA = YellowCapsule(366, "Tempura Bowl")
-TONKATSU = YellowCapsule(367, "Tonkatsu (Fried Pork) Bowl")
-CHICKEN_EGG = YellowCapsule(368, "Chicken & Egg Bowl")
-CHILLED = YellowCapsule(369, "Chilled Juice")
-WELL_CHILLED = YellowCapsule(370, "Well Chilled Juice")
-EXTREME_CHILLED = YellowCapsule(371, "Extremely Chilled Juice")
-THIRD_SENZU = YellowCapsule(372, "1/3 Senzu Bean")
-HALF_SENZU = YellowCapsule(373, "1/2 Senzu Bean")
-SENZU_BEAN = YellowCapsule(374, "Senzu Bean" )
-KINGKAIS_WATER = YellowCapsule(375, "King Kai's Water")
-SUPREMEKAIS_WATER = YellowCapsule(376, "Supreme Kai's Water")
-GRANDKAIS_WATER = YellowCapsule(377, "Grand Supreme Kai's Water")
-HOLY_WATER_DROP = YellowCapsule(378, "Super Holy Water Drop")
-HOLY_WATER_BOTTLE = YellowCapsule(379, "Super Holy Water Bottle")
-HOLY_WATER = YellowCapsule(380, "Super Holy Water")
-HERC_DRINK = YellowCapsule(381, "Hercule Drink")
-HERC_DRINK_DX = YellowCapsule(382, "Hercule Drink DX")
-HERC_DRINK_SP = YellowCapsule(383, "Hercule Drink SP")
-KAMI_WATER_DROP = YellowCapsule(384, "Super Kami Water Drop")
-KAMI_WATER_BOTTLE = YellowCapsule(385, "Super Kami Water Bottle")
-KAMI_WATER = YellowCapsule(386, "Super Kami Water")
-PSHIELD_PROTO = YellowCapsule(387, "Portable Shield (Prototype)")
-PSHIELD_IMPROVED = YellowCapsule(388, "Portable Shield (Improved)" )
-PSHIELD_PROD = YellowCapsule(389, "Portable Shield (Production)" )
-PORT_BARRIER = YellowCapsule(390, "Portable Barrier System")
-GERO_DEF_SYS = YellowCapsule(391, "Gero Style Defense System")
-GERO_BARRIER_SYS = YellowCapsule(392, "Gero Style Barrier System")
-BIBIDIS_POT = YellowCapsule(393, "Bibidi's Pot")
-VACCINE = YellowCapsule(394, "Vaccine")
-SENZU_ROOT = YellowCapsule(395, "Senzu Root")
-SENZU_LEAF = YellowCapsule(396, "Senzu Leaf")
-SENZU_SEEDLING = YellowCapsule(397, "Senzu Seedling")
-EEL_SOUP = YellowCapsule(398, "Centipede Eel Soup")
-CF_TOAD = YellowCapsule(399, "Chicken-fried 7-Seasoned Toad")
-PAOZU_TAIL = YellowCapsule(400, "Paozusaurus Tail" )
+TEMPURA = YellowCapsule(366, "Tempura Bowl", 0x4DFC0F)
+TONKATSU = YellowCapsule(367, "Tonkatsu (Fried Pork) Bowl", 0x4DFC11)
+CHICKEN_EGG = YellowCapsule(368, "Chicken & Egg Bowl", offset=0x4DFC11)
+CHILLED = YellowCapsule(369, "Chilled Juice", offset=0x4DFC12)
+WELL_CHILLED = YellowCapsule(370, "Well Chilled Juice", 0x4DFC13)
+EXTREME_CHILLED = YellowCapsule(371, "Extremely Chilled Juice", offset=0x4DFC14)
+THIRD_SENZU = YellowCapsule(372, "1/3 Senzu Bean", offset=0x4DFC15)
+HALF_SENZU = YellowCapsule(373, "1/2 Senzu Bean", offset=0x4DFC16)
+SENZU_BEAN = YellowCapsule(374, "Senzu Bean", offset=0x4DFC17)
+KINGKAIS_WATER = YellowCapsule(375, "King Kai's Water", offset=0x4DFC18)
+SUPREMEKAIS_WATER = YellowCapsule(376, "Supreme Kai's Water", 0x4DFC19)
+GRANDKAIS_WATER = YellowCapsule(377, "Grand Supreme Kai's Water", offset=0x4DFC1B)
+HOLY_WATER_DROP = YellowCapsule(378, "Super Holy Water Drop", 0x4DFC1B)
+HOLY_WATER_BOTTLE = YellowCapsule(379, "Super Holy Water Bottle", offset=0x4DFC1C)
+HOLY_WATER = YellowCapsule(380, "Super Holy Water", offset=0x4DFC1E)
+HERC_DRINK = YellowCapsule(381, "Hercule Drink", offset=0x4DFC1E)
+HERC_DRINK_DX = YellowCapsule(382, "Hercule Drink DX", offset=0x4DFC1F)
+HERC_DRINK_SP = YellowCapsule(383, "Hercule Drink SP", offset=0x4DFC20)
+KAMI_WATER_DROP = YellowCapsule(384, "Super Kami Water Drop", 0x4DFC21)
+KAMI_WATER_BOTTLE = YellowCapsule(385, "Super Kami Water Bottle", 0x4DFC22)
+KAMI_WATER = YellowCapsule(386, "Super Kami Water", offset=0x4DFC23)
+PSHIELD_PROTO = YellowCapsule(387, "Portable Shield (Prototype)", offset=0x4DFC24)
+PSHIELD_IMPROVED = YellowCapsule(388, "Portable Shield (Improved)", offset=0x4DFC25)
+PSHIELD_PROD = YellowCapsule(389, "Portable Shield (Production)", offset=0x4DFC26)
+PORT_BARRIER = YellowCapsule(390, "Portable Barrier System", offset=0x4DFC27)
+GERO_DEF_SYS = YellowCapsule(391, "Gero Style Defense System", offset=0x4DFC28)
+GERO_BARRIER_SYS = YellowCapsule(392, "Gero Style Barrier System", offset=0x4DFC29)
+BIBIDIS_POT = YellowCapsule(393, "Bibidi's Pot", offset=0x4DFC2A)
+VACCINE = YellowCapsule(394, "Vaccine", 0x4DFC2B)
+SENZU_ROOT = YellowCapsule(395, "Senzu Root", offset=0x4DFC2C)
+SENZU_LEAF = YellowCapsule(396, "Senzu Leaf", offset=0x4DFC2E)
+SENZU_SEEDLING = YellowCapsule(397, "Senzu Seedling", offset=0x4DFC2E)
+EEL_SOUP = YellowCapsule(398, "Centipede Eel Soup", offset=0x4DFC2F)
+CF_TOAD = YellowCapsule(399, "Chicken-fried 7-Seasoned Toad", offset=0x4DFC30)
+PAOZU_TAIL = YellowCapsule(400, "Paozusaurus Tail", offset=0x4DFC31)
+GAMBLE = YellowCapsule(401, "Gamble", offset=0x4DFD5B)
 
 YELLOW_CAPSULES = [
     TEMPURA, TONKATSU, CHICKEN_EGG, CHILLED, WELL_CHILLED, EXTREME_CHILLED, THIRD_SENZU, HALF_SENZU, SENZU_BEAN,
     KINGKAIS_WATER, SUPREMEKAIS_WATER, GRANDKAIS_WATER, HOLY_WATER_DROP, HOLY_WATER_DROP, HOLY_WATER_BOTTLE, HOLY_WATER,
     HERC_DRINK, HERC_DRINK_DX, HERC_DRINK_SP, KAMI_WATER_DROP, KAMI_WATER_BOTTLE, KAMI_WATER, PSHIELD_PROTO,
     PSHIELD_IMPROVED, PSHIELD_PROD, PORT_BARRIER, GERO_DEF_SYS, GERO_BARRIER_SYS, BIBIDIS_POT, VACCINE, SENZU_ROOT,
-    SENZU_LEAF, SENZU_SEEDLING, EEL_SOUP, CF_TOAD, PAOZU_TAIL
+    SENZU_LEAF, SENZU_SEEDLING, EEL_SOUP, CF_TOAD, PAOZU_TAIL, GAMBLE
 ]
 
 # System Capsules (Gray)
-GOKU = GrayCapsule(401, "Goku")
-KID_GOKU = GrayCapsule(402, "Kid Goku")
-KID_GOHAN = GrayCapsule(403, "Kid Gohan")
-TEEN_GOHAN = GrayCapsule(404, "Teen Gohan")
-GOHAN = GrayCapsule(405, "Gohan")
-GT_SAIYAMAN = GrayCapsule(406, "Great Saiyaman")
-GOTEN = GrayCapsule(407, "Goten")
-VEGETA = GrayCapsule(408, "Vegeta")
-TRUNKS = GrayCapsule(409, "Trunks")
-KID_TRUNKS = GrayCapsule(410, "Kid Trunks")
-KRILLIN = GrayCapsule(411, "Krillin")
-PICCOLO = GrayCapsule(412, "Piccolo")
-TIEN = GrayCapsule(413,"Tien" )
-YAMCHA = GrayCapsule(414, "Yamcha")
-HERCULE = GrayCapsule(415, "Hercule")
-VIDEL = GrayCapsule(416, "Videl")
-SUPREME_KAI = GrayCapsule(417, "Supreme Kai")
-UUB = GrayCapsule(418, "Uub")
-RADITZ = GrayCapsule(419, "Raditz")
-NAPPA = GrayCapsule(420, "Nappa")
-GINYU = GrayCapsule(421, "Captain Ginyu")
-RECOOME = GrayCapsule(422, "Recoome")
-FRIEZA = GrayCapsule(423, "Frieza")
-ANDROID_16 = GrayCapsule(424, "Android 16")
-ANDROID_17 = GrayCapsule(425, "Android 17")
-ANDROID_18 = GrayCapsule(426, "Android 18" )
-DR_GERO = GrayCapsule(427, "Dr Gero" )
-CELL = GrayCapsule(428, "Cell")
-MAJIN_BUU = GrayCapsule(429, "Majin Buu")
-SUPER_BUU = GrayCapsule(430, "Super Buu")
-KID_BUU = GrayCapsule(431, "Kid Buu")
-DABURA = GrayCapsule(432, "Dabura")
-COOLER = GrayCapsule(433, "Cooler")
-BARDOCK = GrayCapsule(434, "Bardock")
-BROLY = GrayCapsule(435, "Broly")
-OMEGA_SHENRON = GrayCapsule(436, "Omega Shenron")
-SAIBAMAN = GrayCapsule(437, "Saibaman")
-CELL_JR = GrayCapsule(438, "Cell Jr")
-TRAINING_1 = GrayCapsule(439, "Training 1 Scouter ")
-TRAINING_2 = GrayCapsule(440, "Training 2 Fighting Basics")
-TRAINING_3 = GrayCapsule(441, "Training 3 Ki Control")
-TRAINING_4 = GrayCapsule(442, "Training 4 Death-moves")
-TRAINING_5 = GrayCapsule(443, "Training 5 Ki Control 2")
-TRAINING_6 = GrayCapsule(444, "Training 6 Dodging")
-TRAINING_7 = GrayCapsule(445, "Training 7 Teleporting")
-TRAINING_8 = GrayCapsule(446, "Training 8 Hi-level Fighting")
-TRAINING_9 = GrayCapsule(447, "Training 9 Ultimate Moves")
-TRAINING_10 = GrayCapsule(448, "Training 10 Dragon Rush")
-TRAINING_11 = GrayCapsule(449, "Training 11 Item Skills")
-TRAINING_12 = GrayCapsule(450, "Training 12 Final Secrets")
-GREEN_CARD = GrayCapsule(451, "Green Membership Card")
-SILVER_CARD = GrayCapsule(452, "Silver Membership Card")
-GOLD_CARD = GrayCapsule(453, "Gold Membership Card")
-BLACK_CARD = GrayCapsule(454, "Black Membership Card")
-TOURNEY_NOVICE = GrayCapsule(455, "World Tournament - Novice")
-TOURNEY_ADEPT = GrayCapsule(456, "World Tournament - Adept")
-TOURNEY_ADV = GrayCapsule(457, "World Tournament - Advanced")
-TOURNEY_CELL = GrayCapsule(458, "World Tournament - Cell Games")
-DRAGON_ARENA = GrayCapsule(459, "Dragon Arena Ticket")
-TOURNEY_STAGE = GrayCapsule(460, "World Tournament Stage")
-TIME_CHAMBER = GrayCapsule(461, "Hyperbolic Time Chamber")
-ARCHIPELAGO = GrayCapsule(462, "Archipelago")
-MOUNTAINS = GrayCapsule(463, "Mountains")
-PLAINS = GrayCapsule(464, "Plains")
-GPA_GOHANS_HOUSE = GrayCapsule(465, "Grandpa Gohan's House")
-NAMEK = GrayCapsule(466, "Planet Namek")
-CELL_RING = GrayCapsule(467, "Cell Ring")
-SUPREME_KAIS_WORLD = GrayCapsule(468, "Supreme Kai's World")
-INSIDE_BUU = GrayCapsule(469, "Inside Buu")
-RED_RIBBON_BASE = GrayCapsule(470, "Red Ribbon Base")
-GOKUS_WISH = GrayCapsule(471, "Goku's Wish")
-PATH_POWER = GrayCapsule(472, "The Path to Power")
-ENDLESS_PATH = GrayCapsule(473, "The Endless Path to Power")
-STRONGEST_TROPHY = GrayCapsule(474, "Strongest of Universe Trophy")
-MEMORIES_GOKU = GrayCapsule(475, "Memories of Goku")
-MEMORIES_PICCOLO = GrayCapsule(476, "Memories of Piccolo")
-MEMORIES_KID_GOHAN = GrayCapsule(477, "Memories of Kid Gohan")
-MEMORIES_TEEN_GOHAN = GrayCapsule(478, "Memories of Teen Gohan")
-MEMORIES_GOHAN = GrayCapsule(479, "Memories of Gohan")
-MEMORIES_VEGETA = GrayCapsule(480, "Memories of Vegeta")
-MEMORIES_GOTEN = GrayCapsule(481, "Memories of Goten")
-MEMORIES_TRUNKS = GrayCapsule(482, "Memories of Trunks")
-MEMORIES_KID_TRUNKS = GrayCapsule(483, "Memories of Kid Trunks")
-MEMORIES_KRILLIN = GrayCapsule(484, "Memories of Krillin")
-MEMORIES_TIEN = GrayCapsule(485, "Memories of Tien")
-MEMORIES_YAMCHA = GrayCapsule(486, "Memories of Yamcha")
-MEMORIES_HERCULE = GrayCapsule(487, "Memories of Hercule")
-MEMORIES_VIDEL = GrayCapsule(488, "Memories of Videl" )
-MEMORIES_GT_SAIYAMAN = GrayCapsule(489, "Memories of Gt Saiyaman" )
-MEMORIES_ANDROID_16 = GrayCapsule(490, "Memories of Android 16")
-MEMORIES_ANDROID_17 = GrayCapsule(491, "Memories of Android 17" )
-MEMORIES_ANDROID_18 = GrayCapsule(492, "Memories of Android 18" )
-MEMORIES_SUPREME_KAI = GrayCapsule(493, "Memories of Supreme Kai" )
-MEMORIES_KID_GOKU = GrayCapsule(494, "Memories of Kid Goku")
-MEMORIES_BARDOCK = GrayCapsule(495, "Memories of Bardock" )
-MEMORIES_UUB = GrayCapsule(496, "Memories of Uub" )
-MEMORIES_RADITZ = GrayCapsule(497, "Memories of Raditz")
-MEMORIES_NAPPA = GrayCapsule(498, "Memories of Nappa" )
-MEMORIES_RECOOME = GrayCapsule(499, "Memories of Recoome" )
-MEMORIES_GINYU = GrayCapsule(500, "Memories of Captain Ginyu" )
-MEMORIES_FRIEZA = GrayCapsule(501, "Memories of Frieza" )
-MEMORIES_DR_GERO = GrayCapsule(502, "Memories of Dr Gero")
-MEMORIES_CELL = GrayCapsule(503, "Memories of Cell" )
-MEMORIES_DABURA = GrayCapsule(504, "Memories of Dabura" )
-MEMORIES_MAJIN_BUU = GrayCapsule(505, "Memories of Majin Buu")
-MEMORIES_SUPER_BUU = GrayCapsule(506, "Memories of Super Buu")
-MEMORIES_KID_BUU = GrayCapsule(507, "Memories of Kid Buu")
-MEMORIES_COOLER = GrayCapsule(508, "Memories of Cooler" )
-MEMORIES_BROLY = GrayCapsule(509, "Memories of Broly" )
-MEMORIES_OMEGA = GrayCapsule(510, "Memories of Omega Shenron" )
-MEMORIES_SAIBAMEN = GrayCapsule(511, "Memories of Saibamen" )
-MEMORIES_CELL_JR = GrayCapsule(512, "Memories of Cell Jr" )
-MEMORIES_HEROES = GrayCapsule(513, "Memories of Heroes" )
-MEMORIES_SUPPORTERS = GrayCapsule(514, "Memories of Supporters")
-CRYSTAL_BALL_0 = GrayCapsule(515, "Baba's Crystal Ball 000")
-CRYSTAL_BALL_1 = GrayCapsule(516, "Baba's Crystal Ball 001" )
+GOKU = GrayCapsule(401, "Goku", offset=0x4DFCE2)
+KID_GOKU = GrayCapsule(402, "Kid Goku", offset=0x4DFCE3)
+KID_GOHAN = GrayCapsule(403, "Kid Gohan", offset=0x4DFCE5)
+TEEN_GOHAN = GrayCapsule(404, "Teen Gohan", offset=0x4DFCE5)
+GOHAN = GrayCapsule(405, "Gohan", offset=0x4DFCE6)
+GT_SAIYAMAN = GrayCapsule(406, "Great Saiyaman") # my guess is 0x4DFCE7
+GOTEN = GrayCapsule(407, "Goten", offset=0x4DFCE8)
+VEGETA = GrayCapsule(408, "Vegeta", offset=0x4DFCE9)
+TRUNKS = GrayCapsule(409, "Trunks", offset=0x4DFCEA)
+KID_TRUNKS = GrayCapsule(410, "Kid Trunks", offset=0x4DFCEB)
+KRILLIN = GrayCapsule(411, "Krillin", offset=0x4DFCEC)
+PICCOLO = GrayCapsule(412, "Piccolo", offset=0x4DFCED)
+TIEN = GrayCapsule(413,"Tien", offset=0x4DFCEE)
+YAMCHA = GrayCapsule(414, "Yamcha", offset=0x4DFCEF)
+HERCULE = GrayCapsule(415, "Hercule", offset=0x4DFCF0)
+VIDEL = GrayCapsule(416, "Videl", offset=0x4DFCF1)
+SUPREME_KAI = GrayCapsule(417, "Supreme Kai", offset=0x4DFCF2)
+UUB = GrayCapsule(418, "Uub", offset=0x4DFCF3)
+RADITZ = GrayCapsule(419, "Raditz", offset=0x4DFCF5)
+NAPPA = GrayCapsule(420, "Nappa", offset=0x4DFCF5)
+GINYU = GrayCapsule(421, "Captain Ginyu", offset=0x4DFCF6)
+RECOOME = GrayCapsule(422, "Recoome", offset=0x4DFCF8)
+FRIEZA = GrayCapsule(423, "Frieza") # you'll have to find the location yourself, Hope
+ANDROID_16 = GrayCapsule(424, "Android 16", offset=0x4DFCF9)
+ANDROID_17 = GrayCapsule(425, "Android 17", offset=0x4DFCFA)
+ANDROID_18 = GrayCapsule(426, "Android 18", offset=0x4DFCFB)
+DR_GERO = GrayCapsule(427, "Dr Gero", offset=0x4DFCFC)
+CELL = GrayCapsule(428, "Cell", offset=0x4DFCFD)
+MAJIN_BUU = GrayCapsule(429, "Majin Buu", offset=0x4DFCFE)
+SUPER_BUU = GrayCapsule(430, "Super Buu", offset=0x4DFCFF)
+KID_BUU = GrayCapsule(431, "Kid Buu", offset=0x4DFD00)
+DABURA = GrayCapsule(432, "Dabura", offset=0x4DFD01)
+COOLER = GrayCapsule(433, "Cooler", offset=0x4DFD02)
+BARDOCK = GrayCapsule(434, "Bardock", offset=0x4DFD03)
+BROLY = GrayCapsule(435, "Broly", offset=0x4DFD04)
+OMEGA_SHENRON = GrayCapsule(436, "Omega Shenron", offset=0x4DFD05)
+SAIBAMAN = GrayCapsule(437, "Saibaman", offset=0x4DFD06) # value not provided
+CELL_JR = GrayCapsule(438, "Cell Jr", offset=0x4DFD07)
+# Bulma is also listed as a character that can be enabled by writing 1 to 0x4DFD08. Since this is the character used in
+# the last training, I doubt she works at all. Still, enabling her is an interesting prospect...
+# Further note: she is not selectable normally, even when enabled. Must be hacked...
+TRAINING_1 = GrayCapsule(439, "Training 1 Scouter", offset=0x4DFD09)
+TRAINING_2 = GrayCapsule(440, "Training 2 Fighting Basics", offset=0x4DFD0A)
+TRAINING_3 = GrayCapsule(441, "Training 3 Ki Control", offset=0x4DFD0B)
+TRAINING_4 = GrayCapsule(442, "Training 4 Death-moves", offset=0x4DFD0C)
+TRAINING_5 = GrayCapsule(443, "Training 5 Ki Control 2", offset=0x4DFD0D)
+TRAINING_6 = GrayCapsule(444, "Training 6 Dodging", offset=0x4DFD0E)
+TRAINING_7 = GrayCapsule(445, "Training 7 Teleporting", offset=0x4DFD0F)
+TRAINING_8 = GrayCapsule(446, "Training 8 Hi-level Fighting", offset=0x4DFD10)
+TRAINING_9 = GrayCapsule(447, "Training 9 Ultimate Moves", offset=0x4DFD11)
+TRAINING_10 = GrayCapsule(448, "Training 10 Dragon Rush", offset=0x4DFD12)
+TRAINING_11 = GrayCapsule(449, "Training 11 Item Skills", offset=0x4DFD13)
+TRAINING_12 = GrayCapsule(450, "Training 12 Final Secrets", offset=0x4DFD14)
+GREEN_CARD = GrayCapsule(451, "Green Membership Card", offset=0x4DFD15)
+SILVER_CARD = GrayCapsule(452, "Silver Membership Card", offset=0x4DFD16)
+GOLD_CARD = GrayCapsule(453, "Gold Membership Card", offset=0x4DFD17)
+BLACK_CARD = GrayCapsule(454, "Black Membership Card", offset=0x4DFD18)
+TOURNEY_NOVICE = GrayCapsule(455, "World Tournament - Novice", offset=0x4DFD19)
+TOURNEY_ADEPT = GrayCapsule(456, "World Tournament - Adept", offset=0x4DFD1A)
+TOURNEY_ADV = GrayCapsule(457, "World Tournament - Advanced", offset=0x4DFD1B)
+TOURNEY_CELL = GrayCapsule(458, "World Tournament - Cell Games", offset=0x4DFD1C)
+DRAGON_ARENA = GrayCapsule(459, "Dragon Arena Ticket", offset=0x4DFD1D)
+TOURNEY_STAGE = GrayCapsule(460, "World Tournament Stage") # no location listed
+TIME_CHAMBER = GrayCapsule(461, "Hyperbolic Time Chamber", offset=0x4DFD1F)
+ARCHIPELAGO = GrayCapsule(462, "Archipelago", offset=0x4DFD20)
+MOUNTAINS = GrayCapsule(463, "Mountains", offset=0x4DFD22)
+URBAN_AREA = GrayCapsule(464, "Urban Area", offset=0x4DFD22)
+# todo: renumber after this
+PLAINS = GrayCapsule(464, "Plains", offset=0x4DFD23)
+GPA_GOHANS_HOUSE = GrayCapsule(465, "Grandpa Gohan's House", offset=0x4DFD25)
+NAMEK = GrayCapsule(466, "Planet Namek", offset=0x4DFD25)
+CELL_RING = GrayCapsule(467, "Cell Ring", offset=0x4DFD26)
+SUPREME_KAIS_WORLD = GrayCapsule(468, "Supreme Kai's World", offset=0x4DFD28)
+INSIDE_BUU = GrayCapsule(469, "Inside Buu", offset=0x4DFD28)
+RED_RIBBON_BASE = GrayCapsule(470, "Red Ribbon Base", offset=0x4DFD29)
+GOKUS_WISH = GrayCapsule(471, "Goku's Wish", offset=0x4DFD2A)
+PATH_POWER = GrayCapsule(472, "The Path to Power", offset=0x4DFD2B)
+ENDLESS_PATH = GrayCapsule(473, "The Endless Path to Power", offset=0x4DFD2C)
+STRONGEST_TROPHY = GrayCapsule(474, "Strongest of Universe Trophy", offset=0x4DFD2D)
+MEMORIES_GOKU = GrayCapsule(475, "Memories of Goku", offset=0x4DFD2E)
+MEMORIES_PICCOLO = GrayCapsule(476, "Memories of Piccolo", offset=0x4DFD2F)
+MEMORIES_KID_GOHAN = GrayCapsule(477, "Memories of Kid Gohan", offset=0x4DFD30)
+MEMORIES_TEEN_GOHAN = GrayCapsule(478, "Memories of Teen Gohan", offset=0x4DFD32)
+MEMORIES_GOHAN = GrayCapsule(479, "Memories of Gohan", offset=0x4DFD32)
+MEMORIES_VEGETA = GrayCapsule(480, "Memories of Vegeta", offset=0x4DFD33)
+MEMORIES_GOTEN = GrayCapsule(481, "Memories of Goten", offset=0x4DFD35)
+MEMORIES_TRUNKS = GrayCapsule(482, "Memories of Trunks", offset=0x4DFD35)
+MEMORIES_KID_TRUNKS = GrayCapsule(483, "Memories of Kid Trunks", offset=0x4DFD36)
+MEMORIES_KRILLIN = GrayCapsule(484, "Memories of Krillin", offset=0x4DFD38)
+MEMORIES_TIEN = GrayCapsule(485, "Memories of Tien", offset=0x4DFD38)
+MEMORIES_YAMCHA = GrayCapsule(486, "Memories of Yamcha", offset=0x4DFD39)
+MEMORIES_HERCULE = GrayCapsule(487, "Memories of Hercule", offset=0x4DFD3A)
+MEMORIES_VIDEL = GrayCapsule(488, "Memories of Videl", offset=0x4DFD3B)
+MEMORIES_GT_SAIYAMAN = GrayCapsule(489, "Memories of Gt Saiyaman", offset=0x4DFD3C)
+MEMORIES_ANDROID_16 = GrayCapsule(490, "Memories of Android 16", offset=0x4DFD3D)
+MEMORIES_ANDROID_17 = GrayCapsule(491, "Memories of Android 17", offset=0x4DFD3E)
+MEMORIES_ANDROID_18 = GrayCapsule(492, "Memories of Android 18", offset=0x4DFD3F)
+MEMORIES_SUPREME_KAI = GrayCapsule(493, "Memories of Supreme Kai", offset=0x4DFD40)
+MEMORIES_KID_GOKU = GrayCapsule(494, "Memories of Kid Goku", offset=0x4DFD42)
+MEMORIES_BARDOCK = GrayCapsule(495, "Memories of Bardock", offset=0x4DFD42)
+MEMORIES_UUB = GrayCapsule(496, "Memories of Uub", offset=0x4DFD43)
+MEMORIES_RADITZ = GrayCapsule(497, "Memories of Raditz", offset=0x4DFD45)
+MEMORIES_NAPPA = GrayCapsule(498, "Memories of Nappa", offset=0x4DFD45)
+MEMORIES_RECOOME = GrayCapsule(499, "Memories of Recoome", offset=0x4DFD46)
+MEMORIES_GINYU = GrayCapsule(500, "Memories of Captain Ginyu", offset=0x4DFD48)
+MEMORIES_FRIEZA = GrayCapsule(501, "Memories of Frieza", offset=0x4DFD48)
+MEMORIES_DR_GERO = GrayCapsule(502, "Memories of Dr Gero", offset=0x4DFD49)
+MEMORIES_CELL = GrayCapsule(503, "Memories of Cell" ) # offset not provided
+MEMORIES_DABURA = GrayCapsule(504, "Memories of Dabura", offset=0x4DFD4B)
+MEMORIES_MAJIN_BUU = GrayCapsule(505, "Memories of Majin Buu", offset=0x4DFD4C)
+MEMORIES_SUPER_BUU = GrayCapsule(506, "Memories of Super Buu", offset=0x4DFD4D)
+MEMORIES_KID_BUU = GrayCapsule(507, "Memories of Kid Buu", offset=0x4DFD4E)
+MEMORIES_COOLER = GrayCapsule(508, "Memories of Cooler", offset=0x4DFD4F)
+MEMORIES_BROLY = GrayCapsule(509, "Memories of Broly", offset=0x4DFD50)
+MEMORIES_OMEGA = GrayCapsule(510, "Memories of Omega Shenron", offset=0x4DFD52)
+MEMORIES_SAIBAMEN = GrayCapsule(511, "Memories of Saibamen", offset=0x4DFD52)
+MEMORIES_CELL_JR = GrayCapsule(512, "Memories of Cell Jr", offset=0x4DFD53)
+MEMORIES_HEROES = GrayCapsule(513, "Memories of Heroes", offset=0x4DFD55)
+MEMORIES_SUPPORTERS = GrayCapsule(514, "Memories of Supporters", offset=0x4DFD55)
+CRYSTAL_BALL_0 = GrayCapsule(515, "Baba's Crystal Ball 000", offset=0x4DFD56)
+CRYSTAL_BALL_1 = GrayCapsule(516, "Baba's Crystal Ball 001", offset=0x4DFD57)
+CRYSTAL_BALL_2 = GrayCapsule(517, "Baba's Crystal Ball 002", offset=0x4DFD58)
+CRYSTAL_BALL_3 = GrayCapsule(518, "Baba's Crystal Ball 003", offset=0x4DFD59)
+CRYSTAL_BALL_4 = GrayCapsule(519, "Baba's Crystal Ball 004", offset=0x4DFD5A)
 
 GRAY_CAPSULES = [
     # Fighters
@@ -802,7 +832,7 @@ GRAY_CAPSULES = [
     TOURNEY_NOVICE, TOURNEY_ADEPT, TOURNEY_ADV, TOURNEY_CELL, DRAGON_ARENA,
     # Stages
     TOURNEY_STAGE, TIME_CHAMBER, ARCHIPELAGO, MOUNTAINS, PLAINS, GPA_GOHANS_HOUSE, NAMEK, CELL_RING, SUPREME_KAIS_WORLD,
-    INSIDE_BUU, RED_RIBBON_BASE,
+    INSIDE_BUU, RED_RIBBON_BASE, URBAN_AREA,
     # Difficulty
     GOKUS_WISH, PATH_POWER, ENDLESS_PATH, STRONGEST_TROPHY,
     # Memories
@@ -812,7 +842,8 @@ GRAY_CAPSULES = [
     MEMORIES_SUPREME_KAI, MEMORIES_KID_GOKU, MEMORIES_BARDOCK, MEMORIES_UUB, MEMORIES_RADITZ, MEMORIES_NAPPA,
     MEMORIES_RECOOME, MEMORIES_GINYU, MEMORIES_FRIEZA, MEMORIES_DR_GERO, MEMORIES_CELL, MEMORIES_DABURA,
     MEMORIES_MAJIN_BUU, MEMORIES_SUPER_BUU, MEMORIES_KID_BUU, MEMORIES_COOLER, MEMORIES_BROLY, MEMORIES_OMEGA,
-    MEMORIES_SAIBAMEN, MEMORIES_CELL_JR, MEMORIES_HEROES, MEMORIES_SUPPORTERS, CRYSTAL_BALL_0, CRYSTAL_BALL_1
+    MEMORIES_SAIBAMEN, MEMORIES_CELL_JR, MEMORIES_HEROES, MEMORIES_SUPPORTERS, CRYSTAL_BALL_0, CRYSTAL_BALL_1,
+    CRYSTAL_BALL_2, CRYSTAL_BALL_3, CRYSTAL_BALL_4
 ]
 
 ## I don't know what to do with the Story Reenactment voice clips. They can be unlocked, so they can be "items"
@@ -849,6 +880,9 @@ TIEN_CAPSULES = [TIEN, BLAST_CANNON, DODON, NEO_BLAST_CANNON, BREAK_TIEN]
 YAMCHA_CAPSULES = [YAMCHA, KAME_YAMCHA, WOLF_FANG, SPIRIT_BALL, BREAK_YAMCHA]
 UUB_CAPSULES = [UUB, KI_CANNON, FIERCE_FLURRY, BREAK_UUB]
 BROLY_CAPSULES = [BROLY, BLASTER_SHELL, LSSJ_BROLY, GIGANT_PRESS, GIGANT_METEOR, BREAK_BROLY]
+DW_RED_CAPSULES = [GOKU_CAPSULES[1:], KID_GOHAN_CAPSULES[1:], TEEN_GOHAN_CAPSULES[1:], GOHAN_CAPSULES[1:],
+                   KRILLIN_CAPSULES[1:], VEGETA_CAPSULES[1:], PICCOLO_CAPSULES[1:], TIEN_CAPSULES[1:],
+                   YAMCHA_CAPSULES[1:], UUB_CAPSULES[1:], BROLY_CAPSULES[1:]]
 
 PROGRESSIVE_GOKU = Capsule(id=531, name="Progressive Goku", max_copies=len(GOKU_CAPSULES))
 PROGRESSIVE_KID_GOHAN = Capsule(id=532, name= "Progressive Kid Gohan", max_copies=len(KID_GOHAN_CAPSULES))
@@ -903,3 +937,6 @@ def item_name_to_id(name) -> int | None:
 
 def item_id_to_name(id) -> str | None:
     return ID_PAIRS[id].name
+
+var =
+print()

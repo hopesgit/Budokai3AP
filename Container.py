@@ -8,10 +8,6 @@ from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from Budokai3Client import Budokai3Context
 from .Budokai3Options import Budokai3Options
 from . import MIPS, TextManager
-from .data import ExperienceTables
-from .data import IsoAddresses, RamAddresses
-from .data.RamAddresses import PlanetAddresses
-from .data.ExperienceTables import get_weapon_upgrades_table
 
 if TYPE_CHECKING:
     from . import Budokai3World

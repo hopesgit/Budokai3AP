@@ -519,9 +519,10 @@ TRAINING_LOCS = [
 NOVICE_CLEARED = LocationData(420, "World Tournament - Novice Tournament Champion", has_tournament_novice)
 ADEPT_CLEARED = LocationData(421, "World Tournament - Adept Tournament Champion", has_tournament_adept)
 ADVANCED_CLEARED = LocationData(422, "World Tournament - Advanced Tournament Champion", has_tournament_advanced)
+CELL_GAMES_CLEARED = LocationData(423, "World Tournament - Cell Games Champion", has_cell_games)
 
 WT_LOCS = [
-    NOVICE_CLEARED, ADEPT_CLEARED, ADVANCED_CLEARED
+    NOVICE_CLEARED, ADEPT_CLEARED, ADVANCED_CLEARED, CELL_GAMES_CLEARED
 ]
 
 # Shop Checks

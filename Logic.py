@@ -317,6 +317,9 @@ def has_tournament_adept(state: CollectionState, player: int) -> bool:
 def has_tournament_advanced(state: CollectionState, player: int) -> bool:
     return state.has(Items.TOURNEY_ADV.name, player)
 
+def has_cell_games(state: CollectionState, player: int) -> bool:
+    return state.has(Items.TOURNEY_CELL, player)
+
 def can_shop() -> bool:
     return True
 

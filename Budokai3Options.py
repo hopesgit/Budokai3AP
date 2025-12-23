@@ -47,6 +47,7 @@ class SuperAttackStarters(OptionSet):
     """List of character names whom you want to start with one of their super attacks (red capsules). Only has an effect
     if 'Start with Super Attacks' is 'choose'."""
     options = DW_CHARACTER_NAMES
+    visibility = StartWithSuperAttacks.value is 'choose'
 
 
 class ProgressiveCharacters(Choice):

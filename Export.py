@@ -5,10 +5,11 @@ import pycdlib
 # this is really only useful for modding reasons. It is NOT recommended to extract the files otherwise.
 # SLUS_209.98 mentions many items that aren't used in the final game, such as...
 # Yamhan (Yamcha + Tien fusion), Gokule (Goku + Hercule fusion), Buu with Various Absorptions, Guldo/Jeice/Burter/Dodoria/Zerbon/Android 19
+# These are probably reused from Budokai 2
 # TOUR MODE might refer to Dragon World...
 # todo: investigate modding them back in
 
-path = '/Users/hope/Downloads/ps2/Dragon Ball Z - Budokai 3.iso' # replace with path to your iso
+path = 'Dragon Ball Z - Budokai 3.iso' # replace with path to your iso
 
 def extract_iso(iso_path, destination_path):
     iso = pycdlib.PyCdlib()
@@ -34,6 +35,6 @@ def extract_iso(iso_path, destination_path):
 
     iso.close()
 
-export_path = "/Users/hope/PycharmProjects/Budokai3AP/export"
+export_path = "export"
 print(os.path.curdir)
 extract_iso(path, export_path)

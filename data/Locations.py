@@ -525,17 +525,13 @@ WT_LOCS = [
     NOVICE_CLEARED, ADEPT_CLEARED, ADVANCED_CLEARED, CELL_GAMES_CLEARED
 ]
 
-# Shop Checks
-SHOP_ITEMS={}
-x = 1
-while x < 100:
-    SHOP_ITEMS[f"Shop Item {x}"] = 499 + x
+SHOP_ITEM_ID_BASE = 499
+shop_locs = []
+x = 0
+while x <= 100:
     x += 1
-
-SHOP_LOCS = []
-for item in SHOP_ITEMS:
-  SHOP_LOCS.append(LocationData(SHOP_ITEMS[item], item))
-
+    shop_locs.append(LocationData(SHOP_ITEM_ID_BASE + x, f"Shop Item {x}"))
+SHOP_LOCS = shop_locs
 
 LOCATIONS = [
     *DRAGON_WORLD_LOCS,

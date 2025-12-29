@@ -12,10 +12,10 @@ the emulator to make it more easily extensible, more portable, require less code
 performant.
 """
 import os
+import socket
 import struct
 from enum import IntEnum
 from platform import system
-import socket
 
 
 class Pine:

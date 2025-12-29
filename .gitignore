@@ -1,6 +1,7 @@
 export/
 /export/
 export
+__pycache__/
 *.iso
 BaseClasses.py
 CommonClient.py

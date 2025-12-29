@@ -1,17 +1,13 @@
+from dataclasses import dataclass
+
 from Options import (
-    DeathLink,
-    StartInventoryPool,
     PerGameCommonOptions,
     Choice,
-    DefaultOnToggle,
     Toggle,
-    Range,
     NamedRange,
     OptionSet
 )
-
 from .data.Items import DW_CHARACTER_NAMES
-from dataclasses import dataclass
 
 
 class StartWithStoryCharacters(Toggle):
@@ -52,7 +48,7 @@ class SuperAttackStarters(OptionSet):
 
 class ProgressiveCharacters(Choice):
     """
-    Turn this on if you want to play with progressive character unlocks. For example, there are 11 Progressive Gokus in the pool.
+    Turn this on if you want to play with progressive character unlocks. For example, there are 11 Progressive Goku-s in the pool.
     Rather than receiving Goku and his moves separately, you can choose to receive them in a planned order.
     The order would be in roughly story order, but more specifically as follows:\n
     1) Goku (The character is always first)
@@ -69,11 +65,11 @@ class ProgressiveCharacters(Choice):
 
     NOTE: This ONLY applies to Dragon World characters. The rest work as normal.
 
-    Choices:
-    - off: No progressive items for me, thanks.
-    - prog_normal: Your progressive item progression is as described above.
-    - prog_attacks: Your item progression will put attacks after the character.
-    - prog_transforms: Your item progression will put transformations ahead of attacks.
+    Choices:\n
+    * off: No progressive items for me, thanks.\n
+    * prog_normal: Your progressive item progression is as described above.\n
+    * prog_attacks: Your item progression will put attacks after the character.\n
+    * prog_transforms: Your item progression will put transformations ahead of attacks.\n
 
     NOTE: Prioritizing transformations may mean that you won't be able to play Goku or Vegeta for some time if you also chose to require super attacks for your DW characters.
     """
@@ -104,6 +100,7 @@ class AttackRando(Toggle):
     """
     name = "Attack Randomizer"
     default = False
+    visible=False
 
 
 class Inspiration(Toggle):
@@ -122,6 +119,7 @@ class Pandemic(Toggle):
     but you will need to use that capsule in every battle.
     """
     default = False
+    visibility = False
 
 
 class Completionist(Toggle):

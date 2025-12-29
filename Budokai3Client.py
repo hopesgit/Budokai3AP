@@ -1,8 +1,11 @@
+from typing import Optional
+
+import Utils
+import asyncio
+import os
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
 from .Budokai3Interface import Budokai3Interface, ConnectionState
 from .NotificationManager import NotificationManager
-from typing import Optional
-import Utils, os, asyncio
 
 HUD_MESSAGE_DURATION = 50
 

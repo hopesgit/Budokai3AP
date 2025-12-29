@@ -1,6 +1,7 @@
 from typing import NamedTuple, Optional, Callable, Dict
-from BaseClasses import CollectionState
+
 from ..Logic import *
+
 
 class LocationData(NamedTuple):
     location_id: Optional[int]

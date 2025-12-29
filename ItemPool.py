@@ -1,10 +1,6 @@
-from typing import TYPE_CHECKING
-
-from BaseClasses import ItemClassification, Item, CollectionState
-
-import data.Items
-from .data.Items import *
+from BaseClasses import ItemClassification, CollectionState
 from .Logic import _get_options
+from .data.Items import *
 
 if TYPE_CHECKING:
     # from . import Budokai3World

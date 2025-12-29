@@ -1,8 +1,7 @@
 import typing
-from BaseClasses import Region, CollectionState, Location
 
+from BaseClasses import Region
 from Logic import *
-from .data import Items, Locations
 
 if typing.TYPE_CHECKING:
     from . import Budokai3World

@@ -1,18 +1,17 @@
-from typing import Dict, Optional, Mapping, Any
 import typing
-import os
+from typing import Dict, Optional
 
-from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess
 import settings
 from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Item, Tutorial, ItemClassification
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess
 
-# from . import ItemPool
-from .data import Items, Locations
+from BaseClasses import Item, Tutorial
 # from .data.Items import EquipmentData
 # from .Regions import create_regions
 # from .Container import Budokai3ProcedurePatch, generate_patch
 from .Budokai3Options import Budokai3Options
+# from . import ItemPool
+from .data import Items, Locations
 
 
 def run_client(_url: Optional[str] = None):

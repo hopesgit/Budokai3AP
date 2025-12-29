@@ -1,13 +1,15 @@
 import os
+
 import pycdlib
 
 # you can use this file to extract the contents of your (legally acquired) Budokai3 iso.
 # this is really only useful for modding reasons. It is NOT recommended to extract the files otherwise.
 # SLUS_209.98 mentions many items that aren't used in the final game, such as...
 # Yamhan (Yamcha + Tien fusion), Gokule (Goku + Hercule fusion), Buu with Various Absorptions, Guldo/Jeice/Burter/Dodoria/Zerbon/Android 19
-# These are probably reused from Budokai 2
-# TOUR MODE might refer to Dragon World...
+# These are probably reused from Budokai 2 and/or 1
 # todo: investigate modding them back in
+
+# TOUR MODE might refer to Dragon World...
 
 path = 'Dragon Ball Z - Budokai 3.iso' # replace with path to your iso
 

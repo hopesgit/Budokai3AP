@@ -2,15 +2,14 @@ import array
 import dataclasses
 import struct
 from dataclasses import dataclass, field
-from logging import Logger
 from enum import Enum, IntEnum
-from typing import Optional, List, Dict, NamedTuple, TYPE_CHECKING, Sequence
+from logging import Logger
+from typing import Optional, List, Dict, NamedTuple, TYPE_CHECKING
 
-from .data import Items
 from .pcsx2_interface.pine import Pine
 
 if TYPE_CHECKING:
-    from .Budokai3Client import Budokai3Context
+    pass
 
 _SUPPORTED_VERSIONS = ["SLUS-20998"]
 

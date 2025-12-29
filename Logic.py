@@ -264,7 +264,7 @@ def can_complete_reenactment_8(state: CollectionState, player: int) -> bool:
     return has_vegeta(state, player) # you only need Vegeta. Plenty of items make it easier, but it's possible with nothing
 
 def can_complete_reenactment_9(state: CollectionState, player: int) -> bool:
-    return state.has([Items.VEGETA.name, Items.SSJ_VEGETA.name, Items.FINAL_FLASH.name], player)
+    return state.has_all([Items.VEGETA.name, Items.SSJ_VEGETA.name, Items.FINAL_FLASH.name], player)
 
 def can_complete_reenactment_10(state: CollectionState, player: int) -> bool:
     return state.has(Items.TEEN_GOHAN.name, player) and state.has(Items.SSJ_TGOHAN.name, player)

@@ -1,10 +1,9 @@
-from dataclasses import dataclass
 from abc import ABC
-
-from typing import Callable, TYPE_CHECKING, Sequence, Optional, Dict, List
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
-    from ..Budokai3Interface import Budokai3Interface
+    pass
 
 
 ## vanilla starting items:
@@ -286,18 +285,23 @@ BREAK_CELL = RedCapsule(150, "Breakthrough (Cell)", 0x4DFC03)
 INN_CANNON = RedCapsule(151, "Innocence Cannon", stacks=True)
 INN_EXPRESS = RedCapsule(152, "Innocence Express", stacks=True)
 ANGRY_EXPLODE = RedCapsule(153, "Angry Explosion", stacks=True)
+# noinspection SpellCheckingInspection
 BREAK_MBUU = RedCapsule(154, "Breakthrough (Majin Buu)")
 
 ## Super Buu
 ABSORB = RedCapsule(155, "Absorption")
 ILL_FLASH = RedCapsule(156, "Ill Flash", stacks=True)
 ILL_BALL = RedCapsule(157, "Ill Ball Attack", stacks=True)
+# noinspection SpellCheckingInspection
 BREAK_SBUU = RedCapsule(158, "Breakthrough (Super Buu)")
 
 ## Kid Buu
 VANISH_BALL = RedCapsule(159, "Vanish Ball", stacks=True)
+# noinspection SpellCheckingInspection
 KAME_KBUU = RedCapsule(160, "Kamehameha (Kid Buu)", stacks=True)
+# noinspection SpellCheckingInspection
 WARP_KAME_KBUU = RedCapsule(161, "Warp Kamehameha (Kid Buu)", stacks=True)
+# noinspection SpellCheckingInspection
 BREAK_KBUU = RedCapsule(162, "Breakthrough (Kid Buu)")
 
 ## Dabura
@@ -305,11 +309,13 @@ DEMON_WILL = RedCapsule(163, "Demonic Will", 0x4DFB9A)
 HELL_BLITZ = RedCapsule(164, "Hell Blitz", 0x4DFB9B, stacks=True)
 EVIL_BLAST = RedCapsule(165, "Evil Blast", 0x4DFB9C, stacks=True)
 HELL_RUSH = RedCapsule(166, "Hell Blade Rush", 0x4DFB9E, stacks=True)
+# noinspection SpellCheckingInspection
 BREAK_DABURA = RedCapsule(167, "Breakthrough (Dabura)", 0x4DFC07)
 
 ## Cooler
 FINAL_FORM_COOLER = RedCapsule(168, "Final Form (Cooler)", 0x4DFB9E)
 DESTRUCT_RAY = RedCapsule(169, "Destructive Ray", 0x4DFB9F, stacks=True)
+# noinspection SpellCheckingInspection
 SAUZER_BLADE = RedCapsule(170, "Sauzer Blade", 0x4DFBA1, stacks=True)
 SUPERNOVA = RedCapsule(171, "Supernova", 0x4DFBA1, stacks=True)
 BREAK_COOLER = RedCapsule(172, "Breakthrough (Cooler)", 0x4DFC08)
@@ -317,29 +323,39 @@ BREAK_COOLER = RedCapsule(172, "Breakthrough (Cooler)", 0x4DFC08)
 ## Bardock
 RIOT_JAVELIN = RedCapsule(173, "Riot Javelin", 0x4DFBA2, stacks=True)
 HEAT_PHALANX = RedCapsule(174, "Heat Phalanx", 0x4DFBA3, stacks=True)
+# noinspection SpellCheckingInspection
 SPIRIT_SAIYANS = RedCapsule(175, "Spirit of Saiyans", 0x4DFBA4, stacks=True)
+# noinspection SpellCheckingInspection
 BREAK_BARDOCK = RedCapsule(176, "Breakthrough (Bardock)", 0x4DFC09)
 
 ## Broly
+# noinspection SpellCheckingInspection
 LSSJ_BROLY = RedCapsule(177, "Legendary Super Saiyan", 0x4DFBA5)
 BLASTER_SHELL = RedCapsule(178, "Blaster Shell", 0x4DFBA6, stacks=True)
+# noinspection SpellCheckingInspection
 GIGANT_PRESS = RedCapsule(179, "Gigantic Press", 0x4DFBA7, stacks=True)
+# noinspection SpellCheckingInspection
 GIGANT_METEOR = RedCapsule(180, "Gigantic Meteor", 0x4DFBA8, stacks=True)
 BREAK_BROLY = RedCapsule(181, "Breakthrough (Broly)", 0x4DFC0B)
 
 ## Omega Shenron
 WHIRLWIND = RedCapsule(182, "Whirlwind Spin", stacks=True)
+# noinspection SpellCheckingInspection
 DTHUNDER = RedCapsule(183, "Dragon Thunder", stacks=True)
 MINUS_BALL = RedCapsule(184, "Minus Power Energy Ball", stacks=True)
 BREAK_OMEGA = RedCapsule(185, "Breakthrough (Omega Shenron)")
 
 ## Saibaman
 ACID = RedCapsule(186, "Acid", stacks=True)
-SELFDESTRUCT = RedCapsule(187, "Self-Destruct") # also does not stack
+# noinspection SpellCheckingInspection
+SELFDESTRUCT = RedCapsule(187, "Self-Destruct")
+# noinspection SpellCheckingInspection
 BREAK_SAIBA = RedCapsule(188, "Breakthrough (Saibaman)")
 
 ## Cell Jr
+# noinspection SpellCheckingInspection
 KAME_CELLJR = RedCapsule(189, "Kamehameha (Cell Jr)", 0x4DFBAE, stacks=True)
+# noinspection SpellCheckingInspection
 BREAK_CELLJR = RedCapsule(190, "Breakthrough (Cell Jr)")
 
 RED_CAPSULES = [
@@ -425,15 +441,20 @@ RED_CAPSULES = [
 ## Attack up
 Z_SWORD = GreenCapsule(191, "Z Sword")
 JUICE = GreenCapsule(192, "Juice!")
+# noinspection SpellCheckingInspection
 DAIMAOS_POWER = GreenCapsule(193, "Daimao's Power")
 FRUITS_TRAINING = GreenCapsule(194, "Fruits of Training")
+# noinspection SpellCheckingInspection
 VIDELS_KISS = GreenCapsule(195, "Videl's Kiss")
+# noinspection SpellCheckingInspection
 KIBITOS_BACKING = GreenCapsule(196, "Kibito's Backing")
 BATTLE_TESTAMENT = GreenCapsule(197, "Battle Testament")
 POWER_AMP = GreenCapsule(198, "Power Amplification System")
 WARRIOR_GENETICS = GreenCapsule(199, "Warrior Genetics")
 DEMON_REALM_FLAMES = GreenCapsule(200, "Demon Realm's Flames")
+# noinspection SpellCheckingInspection
 KAKAROTS_CRYING = GreenCapsule(201, "Kakarot's Crying")
+# noinspection SpellCheckingInspection
 GINYU_SPECIAL_FORCES = GreenCapsule(202, "Ginyu Special Forcees")
 COOLER_ARMORED_SQUAD = GreenCapsule(203, "Cooler's Armored Squad")
 POWER_FRIENDS = GreenCapsule(204, "Power of Friends")
@@ -460,21 +481,27 @@ QUALITY_JACKET = GreenCapsule(222, "Quality Fiber Jacket")
 STURDY_JACKET = GreenCapsule(223, "Sturdy Fiber Jacket")
 MYSTERY_JACKET = GreenCapsule(224, "Mystery Fiber Jacket")
 KAMI_OUTFIT = GreenCapsule(225, "Kami's Outfit")
+# noinspection SpellCheckingInspection
 KINGKAI_OUTFIT = GreenCapsule(226, "King-Kai's Outfit")
+# noinspection SpellCheckingInspection
 GRANDKAI_OUTFIT = GreenCapsule(227, "Grand Kai's Outfit")
+# noinspection SpellCheckingInspection
 SUPREMEKAI_OUTFIT = GreenCapsule(228, "Supreme Kai's Outfit")
 OLD_TRAINING_VEST = GreenCapsule(229, "Old Training Vest")
 WEDDING_VEST = GreenCapsule(230, "Wedding Vest")
 CHAMP_VEST = GreenCapsule(231, "World Champion Vest")
+# noinspection SpellCheckingInspection
 HIGHTECH_VEST = GreenCapsule(232, "High-Tech Vest")
 CHAMPION_BELT = GreenCapsule(232, "Champion Belt")
 TSHIRT = GreenCapsule(233, "T-shirt")
 BLACK_BELT_VEST = GreenCapsule(234, "Black Belt Vest")
 SPARRING_OUTFIT = GreenCapsule(235, "Sparring Outfit")
+# noinspection SpellCheckingInspection
 GTS_WARDROBE = GreenCapsule(236, "Great Saiyaman's Wardrobe")
 OLD_STYLE_ARMOR = GreenCapsule(237, "Old Style Armor")
 RIT_ARMOR = GreenCapsule(238, "RIT Armor")
 NEW_STYLE_ARMOR = GreenCapsule(239, "New Style Armor")
+# noinspection SpellCheckingInspection
 BULMAS_ARMOR = GreenCapsule(240, "Bulma's Armor")
 SPECIAL_COATING = GreenCapsule(241, "Special Coating")
 IMP_SPECIAL_COATING = GreenCapsule(242, "Improved Special Coating")
@@ -486,13 +513,16 @@ LIFE_EXTRACT_1000 = GreenCapsule(247, "Life Extract for 1000")
 LIFE_EXTRACT_10000 = GreenCapsule(248, "Life Extract for 10000")
 DEMON_REALM_GUARD = GreenCapsule(249, "Demon Realm Guard")
 MAGE_GUARD = GreenCapsule(250, "Mage Guard")
+# noinspection SpellCheckingInspection
 BABIDIS_GUARD = GreenCapsule(251, "Babidi's Guard")
+# noinspection SpellCheckingInspection
 BIBIDIS_GUARD = GreenCapsule(252, "Bibidi's Guard")
 NORMAL_BELT = GreenCapsule(253, "Normal Belt")
 TRAINING_BELT = GreenCapsule(254, "Training Belt")
 WARRIOR_BELT = GreenCapsule(255, "Warrior Belt")
 MAJIN_BELT = GreenCapsule(256, "Majin Belt")
 LOW_CLASS_GUARD = GreenCapsule(257, "Lower-class Saiyan Guard")
+# noinspection SpellCheckingInspection
 KANASSAN_GUARD = GreenCapsule(258, "Kanassan-made Guard")
 BATTLE_JACKET_PROTO = GreenCapsule(259, "Battle Jacket (Prototype)")
 PATCHED_BATTLE_JACKET = GreenCapsule(260, "Patched-up Battle Jacket")
@@ -500,14 +530,16 @@ STRONG_BODY_WRAP = GreenCapsule(261, "Strongman's Body Wrap")
 KING_BODY_WRAP = GreenCapsule(262, "King's Body Wrap")
 GOD_BODY_WRAP = GreenCapsule(263, "God of Destruction Body Wrap")
 LEGEND_BODY_WRAP = GreenCapsule(264, "Legendary Body Wrap")
+# noinspection SpellCheckingInspection
 SHENRONS_HIDE = GreenCapsule(265, "Shenron's Hide")
+# noinspection SpellCheckingInspection
 PORUNGAS_HIDE = GreenCapsule(266, "Porunga's Hide")
 SHADOW_DRAGONS_HIDE = GreenCapsule(267, "Shadow Dragon's Hide")
 # According to the guide I'm working from, there is no fourth Omega armor
 SERUM_2X = GreenCapsule(268, "2X Enriched Serum")
 SERUM_16X = GreenCapsule(269, "16X Enriched Serum")
 SERUM_64X = GreenCapsule(270, "64X Enriched Serum")
-SERUM_128X = GreenCapsule(271, "128X Enriched System")
+SERUM_128X = GreenCapsule(271, "128X Enriched Serum")
 
 ## Time-based stat boosters
 MIXED_BLOOD_POWER = GreenCapsule(272, "Mixed Blood Power")
@@ -761,12 +793,14 @@ MOUNTAINS = GrayCapsule(463, "Mountains", offset=0x4DFD22)
 URBAN_AREA = GrayCapsule(464, "Urban Area", offset=0x4DFD22)
 # todo: renumber after this
 PLAINS = GrayCapsule(464, "Plains", offset=0x4DFD23)
+# noinspection SpellCheckingInspection
 GPA_GOHANS_HOUSE = GrayCapsule(465, "Grandpa Gohan's House", offset=0x4DFD25)
 NAMEK = GrayCapsule(466, "Planet Namek", offset=0x4DFD25)
 CELL_RING = GrayCapsule(467, "Cell Ring", offset=0x4DFD26)
 SUPREME_KAIS_WORLD = GrayCapsule(468, "Supreme Kai's World", offset=0x4DFD28)
 INSIDE_BUU = GrayCapsule(469, "Inside Buu", offset=0x4DFD28)
 RED_RIBBON_BASE = GrayCapsule(470, "Red Ribbon Base", offset=0x4DFD29)
+# noinspection SpellCheckingInspection
 GOKUS_WISH = GrayCapsule(471, "Goku's Wish", offset=0x4DFD2A)
 PATH_POWER = GrayCapsule(472, "The Path to Power", offset=0x4DFD2B)
 ENDLESS_PATH = GrayCapsule(473, "The Endless Path to Power", offset=0x4DFD2C)
@@ -777,6 +811,7 @@ MEMORIES_KID_GOHAN = GrayCapsule(477, "Memories of Kid Gohan", offset=0x4DFD30)
 MEMORIES_TEEN_GOHAN = GrayCapsule(478, "Memories of Teen Gohan", offset=0x4DFD32)
 MEMORIES_GOHAN = GrayCapsule(479, "Memories of Gohan", offset=0x4DFD32)
 MEMORIES_VEGETA = GrayCapsule(480, "Memories of Vegeta", offset=0x4DFD33)
+# noinspection SpellCheckingInspection
 MEMORIES_GOTEN = GrayCapsule(481, "Memories of Goten", offset=0x4DFD35)
 MEMORIES_TRUNKS = GrayCapsule(482, "Memories of Trunks", offset=0x4DFD35)
 MEMORIES_KID_TRUNKS = GrayCapsule(483, "Memories of Kid Trunks", offset=0x4DFD36)
@@ -784,7 +819,9 @@ MEMORIES_KRILLIN = GrayCapsule(484, "Memories of Krillin", offset=0x4DFD38)
 MEMORIES_TIEN = GrayCapsule(485, "Memories of Tien", offset=0x4DFD38)
 MEMORIES_YAMCHA = GrayCapsule(486, "Memories of Yamcha", offset=0x4DFD39)
 MEMORIES_HERCULE = GrayCapsule(487, "Memories of Hercule", offset=0x4DFD3A)
+# noinspection SpellCheckingInspection
 MEMORIES_VIDEL = GrayCapsule(488, "Memories of Videl", offset=0x4DFD3B)
+# noinspection SpellCheckingInspection
 MEMORIES_GT_SAIYAMAN = GrayCapsule(489, "Memories of Gt Saiyaman", offset=0x4DFD3C)
 MEMORIES_ANDROID_16 = GrayCapsule(490, "Memories of Android 16", offset=0x4DFD3D)
 MEMORIES_ANDROID_17 = GrayCapsule(491, "Memories of Android 17", offset=0x4DFD3E)
@@ -821,7 +858,7 @@ GRAY_CAPSULES = [
     # Fighters
     GOKU, KID_GOKU, KID_GOHAN, TEEN_GOHAN, GOHAN, GT_SAIYAMAN, GOTEN, VEGETA, TRUNKS, KID_TRUNKS, KRILLIN, PICCOLO,
     TIEN, YAMCHA, HERCULE, VIDEL, SUPREME_KAI, UUB, RADITZ, NAPPA, RECOOME, GINYU, FRIEZA, ANDROID_16, ANDROID_17,
-    ANDROID_18, DR_GERO, CELL, MAJIN_BUU, SUPER_BUU, KID_BUU, DABURA, COOLER, BARDOCK, BROLY, OMEGA_SHENRON, SAIBAMEN,
+    ANDROID_18, DR_GERO, CELL, MAJIN_BUU, SUPER_BUU, KID_BUU, DABURA, COOLER, BARDOCK, BROLY, OMEGA_SHENRON, SAIBAMAN,
     CELL_JR,
     # Training
     TRAINING_1, TRAINING_2, TRAINING_3, TRAINING_4, TRAINING_5, TRAINING_6, TRAINING_7, TRAINING_8, TRAINING_9,

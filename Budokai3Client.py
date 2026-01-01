@@ -30,14 +30,15 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
         """Debug option to unlock a capsule. For testing ONLY"""
         logger.info(f"Attempting to unlock {name}...")
         offset = get_offset_from_name(name)
-        logger.info(f"Offset is {offset}")
+        logger.debug(f"Offset is {offset}")
         if not offset:
             logger.info("Item couldn't be found. You may have provided a bad name.")
             return
         if offset == 0x0:
             logger.info("The item was found, but it doesn't have a listed memory location.")
+            return
         if isinstance(self.ctx, Budokai3Context):
-            logger.info(f"Writing to {hex(offset)}...")
+            logger.debug(f"Writing to {hex(offset)}...")
             Budokai3Interface.pcsx2_interface.write_int8(offset, 1)
 
 

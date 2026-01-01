@@ -53,10 +53,9 @@ class YellowCapsule(Capsule):
 class GrayCapsule(Capsule):
     capsule_color = 4
 
-
 # Ability Capsules (Red)
 ## Goku
-KAIOKEN = RedCapsule(1, "Kaioken", 0x4DFB1A)
+KAIOKEN = RedCapsule(1, "Kaioken", 0x4DFB1A, )
 SSJ_GOKU = RedCapsule(2, "Super Saiyan (Goku)", 0x4DFB1B)
 SSJ2_GOKU = RedCapsule(3, "Super Saiyan 2 (Goku)", 0x4DFB1C)
 SSJ3_GOKU = RedCapsule(4, "Super Saiyan 3 (Goku)", 0x4DFB1D)
@@ -854,25 +853,36 @@ CRYSTAL_BALL_2 = GrayCapsule(517, "Baba's Crystal Ball 002", offset=0x4DFD58)
 CRYSTAL_BALL_3 = GrayCapsule(518, "Baba's Crystal Ball 003", offset=0x4DFD59)
 CRYSTAL_BALL_4 = GrayCapsule(519, "Baba's Crystal Ball 004", offset=0x4DFD5A)
 
-GRAY_CAPSULES = [
-    # Fighters
+FIGHTERS = [
     GOKU, KID_GOKU, KID_GOHAN, TEEN_GOHAN, GOHAN, GT_SAIYAMAN, GOTEN, VEGETA, TRUNKS, KID_TRUNKS, KRILLIN, PICCOLO,
     TIEN, YAMCHA, HERCULE, VIDEL, SUPREME_KAI, UUB, RADITZ, NAPPA, RECOOME, GINYU, FRIEZA, ANDROID_16, ANDROID_17,
     ANDROID_18, DR_GERO, CELL, MAJIN_BUU, SUPER_BUU, KID_BUU, DABURA, COOLER, BARDOCK, BROLY, OMEGA_SHENRON, SAIBAMAN,
-    CELL_JR,
-    # Training
+    CELL_JR
+]
+
+TRAINING = [
     TRAINING_1, TRAINING_2, TRAINING_3, TRAINING_4, TRAINING_5, TRAINING_6, TRAINING_7, TRAINING_8, TRAINING_9,
     TRAINING_10, TRAINING_11, TRAINING_12,
-    # Cards
-    GREEN_CARD, SILVER_CARD, GOLD_CARD, BLACK_CARD,
-    # Modes
+]
+
+CARDS = [
+    GREEN_CARD, SILVER_CARD, GOLD_CARD, BLACK_CARD
+]
+
+DIFFICULTIES = [
+    GOKUS_WISH, PATH_POWER, ENDLESS_PATH, STRONGEST_TROPHY
+]
+
+MODES = [
     TOURNEY_NOVICE, TOURNEY_ADEPT, TOURNEY_ADV, TOURNEY_CELL, DRAGON_ARENA,
-    # Stages
+]
+
+STAGES = [
     TOURNEY_STAGE, TIME_CHAMBER, ARCHIPELAGO, MOUNTAINS, PLAINS, GPA_GOHANS_HOUSE, NAMEK, CELL_RING, SUPREME_KAIS_WORLD,
-    INSIDE_BUU, RED_RIBBON_BASE, URBAN_AREA,
-    # Difficulty
-    GOKUS_WISH, PATH_POWER, ENDLESS_PATH, STRONGEST_TROPHY,
-    # Memories
+    INSIDE_BUU, RED_RIBBON_BASE, URBAN_AREA
+]
+
+MEMORIES = [
     MEMORIES_GOKU, MEMORIES_PICCOLO, MEMORIES_KID_GOHAN, MEMORIES_TEEN_GOHAN, MEMORIES_GOHAN, MEMORIES_VEGETA,
     MEMORIES_GOTEN, MEMORIES_TRUNKS, MEMORIES_KID_TRUNKS, MEMORIES_KRILLIN, MEMORIES_TIEN, MEMORIES_YAMCHA,
     MEMORIES_HERCULE, MEMORIES_VIDEL, MEMORIES_GT_SAIYAMAN, MEMORIES_ANDROID_16, MEMORIES_ANDROID_17, MEMORIES_ANDROID_18,
@@ -883,8 +893,18 @@ GRAY_CAPSULES = [
     CRYSTAL_BALL_2, CRYSTAL_BALL_3, CRYSTAL_BALL_4
 ]
 
+GRAY_CAPSULES = [
+    *FIGHTERS,
+    *TRAINING,
+    *CARDS,
+    *MODES,
+    *STAGES,
+    *DIFFICULTIES,
+    *MEMORIES
+]
+
 ## I don't know what to do with the Story Reenactment voice clips. They can be unlocked, so they can be "items"
-##todo: figure out Story Reenactment later
+## todo: figure out Story Reenactment later
 
 # Custom items
 DRAGON_RADAR_GOKU = ItemData(520, "Dragon Radar (Goku)")
@@ -898,6 +918,11 @@ DRAGON_RADAR_VEGETA = ItemData(527, "Dragon Radar (Vegeta)")
 DRAGON_RADAR_YAMCHA = ItemData(528, "Dragon Radar (Yamcha)")
 DRAGON_RADAR_UUB = ItemData(529, "Dragon Radar (Uub)")
 DRAGON_RADAR_BROLY = ItemData(530, "Dragon Radar (Broly)")
+ZENIE_2K = ItemData(531, "2500 Zenie")
+ZENIE_5K = ItemData(532, "5000 Zenie")
+ZENIE_10K= ItemData(533, "10000 Zenie")
+ZENIE_25K = ItemData(534, "25000 Zenie")
+ZENIE_100K = ItemData(535, "100000 Zenie")
 
 CUSTOM_ITEMS = [
     DRAGON_RADAR_GOKU, DRAGON_RADAR_KGOHAN, DRAGON_RADAR_TGOHAN, DRAGON_RADAR_GOHAN, DRAGON_RADAR_PICCOLO,
@@ -945,6 +970,31 @@ ALL_ITEMS = [
     # *CUSTOM_ITEMS
 ]
 
+ITEM_GROUPS = {
+    "Red Capsule": RED_CAPSULES,
+    "Green Capsule": GREEN_CAPSULES,
+    "Yellow Capsule": YELLOW_CAPSULES,
+    "System Capsule": GRAY_CAPSULES,
+    "Goku": [*GOKU_CAPSULES, PROGRESSIVE_GOKU],
+    "Kid Gohan": [*KID_GOHAN_CAPSULES, PROGRESSIVE_KID_GOHAN],
+    "Teen Gohan": [*TEEN_GOHAN_CAPSULES, PROGRESSIVE_TEEN_GOHAN],
+    "Gohan": [*GOHAN_CAPSULES, PROGRESSIVE_GOHAN],
+    "Piccolo": [*PICCOLO_CAPSULES, PROGRESSIVE_PICCOLO],
+    "Krillin": [*KRILLIN_CAPSULES, PROGRESSIVE_KRILLIN],
+    "Tien": [*TIEN_CAPSULES, PROGRESSIVE_TIEN],
+    "Yamcha": [*YAMCHA_CAPSULES, PROGRESSIVE_YAMCHA],
+    "Vegeta": [*VEGETA_CAPSULES, PROGRESSIVE_VEGETA],
+    "Uub": [*UUB_CAPSULES, PROGRESSIVE_UUB],
+    "Broly": [*BROLY_CAPSULES, PROGRESSIVE_BROLY],
+    "Fighters": FIGHTERS,
+    "Training": TRAINING,
+    "Modes": MODES,
+    "Stages": STAGES,
+    "Memories": MEMORIES,
+    "Cards": CARDS,
+    "Difficulties": DIFFICULTIES
+}
+
 DW_CHARACTERS = [GOKU, KID_GOHAN, TEEN_GOHAN, GOHAN, PICCOLO, KRILLIN, TIEN, VEGETA, BROLY, UUB, YAMCHA]
 
 dw_characters_as_dict = {}
@@ -952,11 +1002,13 @@ for char in DW_CHARACTERS:
     dw_characters_as_dict[char.name] = char.item_id
 DW_CHARACTER_NAMES = dw_characters_as_dict
 
+
 def get_name_pairs() -> Dict[int, ItemData]:
     collector = {}
     for item in ALL_ITEMS:
         collector[item.name] = item
     return collector
+
 
 def get_id_pairs() -> Dict[str, ItemData]:
     collector = {}
@@ -964,9 +1016,18 @@ def get_id_pairs() -> Dict[str, ItemData]:
         collector[item.item_id] = item
     return collector
 
+
+def get_offset_from_name(name):
+    for item in ALL_ITEMS:
+        if item.name != name:
+            continue
+        if name == item.name:
+            return item.offset
+
 NAME_PAIRS = get_name_pairs()
 
 ID_PAIRS = get_id_pairs()
+
 
 def item_name_to_id(name) -> int | None:
     return NAME_PAIRS[name].item_id
@@ -975,5 +1036,23 @@ def item_name_to_id(name) -> int | None:
 def item_id_to_name(id) -> str | None:
     return ID_PAIRS[id].name
 
-var =
-print()
+
+def get_item_groups():
+    return ITEM_GROUPS.keys()
+
+
+def print_missing_addresses():
+    items = ALL_ITEMS.copy()
+    items.sort(key=lambda item: item.offset)
+
+    offset_range = range(items[0].offset, items[-1].offset + 0x1)
+    range_list = list(offset_range)
+    for item in items:
+        if item.offset == 0x0: continue
+        if item.offset in range_list:
+            range_list.remove(item.offset)
+
+    print("There are some offsets within the item list which aren't used.", "These could be offsets which can be given a value.", "Please investigate the following values...")
+    for offset in range_list: print(offset)
+
+# print_missing_addresses()

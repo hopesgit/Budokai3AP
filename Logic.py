@@ -73,7 +73,7 @@ def can_gohan(state: CollectionState, player: int) -> bool:
     elif opt == 'choose':
         opt2 = _get_options(state, player).super_attack_starters
         if Items.GOHAN.name in opt2:
-            check2 = state.has_any([Items.KAME_GOHAN.name, Items.SOAR_GOHAN], player)
+            check2 = state.has_any([Items.KAME_GOHAN.name, Items.SOAR_GOHAN.name], player)
 
     return check1 and check2
 
@@ -318,7 +318,7 @@ def has_tournament_advanced(state: CollectionState, player: int) -> bool:
     return state.has(Items.TOURNEY_ADV.name, player)
 
 def has_cell_games(state: CollectionState, player: int) -> bool:
-    return state.has(Items.TOURNEY_CELL, player)
+    return state.has(Items.TOURNEY_CELL.name, player)
 
 def can_shop() -> bool:
     return True

@@ -57,6 +57,7 @@ class Budokai3Web(WebWorld):
         "setup/en",
         ["kenna_puppers"]
     )]
+    theme="ocean"
 
 
 class Budokai3Item(Item):
@@ -67,17 +68,17 @@ class Budokai3World(World):
     """
     Only one will prevail! Dragon Ball Z Budokai 3 is a 2D fighting game based on the Dragon Ball anime series, mainly Dragon Ball Z.
     Released in 2004, DBZ Budokai 3 stars Earth's defenders (and Broly) as you play through the story of Dragon Ball Z from their perspectives.
-    The iconic skills and transformations the characters can use are represented by the Exciting Skill System (ESS), skills contained in capsules.
+    The iconic attacks and transformations the characters can use are represented by the Exciting Skill System (ESS), skills contained in capsules.
     Power up via capsules and take down your enemies in Dragon World, Tournament, and Dragon Arena modes in order to save the Earth!
     """
     game = "Dragon Ball Z Budokai 3"
     web = Budokai3Web()
-    options_dataclass = "Budokai3Options"
+    options_dataclass = Budokai3Options
     options = Budokai3Options
     topology_present = True
     item_name_to_id = {item.name: item.item_id for item in Items.ALL_ITEMS}
     location_name_to_id = {location.name: location.location_id for location in Locations.LOCATIONS}
-    # item_name_groups = Items.get_item_groups()
+    item_name_groups = Items.get_item_groups()
     # location_name_groups = Planets.get_location_groups()
     settings: Budokai3Settings
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name

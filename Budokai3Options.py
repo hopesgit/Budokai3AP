@@ -4,46 +4,51 @@ from Options import (
     PerGameCommonOptions,
     Choice,
     Toggle,
-    NamedRange,
-    OptionSet
+    OptionSet,
 )
 from .data.Items import DW_CHARACTER_NAMES
 
 
 class StartWithStoryCharacters(Toggle):
     """
-    Start with all story characters. Makes it easier to jump into your favorite Dragon World story.
+    Start with all story characters. Makes it easier to jump into your favorite Dragon World story.\n
     Adds Goku, Kid Gohan, Teen Gohan, Gohan, Piccolo, Vegeta, Krillin, Tien, Yamcha, Uub, and Broly to the starting items.
     """
     default = False
+    display_name = "Start with Story Characters"
 
 
 class StartWithSuperAttacks(Choice):
-    """Turn this on if you want to ensure that you have a special attack for a character before you can use them in Dragon World.
+    """Turn this on if you want to ensure that you have a special attack for a character before you can use them in Dragon World.\n
     For example, if you have Goku, you wouldn't be considered being able to use him until you acquire Kamehameha or Dragon Fist.
 
     NOTE: The starting capsule(s) in each Dragon World route will still be checkable with only the character, so be sure
     to start a route if you have the character! This does not apply to Kid Gohan, who has no starting items.
 
     Choices:\n
-    Off - You don't want for the logic to consider whether you have any super attacks for a route to be playable.\n
-    Random - You do want for the logic to consider whether you have any super attacks, and you don't want to be given them.\n
-    Plando - A super move for your character will be in the starting items for the route.\n
+    - **Off** - You don't want for the logic to consider whether you have any super attacks for a route to be playable.\n
+    - **Random** - You do want for the logic to consider whether you have any super attacks, and you don't want to be given them.\n
+    - **Plando** - A super move for your character will be in the starting items for the route.\n
+    - **Start** - You will be given a random special move for each Dragon World story character when you first connect.\n
+    - **Choose** - You choose who to start with a special attack for.\n
+    You might want this if you want to be challenged with Goku, but not with Krillin, for example.\n
     NOTE: Plando is how the unmodified game works. Once you start a character's route, you are given a red capsule or two for that character.
     Except for Kid Gohan.\n
-    Start - You will be given a random special move for each Dragon World story character when you first connect.\n
-    Choose - You choose who to start with a special attack for.
-    You might want this if you want to be challenged with Goku, but not with Krillin, for example.
     """
-    default = 'off'
-    choices = ['off', 'random', 'plando', 'start', 'choose']
+    default = 0
+    option_off = 0
+    option_randomize = 1
+    option_plando = 2
+    option_start = 3
+    option_choose = 4
+    display_name = "Start with Super Attacks"
 
 
 class SuperAttackStarters(OptionSet):
     """List of character names whom you want to start with one of their super attacks (red capsules). Only has an effect
     if 'Start with Super Attacks' is 'choose'."""
     options = DW_CHARACTER_NAMES
-    visibility = StartWithSuperAttacks.value is 'choose'
+    display_name = "Super Attack Starters"
 
 
 class ProgressiveCharacters(Choice):
@@ -66,15 +71,21 @@ class ProgressiveCharacters(Choice):
     NOTE: This ONLY applies to Dragon World characters. The rest work as normal.
 
     Choices:\n
-    * off: No progressive items for me, thanks.\n
-    * prog_normal: Your progressive item progression is as described above.\n
-    * prog_attacks: Your item progression will put attacks after the character.\n
-    * prog_transforms: Your item progression will put transformations ahead of attacks.\n
+    - **off** - No progressive items for me, thanks.\n
+    - **prog_normal** - Your progressive item progression is as described above.\n
+    - **prog_attacks** - Your item progression will put attacks after the character.\n
+    - **prog_transforms** - Your item progression will put transformations ahead of attacks.\n
 
     NOTE: Prioritizing transformations may mean that you won't be able to play Goku or Vegeta for some time if you also chose to require super attacks for your DW characters.
     """
-    choices = ['off', 'prog_normal', 'prog_attacks', "prog_transforms"]
-    default = 'off'
+
+    default = 0
+    option_off = 0
+    option_prog_normal = 1
+    option_prog_attacks = 2
+    option_prog_transforms = 3
+    rich_text_doc = True
+    display_name = "Progressive Characters"
 
 
 class StartWithDragonRadar(Toggle):
@@ -82,25 +93,26 @@ class StartWithDragonRadar(Toggle):
     Start with the Dragon Radar for each of your story routes.
     """
     default = True
+    display_name = "Start with Dragon Radar"
 
 
 class BallRando(Toggle):
     """
     Adds Dragon Balls for each story route to the item pool.
     """
-    name = "Dragon Ball Randomizer"
+    display_name = "Dragon Ball Randomizer"
     default = False
 
 
 class AttackRando(Toggle):
     """
-    Randomize red capsule attacks (->E or <-E) between characters.
-    DOES NOT INCLUDE: Ultimates, Dragon Rushes, transformations
+    Randomize red capsule attacks (->E or <-E) between characters.\n
+    DOES NOT INCLUDE: Ultimates, Dragon Rushes, transformations\n
     NOTE: This is an experimental option and may be removed.
     """
-    name = "Attack Randomizer"
+    display_name = "Attack Randomizer"
     default = False
-    visible=False
+    visibility=False
 
 
 class Inspiration(Toggle):
@@ -108,6 +120,8 @@ class Inspiration(Toggle):
     Everyone's suddenly had a "breakthrough"...
     """
     default = False
+    visibility=False
+    display_name = "Inspiration"
 
 
 class Pandemic(Toggle):
@@ -120,6 +134,7 @@ class Pandemic(Toggle):
     """
     default = False
     visibility = False
+    display_name = "Pandemic"
 
 
 class Completionist(Toggle):
@@ -128,25 +143,7 @@ class Completionist(Toggle):
     then the remainder will be granted to you at the start of the game.
     """
     default = False
-
-
-class ExpMultiplier(NamedRange):
-    """
-    It's a range, but it's flavored as "What kind of training would you like to do?"
-    """
-    range_start = 1
-    range_end = 20
-    special_range_names={
-        "sparring": 1, # 1x
-        "training": 2, # 2x
-        "punch_machine": 3, # 3x
-        "spaceship": 5, # 5x
-        "time_chamber": 10, # 10x
-        "champion": 15, # 15x
-        "strongest": 20, # 20x
-        "one_arm": -1 # this is half exp
-    }
-    default = 1
+    display_name = "Completionist"
 
 
 @dataclass
@@ -161,4 +158,3 @@ class Budokai3Options(PerGameCommonOptions):
     inspiration: Inspiration
     pandemic: Pandemic
     completionist: Completionist
-    exp_multiplier: ExpMultiplier

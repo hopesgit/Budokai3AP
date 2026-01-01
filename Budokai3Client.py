@@ -4,6 +4,8 @@ import Utils
 import asyncio
 import os
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
+from .data.Items import get_offset_from_name
+from .data.Locations import get_all_active_locations
 from .Budokai3Interface import Budokai3Interface, ConnectionState
 from .NotificationManager import NotificationManager
 
@@ -23,6 +25,17 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
         """Display the current PCSX2 connection status."""
         if isinstance(self.ctx, Budokai3Context):
             logger.info(f"Connection status: {'Connected' if self.ctx.is_connected else 'Disconnected'}")
+    
+    def _cmd_unlock_capsule(self, name):
+        """Debug option to unlock a capsule. For testing ONLY"""
+        offset = get_offset_from_name(name)
+        if not offset:
+            logger.info("Item couldn't be found. You may have provided a bad name.")
+            return
+        if offset == 0x0:
+            logger.info("The item was found, but it doesn't have a listed memory location.")
+        if isinstance(self.ctx, Budokai3Context):
+            Budokai3Interface.pcsx2_interface.write_bytes(offset, bytes(0x9))
 
 
 class Budokai3Context(CommonContext):
@@ -34,7 +47,7 @@ class Budokai3Context(CommonContext):
     pcsx2_sync_task = None
     is_connected = ConnectionState.DISCONNECTED
     is_loading: bool = False
-    slot_data: dict[str, Utils.Any] = None
+    slot_data: dict[str, Utils.Any] | None = None
     last_error_message: Optional[str] = None
 
     def __init__(self, server_address, password):
@@ -48,17 +61,17 @@ class Budokai3Context(CommonContext):
         await self.get_username()
         await self.send_connect()
 
-    def on_package(self, cmd: str, args: dict):
-        if cmd == "Connected":
-            self.slot_data = args["slot_data"]
+    # def on_package(self, cmd: str, args: dict):
+    #     if cmd == "Connected":
+    #         self.slot_data = args["slot_data"]
 
-            # Scout all active locations for lookups that may be required later on
-            all_locations = [loc.location_id for loc in get_all_active_locations(self.slot_data)]
-            self.locations_scouted = set(all_locations)
-            Utils.async_start(self.send_msgs([{
-                "cmd": "LocationScouts",
-                "locations": list(self.locations_scouted)
-            }]))
+    #         # Scout all active locations for lookups that may be required later on
+    #         all_locations = [loc.location_id for loc in get_all_active_locations(self.slot_data)]
+    #         self.locations_scouted = set(all_locations)
+    #         Utils.async_start(self.send_msgs([{
+    #             "cmd": "LocationScouts",
+    #             "locations": list(self.locations_scouted)
+    #         }]))
 
     def run_gui(self):
         from kvui import GameManager

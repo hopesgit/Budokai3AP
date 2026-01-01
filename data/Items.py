@@ -1,6 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING, Dict, Set
 
 if TYPE_CHECKING:
     pass
@@ -780,10 +780,10 @@ GREEN_CARD = GrayCapsule(451, "Green Membership Card", offset=0x4DFD15)
 SILVER_CARD = GrayCapsule(452, "Silver Membership Card", offset=0x4DFD16)
 GOLD_CARD = GrayCapsule(453, "Gold Membership Card", offset=0x4DFD17)
 BLACK_CARD = GrayCapsule(454, "Black Membership Card", offset=0x4DFD18)
-TOURNEY_NOVICE = GrayCapsule(455, "World Tournament - Novice", offset=0x4DFD19)
+TOURNEY_NOVICE = GrayCapsule(455, "World Tourment - Novide", offset=0x4DFD1C)
 TOURNEY_ADEPT = GrayCapsule(456, "World Tournament - Adept", offset=0x4DFD1A)
 TOURNEY_ADV = GrayCapsule(457, "World Tournament - Advanced", offset=0x4DFD1B)
-TOURNEY_CELL = GrayCapsule(458, "World Tournament - Cell Games", offset=0x4DFD1C)
+TOURNEY_CELL = GrayCapsule(458, "World Tournanament - Cell Games", offset=0x4DFD19)
 DRAGON_ARENA = GrayCapsule(459, "Dragon Arena Ticket", offset=0x4DFD1D)
 TOURNEY_STAGE = GrayCapsule(460, "World Tournament Stage") # no location listed
 TIME_CHAMBER = GrayCapsule(461, "Hyperbolic Time Chamber", offset=0x4DFD1F)
@@ -970,31 +970,6 @@ ALL_ITEMS = [
     # *CUSTOM_ITEMS
 ]
 
-ITEM_GROUPS = {
-    "Red Capsule": RED_CAPSULES,
-    "Green Capsule": GREEN_CAPSULES,
-    "Yellow Capsule": YELLOW_CAPSULES,
-    "System Capsule": GRAY_CAPSULES,
-    "Goku": [*GOKU_CAPSULES, PROGRESSIVE_GOKU],
-    "Kid Gohan": [*KID_GOHAN_CAPSULES, PROGRESSIVE_KID_GOHAN],
-    "Teen Gohan": [*TEEN_GOHAN_CAPSULES, PROGRESSIVE_TEEN_GOHAN],
-    "Gohan": [*GOHAN_CAPSULES, PROGRESSIVE_GOHAN],
-    "Piccolo": [*PICCOLO_CAPSULES, PROGRESSIVE_PICCOLO],
-    "Krillin": [*KRILLIN_CAPSULES, PROGRESSIVE_KRILLIN],
-    "Tien": [*TIEN_CAPSULES, PROGRESSIVE_TIEN],
-    "Yamcha": [*YAMCHA_CAPSULES, PROGRESSIVE_YAMCHA],
-    "Vegeta": [*VEGETA_CAPSULES, PROGRESSIVE_VEGETA],
-    "Uub": [*UUB_CAPSULES, PROGRESSIVE_UUB],
-    "Broly": [*BROLY_CAPSULES, PROGRESSIVE_BROLY],
-    "Fighters": FIGHTERS,
-    "Training": TRAINING,
-    "Modes": MODES,
-    "Stages": STAGES,
-    "Memories": MEMORIES,
-    "Cards": CARDS,
-    "Difficulties": DIFFICULTIES
-}
-
 DW_CHARACTERS = [GOKU, KID_GOHAN, TEEN_GOHAN, GOHAN, PICCOLO, KRILLIN, TIEN, VEGETA, BROLY, UUB, YAMCHA]
 
 dw_characters_as_dict = {}
@@ -1002,6 +977,54 @@ for char in DW_CHARACTERS:
     dw_characters_as_dict[char.name] = char.item_id
 DW_CHARACTER_NAMES = dw_characters_as_dict
 
+
+def item_name_groups():
+    return {
+        "Fighters": {
+            "Goku", "Kid Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Gt Saiyaman", "Goten", "Vegeta", "Trunks",
+            "Kid Trunks", "Krillin", "Piccolo", "Tien", "Yamcha", "Hercule", "Videl", "Supreme Kai", "Uub",
+            "Raditz", "Nappa", "Captain Ginyu", "Recoome", "Frieza", "Android 16", "Android 17", "Android 18",
+            "Cell", "Majin Buu", "Super Buu", "Kid Buu", "Dabura", "Cooler", "Barkdock", "Broly", "Omega Shenron",
+            "Saibaman", "Cell Jr"
+        },
+        "Training": {
+            "Training 1 Scouter", "Training 2 Fighting Basics", "Training 3 Ki Control", "Training 4 Death-moves",
+            "Training 5 Ki Control 2", "Training 6 Dodging", "Training 7 Teleporting", "Training 8 Hi-level Fighting",
+            "Training 9 Ultimate Moves", "Training 10 Dragon Rush", "Training 11 Item Skills", "Training 12 Final Secrets"
+        },
+        "Cards": {
+            "Green Membership Card", "Silver Membership Card", "Gold Membership Card", "Black Membership Card"
+        },
+        "Tournament": {
+            "World Tournament - Novice", "World Tournament - Advanced", "World Tournament - Adept", "World Tournament - Cell Games"
+        },
+        "Difficulties": {
+            "Goku's Wish", "The Path to Power", "The Endless Path to Power", "Strongest of Universe Trophy"
+        },
+        "Stages": {
+            "World Tournament Stage", "Hyperbolic Time Chamber", "Archipelago", "Mountains", "Urban Area", "Plains",
+            "Grandpa Gohan's House", "Planet Namek", "Cell Ring", "Supreme Kai's World", "Inside Buu",
+            "Red Ribbon Base" 
+        },
+        "Memories": {
+            "Memories of Goku", "Memories of Piccolo", "Memories of Kid Gohan", "Memories of Teen Gohan", 
+            "Memories of Gohan", "Memories of Vegeta", "Memories of Goten", "Memories of Trunks",
+            "Memories of Kid Trunks", "Memories of Krillin", "Memories of Tien", "Memories of Yamcha", 
+            "Memories of Hercule", "Memories of Videl", "Memories of Gt Saiyaman","Memories of Android 16",
+            "Memories of Android 17", "Memories of Android 18", "Memories of Supreme Kai", 
+            "Memories of Kid Goku", "Memories of Bardock", "Memories of Uub", "Memories of Raditz",
+            "Memories of Nappa", "Memories of Recoome", "Memories of Captain Ginyu", "Memories of Frieza", 
+            "Memories of Dr Gero", "Memories of Cell", "Memories of Dabura", "Memories of Majin Buu", 
+            "Memories of Super Buu", "Memories of Kid Buu", "Memories of Cooler", "Memories of Broly", 
+            "Memories of Omega Shenron", "Memories of Saibamen", "Memories of Cell Jr", "Memories of Heroes",
+            "Memories of Supporters", "Baba's Crystal Ball 000", "Baba's Crystal Ball 001", "Baba's Crystal Ball 002", 
+            "Baba's Crystal Ball 003", "Baba's Crystal Ball 004" 
+        },
+        "Modes": {
+            "Dragon Arena Ticket"
+        }
+
+    }
 
 def get_name_pairs() -> Dict[int, ItemData]:
     collector = {}
@@ -1035,10 +1058,6 @@ def item_name_to_id(name) -> int | None:
 
 def item_id_to_name(id) -> str | None:
     return ID_PAIRS[id].name
-
-
-def get_item_groups():
-    return ITEM_GROUPS.keys()
 
 
 def print_missing_addresses():

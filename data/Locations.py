@@ -489,8 +489,11 @@ DRAGON_WORLD_LOCS = [
 
 GOKU_LOCS = [
     *GOKU_BOSSES, *GOKU_CAPSULES, REENACTMENT_0, REENACTMENT_5, 
-    REENACTMENT_13, REENACTMENT_16, REENACTMENT_18, GOKU_WISH_1, 
-    GOKU_WISH_2, GOKU_WISH_3
+    REENACTMENT_13, REENACTMENT_16, REENACTMENT_18
+]
+
+GOKU_WISH_LOCS = [
+    GOKU_WISH_1, GOKU_WISH_2, GOKU_WISH_3
 ]
 
 KGOHAN_LOCS = [
@@ -593,6 +596,7 @@ LOCATIONS = [
     # splitting the dragon world locs into per-character collections
     # so that I can add them as development goes on
     *GOKU_LOCS,
+    *GOKU_WISH_LOCS,
     # *KGOHAN_LOCS,
     # *TGOHAN_LOCS,
     # *GOHAN_LOCS,

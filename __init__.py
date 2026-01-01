@@ -5,9 +5,9 @@ import settings
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess
 
-from BaseClasses import Item, Tutorial
-# from .data.Items import EquipmentData
-# from .Regions import create_regions
+from BaseClasses import Item, Tutorial, MultiWorld, CollectionState
+from .data.Items import item_name_groups
+from .Regions import create_regions
 # from .Container import Budokai3ProcedurePatch, generate_patch
 from .Budokai3Options import Budokai3Options
 # from . import ItemPool
@@ -78,16 +78,18 @@ class Budokai3World(World):
     topology_present = True
     item_name_to_id = {item.name: item.item_id for item in Items.ALL_ITEMS}
     location_name_to_id = {location.name: location.location_id for location in Locations.LOCATIONS}
-    item_name_groups = Items.get_item_groups()
+    item_name_groups = item_name_groups()
     # location_name_groups = Planets.get_location_groups()
     settings: Budokai3Settings
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
 
-    # def get_filler_item_name(self) -> str:
-    #     return Items.BOLT_PACK.name
+    def get_filler_item_name(self) -> str:
+        return Items.ZENIE_2K.name
 
-    # def create_regions(self) -> None:
-    #     create_regions(self)
+    def create_regions(self) -> None:
+        player = self.player
+        multiworld = self.multiworld
+        create_regions(multiworld, player)
 
     # def create_item(self, name: str, override: Optional[ItemClassification] = None) -> "Item":
     #     if override:

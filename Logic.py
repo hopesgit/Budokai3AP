@@ -308,8 +308,8 @@ def has_z_hard_2(state: CollectionState, player: int) -> bool:
 def has_z_hard_3(state: CollectionState, player: int) -> bool:
     return state.has(Items.ENDLESS_PATH.name, player)
 
-def has_tournament_novice() -> bool:
-    return True
+def has_tournament_novice(state: CollectionState, player: int) -> bool:
+    return state.has(Items.TOURNEY_NOVICE.name, player)
 
 def has_tournament_adept(state: CollectionState, player: int) -> bool:
     return state.has(Items.TOURNEY_ADEPT.name, player)
@@ -326,8 +326,8 @@ def can_shop() -> bool:
 def has_dragon_arena(state: CollectionState, player: int) -> bool:
     return state.has(Items.DRAGON_ARENA.name, player)
 
-def has_training_1() -> bool:
-    return True
+def has_training_1(state: CollectionState, player: int) -> bool:
+    return state.has(Items.TRAINING_1.name, player)
 
 def has_training_2(state: CollectionState, player: int) -> bool:
     return state.has(Items.TRAINING_2.name, player)

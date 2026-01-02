@@ -121,15 +121,6 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
             await asyncio.sleep(3)
             continue
 
-async def _handle_game_ready(ctx: Budokai3Context):
-    # do game connection tasks
-    pass
-
-
-async def _handle_game_not_ready(ctx: Budokai3Context):
-    #reject game
-    pass
-
 
 def launch():
     import multiprocessing

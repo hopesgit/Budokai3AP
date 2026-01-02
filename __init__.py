@@ -137,8 +137,7 @@ class Budokai3World(World):
     #     apdbzb3.write(rom_path)
     
     def get_options_as_dict(self) -> Dict[str, Any]:
-        return self.options.as_dict(
-            "death_link",
+        return self.options.as_dict(self,
             "start_with_story_characters",
             "start_with_super_attacks",
             "super_attack_starters",
@@ -149,6 +148,7 @@ class Budokai3World(World):
             "inspiration",
             "pandemic",
             "completionist"
+            "death_link",
         )
     
     def fill_slot_data(self) -> Mapping[str, Any]:

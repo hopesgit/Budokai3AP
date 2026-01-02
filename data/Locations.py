@@ -587,7 +587,7 @@ WT_LOCS = [
 SHOP_ITEM_ID_BASE = 499
 shop_locs = []
 x = 0
-while x <= 100:
+while x <= 99:
     x += 1
     shop_locs.append(LocationData(SHOP_ITEM_ID_BASE + x, f"Shop Item {x}"))
 SHOP_LOCS = shop_locs

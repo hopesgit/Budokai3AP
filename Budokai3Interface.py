@@ -6,6 +6,8 @@ from enum import Enum, IntEnum
 from logging import Logger
 from typing import Optional, List, Dict, NamedTuple, TYPE_CHECKING
 
+from .data import Items
+
 from .pcsx2_interface.pine import Pine
 
 if TYPE_CHECKING:
@@ -282,80 +284,29 @@ class Budokai3Interface:
         self.logger = logger
         # self.shop = Shop(self)
 
-    # def give_equipment_to_player(self, equipment: EquipmentData):
-    #     if isinstance(equipment, WeaponData) and equipment.base_weapon_offset is not None:
-    #         addr = self.addresses.weapon_subid_table + equipment.base_weapon_offset
-    #         current_weapon_subid = self.pcsx2_interface.read_int8(addr)
-    #         if current_weapon_subid < equipment.offset:
-    #             self.pcsx2_interface.write_int8(addr, equipment.offset)
-    #         self.pcsx2_interface.write_int8(self.addresses.inventory + equipment.base_weapon_offset, 1)
-    #     else:
-    #         self.pcsx2_interface.write_int8(self.addresses.inventory + equipment.offset, 1)
-    #     # TODO: Auto equip Thruster-Pack if you don't have Heli-Pack.
-    #     if equipment in Items.QUICK_SELECTABLE:
-    #         self.add_to_quickselect(equipment)
-    #
-    #     if isinstance(equipment, WeaponData) and equipment.max_ammo:
-    #         self.set_ammo(equipment, equipment.max_ammo)
 
-    # def count_inventory_item(self, item: ItemData) -> int:
-    #     if isinstance(item, WeaponData) and item.base_weapon_offset is not None:
-    #         current_subid = self.pcsx2_interface.read_int8(self.addresses.weapon_subid_table + item.base_weapon_offset)
-    #         return 1 if current_subid >= item.offset else 0
-    #     if isinstance(item, EquipmentData):
-    #         return self.pcsx2_interface.read_int8(self.addresses.inventory + item.offset)
-    #     if isinstance(item, CoordData):
-    #         planet_list = []
-    #         for list_idx in range(PLANET_LIST_SIZE):
-    #             planet_id = self.pcsx2_interface.read_int32(self.addresses.selectable_planets + 4 * list_idx)
-    #             if planet_id:
-    #                 planet_list.append(planet_id)
-    #         return int(item.planet_number in planet_list)
-    #     if item is Items.PLATINUM_BOLT:
-    #         return self.pcsx2_interface.read_int8(self.addresses.platinum_bolt_count)
-    #     if item is Items.NANOTECH_BOOST:
-    #         return self.pcsx2_interface.read_int8(self.addresses.nanotech_boost_count)
-    #     if item is Items.HYPNOMATIC_PART:
-    #         return self.pcsx2_interface.read_int8(self.addresses.hypnomatic_part_count)
-    #     if item is Items.BOLT_PACK:
-    #         return self.pcsx2_interface.read_int8(self.addresses.bolt_pack_count)
+    def give_system_capsule_to_player(self, item):
+        self.pcsx2_interface.write_int8(item.offset, 1)
 
-    # def get_current_inventory(self) -> dict[str, int]:
-    #     inventory: dict[str, int] = {}
-    #     for item in Items.ALL:
-    #         inventory[item.name] = self.count_inventory_item(item)
-    #     return inventory
 
-    # def get_alive(self) -> bool:
-    #     planet = self.get_current_planet()
-    #     if planet in [Budokai3Planet.Wupash_Nebula, Budokai3Planet.Feltzin_System, Budokai3Planet.Hrugis_Cloud, Budokai3Planet.Gorn]:
-    #         return self.pcsx2_interface.read_int8(self.addresses.planet[planet].camara_state) != 6
-    #     elif planet in [Budokai3Planet.Dobbo_Orbit, Budokai3Planet.Damosel_Orbit]:
-    #         return self.pcsx2_interface.read_int8(self.addresses.ratchet_state) != 95
-    #     else:
-    #         if (self.pcsx2_interface.read_int8(self.addresses.current_nanotech) == 0
-    #                 or self.pcsx2_interface.read_int8(self.addresses.ratchet_state) == 116
-    #                 or self.pcsx2_interface.read_int8(self.addresses.ratchet_state) == 145):
-    #             return False
-    #         else:
-    #             return True
+    def give_capsule_to_player(self, item):
+        item_data = Items.from_id(item.item)
+        offset = item_data.offset
+        current_count = self.pcsx2_interface.read_int8(offset)
+        if current_count < 9:
+            self.pcsx2_interface.write_int8(offset, current_count + 1)
 
-    # def kill_player(self) -> None:
-    #     planet = self.get_current_planet()
-    #     # Kill Ship
-    #     if planet in [Budokai3Planet.Wupash_Nebula, Budokai3Planet.Feltzin_System, Budokai3Planet.Hrugis_Cloud, Budokai3Planet.Gorn]:
-    #         self.pcsx2_interface.write_int8(self.addresses.planet[planet].camara_state, 6)
-    #     # Kill Giant Clank
-    #     elif planet in [Budokai3Planet.Dobbo_Orbit, Budokai3Planet.Damosel_Orbit]:
-    #         self.pcsx2_interface.write_int8(self.addresses.ratchet_state, 95)
-    #     # Kill Receiver Bot
-    #     elif self.get_ratchet_state() > 140:
-    #         current_moby = self.pcsx2_interface.read_int32(self.addresses.current_moby_instance_pointer)
-    #         pvars = self.pcsx2_interface.read_int32(current_moby + 0x68)
-    #         self.pcsx2_interface.write_int16(pvars + 0x3BC, 0)
-    #     # Kill Ratchet
-    #     else:
-    #         self.set_nanotech(0)
+ 
+    def increment_money(self, item):
+        name: str = item.name.strip(' Zenie')
+        amount: int = int(name)
+        current_zenie = self.pcsx2_interface.read_int32(0x58F718)
+        max = 0xFFFF
+        if current_zenie + amount > max:
+            new_amount = max
+        else:
+            new_amount = current_zenie + amount
+        self.pcsx2_interface.write_int32(0x58F718, new_amount)
 
     # def get_pause_state(self) -> int:
     #     address = self.addresses.pause_state
@@ -372,7 +323,6 @@ class Budokai3Interface:
             self.logger.info("Connected to PCSX2 Emulator")
         try:
             game_id = self.pcsx2_interface.get_game_id()
-            # The first read of the address will be null if the client is faster than the emulator
             self.current_game = None
             if game_id in _SUPPORTED_VERSIONS:
                 self.current_game = game_id
@@ -415,17 +365,6 @@ class Budokai3Interface:
     #             return MobyInstance(*((address,) + moby_data))
     #         address += MOBY_SIZE
 
-    #     return None
-
-    # def get_update_function(self, oclass: int) -> Optional[int]:
-    #     oclass_offset = 0xAA
-    #     update_function_offset = 0x64
-    #     segments = self.get_segment_pointer_table()
-    #     if not segments:
-    #         return None
-    #     for address in range(segments.moby_instances, segments.moby_pvars, MOBY_SIZE):
-    #         if self.pcsx2_interface.read_int16(address + oclass_offset) == oclass:
-    #             return self.pcsx2_interface.read_int32(address + update_function_offset)
     #     return None
 
     def read_instruction(self, address: int) -> int:

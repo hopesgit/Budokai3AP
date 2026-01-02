@@ -1022,6 +1022,10 @@ def item_name_groups():
         },
         "Modes": {
             "Dragon Arena Ticket"
+        },
+        "Goku": {
+            "Goku", "Progressive Goku", "Kamehameha (Goku)", "Kaioken", "Dragon Fist", "Super Saiyan (Goku)",
+            "Super Saiyan 2 (Goku)", "Super Saiyan 3", "Super Saiyan 4 (Goku)"
         }
 
     }
@@ -1075,3 +1079,6 @@ def print_missing_addresses():
     for offset in range_list: print(offset)
 
 # print_missing_addresses()
+
+def from_id(item):
+    return ID_PAIRS[item.item_id]

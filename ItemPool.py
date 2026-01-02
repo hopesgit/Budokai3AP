@@ -1,20 +1,12 @@
-from BaseClasses import ItemClassification, CollectionState
+from BaseClasses import ItemClassification, CollectionState, Item
 from .Logic import _get_options
+from .data import Items
 from .data.Items import *
 
 if TYPE_CHECKING:
     # from . import Budokai3World
     from .Budokai3Client import Budokai3Context
 
-def get_classification(state: CollectionState, player: int, item: ItemData):
-    classification = ItemClassification.filler
-    if item in GREEN_CAPSULES: classification = ItemClassification.useful
-    if item in YELLOW_CAPSULES: classification = ItemClassification.useful
-    if item is SENZU_BEAN: classification = ItemClassification.progression
-    if item in PROGRESSIVE_CAPSULES and _get_options(state, player).progressive_characters != 'off':
-        classification = ItemClassification.progression
-    if item in GRAY_CAPSULES: classification = ItemClassification.progression
-    return classification
 
 def create_pool(state: CollectionState, player: int):
     prog_chars = _get_options(state, player).progressive_characters != 'off'
@@ -29,6 +21,7 @@ def create_pool(state: CollectionState, player: int):
         create_grays()
     # create_custom(state, player)
 
+
 def create_greens():
     return GREEN_CAPSULES
 
@@ -42,7 +35,7 @@ def create_grays(progressive_characters: bool = False):
     for item in GRAY_CAPSULES:
         if progressive_characters and item in DW_CHARACTERS:
             continue
-        else: accum += item
+        else: accum.append(item)
 
     return accum
 
@@ -52,7 +45,7 @@ def create_reds(progressive_characters: bool = False):
     for item in RED_CAPSULES:
         if progressive_characters and item in DW_RED_CAPSULES:
             continue
-        else: accum += item
+        else: accum.append(item)
 
     return accum
 
@@ -137,4 +130,27 @@ def progressive_order(item: ItemData, prog_type: str, count: int):
     return None
 
 
-def add_to_starting_pool(ctx: Budokai3Context, item: ItemData):
+def add_to_starting_pool(ctx: Budokai3Context, item: Item):
+    pass
+
+
+def get_classification(item: ItemData):
+    if 'Progressive' in item.name: 
+        return ItemClassification.progression
+    if (item.name in Items.item_name_groups()["Fighters"] or item.name in Items.item_name_groups()["Tournament"]
+    or item.name in Items.item_name_groups()["Training"] or item.name in Items.item_name_groups()["Cards"]
+    or item.name in Items.item_name_groups()["Modes"] or item.name in Items.item_name_groups()["Difficulties"]):
+        return ItemClassification.progression
+    if item.name == "Senzu Bean":
+        return ItemClassification.progression
+    items_useful_for_story_reenactments = ["Kaioken", "Super Saiyan (Goku)", "Spirit Bomb (Goku)", "Special Beam Cannon",
+                                           "Ki Blast Cannon", "Masenko", "Destructo Disc (Krillin)", "Sync With Nail", 
+                                           "Fuse With Kami", "Super Saiyan (Vegeta)", "Final Flash", "Super Saiyan (Teen Gohan)",
+                                           "Super Saiyan 2 (Teen Gohan)", "Father-Son Kamehameha", "Super Saiyan (Gohan)", 
+                                           "Super Saiyan 2 (Gohan)", "Elder Kai Unlock Ability", "Super Saiyan 2 (Vegeta)", 
+                                           "Super Saiyan 4 (Goku)", "Super Saiyan 3", "Legendary Super Saiyan", "Gigantic Meteor",
+                                           "Ki Cannon"]
+    if item in items_useful_for_story_reenactments:
+        return ItemClassification.progression
+    
+    return ItemClassification.filler

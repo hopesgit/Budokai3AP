@@ -40,6 +40,7 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, Budokai3Context):
             logger.debug(f"Writing to {hex(offset)}...")
             Budokai3Interface.pcsx2_interface.write_int8(offset, 1)
+            logger.info("Done! Be sure to save using Save/Quit in Dragon World or Save in the Options menu to enable the capsule.")
 
 
 class Budokai3Context(CommonContext):
@@ -117,11 +118,17 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
         except Exception as e:
             if isinstance(e, RuntimeError):
                 logger.error(str(e))
-            else:
-                logger.error(traceback.format_exc())
             await asyncio.sleep(3)
             continue
 
+async def _handle_game_ready(ctx: Budokai3Context):
+    # do game connection tasks
+    pass
+
+
+async def _handle_game_not_ready(ctx: Budokai3Context):
+    #reject game
+    pass
 
 
 def launch():
@@ -142,7 +149,7 @@ def launch():
         if os.path.isfile(args.apdbzb3_file):
             logger.info("apdbzb3 file supplied, beginning patching process...")
             await patch_and_run_game(args.apdbz3_file)
-            ctx.auth = get_name_from_aprac2(args.apdbz3_file)
+            ctx.auth = get_name_from_apdbzb3(args.apdbz3_file)
 
         logger.info("Connecting to server...")
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="Server Loop")

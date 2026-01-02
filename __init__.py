@@ -1,5 +1,5 @@
 import typing
-from typing import Dict, Optional
+from typing import Any, Dict, Mapping, Optional
 
 import settings
 from worlds.AutoWorld import World, WebWorld
@@ -82,6 +82,7 @@ class Budokai3World(World):
     # location_name_groups = Planets.get_location_groups()
     settings: Budokai3Settings
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
+    ut_can_gen_without_yaml = True
 
     def get_filler_item_name(self) -> str:
         return Items.ZENIE_2K.name
@@ -134,17 +135,21 @@ class Budokai3World(World):
     #     rom_path = os.path.join(output_directory,
     #                             f"{self.multiworld.get_out_file_name_base(self.player)}{apdbzb3.patch_file_ending}")
     #     apdbzb3.write(rom_path)
-    #
-    # def get_options_as_dict(self) -> Dict[str, Any]:
-    #     return self.options.as_dict(
-    #         "death_link",
-    #         "skip_wupash_nebula",
-    #         "extra_spaceship_challenge_locations",
-    #         "starting_weapons",
-    #         "randomize_megacorp_vendor",
-    #         "randomize_gadgetron_vendor",
-    #         "extend_weapon_progression",
-    #     )
-    #
-    # def fill_slot_data(self) -> Mapping[str, Any]:
-    #     return self.get_options_as_dict()
+    
+    def get_options_as_dict(self) -> Dict[str, Any]:
+        return self.options.as_dict(
+            "death_link",
+            "start_with_story_characters",
+            "start_with_super_attacks",
+            "super_attack_starters",
+            "progressive_characters",
+            "start_with_dragon_radar",
+            "ball_rando",
+            "attack_rando",
+            "inspiration",
+            "pandemic",
+            "completionist"
+        )
+    
+    def fill_slot_data(self) -> Mapping[str, Any]:
+        return self.get_options_as_dict()

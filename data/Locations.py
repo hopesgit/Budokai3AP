@@ -1,13 +1,14 @@
 from typing import NamedTuple, Optional, Callable, Dict
-
 from ..Logic import *
+from .ROMAddresses import Address
 
 
 class LocationData(NamedTuple):
     location_id: int
     name: str
-    access_rule: Optional[Callable[[CollectionState, int], bool]] = None
+    access_rule: Callable[[CollectionState, int], bool]
     is_shop: bool = False
+    address: Optional[Address] = None
 
 
 # Dragon World Checks
@@ -234,7 +235,8 @@ REENACTMENT_9 = LocationData(123, "Vegeta: Use Final Flash against Perfect Cell"
 REENACTMENT_10 = LocationData(124, "Teen Gohan: Use Super Saiyan against Goku", can_complete_reenactment_10)
 REENACTMENT_11 = LocationData(125, "Teen Gohan: Defeat Super Perfect Cell with Father-Son Kamehameha", can_complete_reenactment_11)
 # You do not have to exceed Cell's meter during the charging segment
-REENACTMENT_12 = LocationData(126, "Vegeta: Defeat Majin Buu with Perfect Explosion", can_complete_reenactment_12)
+REENACTMENT_12 = LocationData(126, "Vegeta: Defeat Majin Buu with Final Explosion", can_complete_reenactment_12)
+# You MUST exceed Buu's meter during the charging segment
 REENACTMENT_13 = LocationData(127, "Goku: Use Super Saiyan 3 against Majin Buu", can_complete_reenactment_13)
 REENACTMENT_14 = LocationData(128, "Piccolo: Defeat Super Buu after 60 Seconds have Elapsed", can_complete_reenactment_14)
 REENACTMENT_15 = LocationData(129, "Gohan: Use Elder Kai Unlock Ability against Super Buu", can_complete_reenactment_15)
@@ -253,10 +255,10 @@ DW_REENACTMENTS = [
 ]
 
 ## Difficulty-related
-VERY_HARD_CLEAR = LocationData(135, "Clear DW on Very Hard")
-Z1_CLEAR = LocationData(136, "Clear DW on Z1", has_z_hard)
-Z2_CLEAR = LocationData(137, "Clear DW on Z2", has_z_hard)
-Z3_CLEAR = LocationData(138, "Clear DW on Z3", has_z_hard_3)
+VERY_HARD_CLEAR = LocationData(135, "Clear DU on Very Hard", lambda state, player: True)
+Z1_CLEAR = LocationData(136, "Clear DU on Z1", has_z_hard)
+Z2_CLEAR = LocationData(137, "Clear DU on Z2", has_z_hard)
+Z3_CLEAR = LocationData(138, "Clear DU on Z3", has_z_hard_3)
 
 DW_DIFFICULTIES = [VERY_HARD_CLEAR, Z1_CLEAR, Z2_CLEAR, Z3_CLEAR]
 
@@ -420,6 +422,8 @@ BROLY_CAPSULE_4 = LocationData(284, "Broly - Capsule Given Before Gohan 1", can_
 BROLY_CAPSULE_5 = LocationData(285, "Broly - Capsule Given upon Completion", can_broly)
 BROLY_CAPSULE_6 = LocationData(286, "Broly 2 - Capsule at Plains near Northern Mountains", can_wish_broly)
 ### everything else are random capsules. Some of these locations give a specified capsule once and then a random capsule afterward
+
+MENU_CAPSULE_1 = LocationData(287, "Clear all Dragon Universe Stories", has_cleared_story)
 
 GOKU_CAPSULES = [
     GOKU_CAPSULE_1, GOKU_CAPSULE_2, GOKU_CAPSULE_3, GOKU_CAPSULE_4, GOKU_CAPSULE_5, GOKU_CAPSULE_6, GOKU_CAPSULE_7,
@@ -589,7 +593,7 @@ shop_locs = []
 x = 0
 while x <= 99:
     x += 1
-    shop_locs.append(LocationData(SHOP_ITEM_ID_BASE + x, f"Shop Item {x}"))
+    shop_locs.append(LocationData(SHOP_ITEM_ID_BASE + x, f"Shop Item {x}", lambda state, player: True))
 SHOP_LOCS = shop_locs
 
 LOCATIONS = [
@@ -610,7 +614,8 @@ LOCATIONS = [
     *DRAGON_ARENA_LOCS,
     *TRAINING_LOCS,
     *WT_LOCS,
-    *SHOP_LOCS
+    *SHOP_LOCS,
+    MENU_CAPSULE_1
 ]
 
 

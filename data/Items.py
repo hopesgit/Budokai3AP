@@ -1,6 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Dict, Set
+from BaseClasses import Item, ItemClassification
 
 if TYPE_CHECKING:
     pass
@@ -10,36 +11,18 @@ if TYPE_CHECKING:
 ## Goku, Kid Gohan, Krillin, Piccolo, Tien, Yamcha, Raditz, Nappa, Training 1, Green Membership Card,
 ## World Tournament (Novice), World Tournament Stage, Hyperbolic Time Chamber, Archipelago, Mountains, Plains
 ## I'd like to find out what happens if those are removed
-@dataclass
-class ItemData(ABC):
-    item_id: int
-    name: str
-
-    def __init__(self, id: int, name: str):
-        self.item_id = id
-        # if id is 999, it's not a capsule that should not be in the pool
-        self.name = name
-
-class Item(ItemData):
-    pass
 
 
 @dataclass
 class Capsule(Item):
     offset: int
     capsule_color: int
-    stacks: bool
     max_copies: int
 
-    def __init__(self, id: int, name: str, offset=0x0, stacks = False, max_copies = 1):
-        super().__init__(id, name)
+    def __init__(self, id: int, name: str, offset=0x0, max_copies = 9, classification = ItemClassification.filler):
+        super().__init__(name=name, code = id, classification = classification, player=1)
         self.offset = offset
-        self.stacks = stacks # if the item stacks, go up to that max and don't worry about the rest
-        # this is logically relevant because there's no need for more than 3 of any item, and only Red Capsules at that
-        if max_copies != 1: copies = max_copies
-        elif stacks: copies = 3
-        else: copies = 1
-        self.max_copies =  copies
+        self.max_copies =  max_copies
 
 class RedCapsule(Capsule):
     capsule_color = 1
@@ -51,12 +34,13 @@ class YellowCapsule(Capsule):
     capsule_color = 3
 
 class GrayCapsule(Capsule):
+    max_copies = 1
     capsule_color = 4
 
 # Ability Capsules (Red)
 ## Goku
-KAIOKEN = RedCapsule(1, "Kaioken", 0x4DFB1A, )
-SSJ_GOKU = RedCapsule(2, "Super Saiyan (Goku)", 0x4DFB1B)
+KAIOKEN = RedCapsule(1, "Kaioken", 0x4DFB1A, classification = ItemClassification.progression)
+SSJ_GOKU = RedCapsule(2, "Super Saiyan (Goku)", 0x4DFB1B, classification = ItemClassification.progression)
 SSJ2_GOKU = RedCapsule(3, "Super Saiyan 2 (Goku)", 0x4DFB1C)
 SSJ3_GOKU = RedCapsule(4, "Super Saiyan 3 (Goku)", 0x4DFB1D)
 SSJ4_GOKU = RedCapsule(5, "Super Saiyan 4 (Goku)", 0x4DFB1E)
@@ -67,10 +51,10 @@ BIG_KAME_100X_GOKU = RedCapsule(999, "100X Big Bang Kamehameha (SSJ4 Gogeta) (Go
 BIG_KAME_GOKU = RedCapsule(999, "Big Bang Kamehameha (Gogeta) (Goku)", 0x4DFBCC)
 KAME_GOGETA_GOKU = RedCapsule(999, "Kamehameha (Gogeta) (Goku)", 0x4DFBC1)
 KAME_GOGETA_SSJ4_GOKU = RedCapsule(999, "Kamehameha (SSJ4 Gogeta) (Goku)", 0x4DFBCB)
-KAME_GOKU = RedCapsule(6, "Kamehameha (Goku)", 0x4DFB1F, stacks=True)
-DRAG_FIST_GOKU = RedCapsule(7, "Dragon Fist", 0x4DFB21, stacks=True)
-WARP_KAME_GOKU = RedCapsule(8, "Warp Kamehameha (Goku)", 0x4DFB22, stacks=True)
-SPIRIT_BOMB_GOKU = RedCapsule(9, "Spirit Bomb (Goku)", 0x4DFB24, stacks=True)
+KAME_GOKU = RedCapsule(6, "Kamehameha (Goku)", 0x4DFB1F, classification = ItemClassification.progression)
+DRAG_FIST_GOKU = RedCapsule(7, "Dragon Fist", 0x4DFB21)
+WARP_KAME_GOKU = RedCapsule(8, "Warp Kamehameha (Goku)", 0x4DFB22)
+SPIRIT_BOMB_GOKU = RedCapsule(9, "Spirit Bomb (Goku)", 0x4DFB24, classification = ItemClassification.progression)
 SUPER_SPIRIT_BOMB = RedCapsule(999, "Super Spirit Bomb", 0x4DFB24)
 SUPER_DRAG_FIST = RedCapsule(999, "Super Dragon Fist")
 GOGETA_GOKU = RedCapsule(10, "Fusion - Gogeta (Goku)", 0x4DFBC1) # both are listed as "Fusion" so this
@@ -79,46 +63,46 @@ SOUL_PUNISHER_GOKU = RedCapsule(999, "Soul Punisher (Goku)", 0x4DFBC3)
 SOUL_STRIKE_GOKU = RedCapsule(999, "Soul Strike (Goku)", 0x4DFBC2)
 SSJ4_GOGETA_GOKU = RedCapsule(11, "Fusion - Super Saiyan 4 Gogeta (Goku)", 0x4DFBC8)
 VEGITO_GOKU = RedCapsule(12, "Potara - Vegito (Goku)", 0x4DFBD4)
-BREAK_GOKU = RedCapsule(13, "Breakthrough (Goku)", 0x4DFBE8)
+BREAK_GOKU = RedCapsule(13, "Breakthrough (Goku)", 0x4DFBE8, classification = ItemClassification.progression)
 
 ## Kid Goku
-KAME_KGOKU = RedCapsule(14, "Kamehameha (Kid Goku)", 0x4DFB26, stacks=True)
-RSP_KGOKU = RedCapsule(15, "Rock-Scissors-Paper", 0x4DFB27, stacks=True)
-DRAG_FIST_KGOKU = RedCapsule(16, "Super Dragon Fist", 0x4DFB28, stacks=True)
+KAME_KGOKU = RedCapsule(14, "Kamehameha (Kid Goku)", 0x4DFB26)
+RSP_KGOKU = RedCapsule(15, "Rock-Scissors-Paper", 0x4DFB27)
+DRAG_FIST_KGOKU = RedCapsule(16, "Super Dragon Fist", 0x4DFB28)
 BREAK_KGOKU = RedCapsule(17, "Breakthrough (Kid Goku)", 0x4DFBE9)
 
 ## Kid Gohan
 POTENTIAL_KGOHAN = RedCapsule(18, "Hidden Potential (Kid Gohan)", 0x4DFB29)
-MASENKO = RedCapsule(19, "Masenko", 0x4DFB2A)
-BREAK_KGOHAN = RedCapsule(20, "Breakthrough (Kid Gohan)", 0x4DFBEA)
+MASENKO = RedCapsule(19, "Masenko", 0x4DFB2A, classification = ItemClassification.progression)
+BREAK_KGOHAN = RedCapsule(20, "Breakthrough (Kid Gohan)", 0x4DFBEA, classification = ItemClassification.progression)
 
 ## Teen Gohan
-SSJ_TGOHAN = RedCapsule(21, "Super Saiyan (Teen Gohan)", 0x4DFB2B)
-SSJ2_TGOHAN = RedCapsule(22, "Super Saiyan 2 (Teen Gohan)", 0x4DFB2C)
-KAME_TGOHAN = RedCapsule(23, "Kamehameha (Teen Gohan)", 0x4DFB2D, stacks=True)
-SOAR_TGOHAN = RedCapsule(24, "Soaring Dragon Strike (Teen Gohan)", 0x4DFB2E, stacks=True)
-FS_KAME = RedCapsule(25, "Father-Son Kamehameha", 0x4DFB2F, stacks=True)
-BREAK_TGOHAN = RedCapsule(26, "Breakthrough (Teen Gohan)", 0x4DFBEB)
+SSJ_TGOHAN = RedCapsule(21, "Super Saiyan (Teen Gohan)", 0x4DFB2B, classification = ItemClassification.progression)
+SSJ2_TGOHAN = RedCapsule(22, "Super Saiyan 2 (Teen Gohan)", 0x4DFB2C, classification = ItemClassification.progression)
+KAME_TGOHAN = RedCapsule(23, "Kamehameha (Teen Gohan)", 0x4DFB2D)
+SOAR_TGOHAN = RedCapsule(24, "Soaring Dragon Strike (Teen Gohan)", 0x4DFB2E)
+FS_KAME = RedCapsule(25, "Father-Son Kamehameha", 0x4DFB2F, classification = ItemClassification.progression)
+BREAK_TGOHAN = RedCapsule(26, "Breakthrough (Teen Gohan)", 0x4DFBEB, classification = ItemClassification.progression)
 
 ## Gohan
-SSJ_GOHAN = RedCapsule(27, "Super Saiyan (Gohan)", 0x4DFB30)
-SSJ2_GOHAN = RedCapsule(28, "Super Saiyan 2 (Gohan)", 0x4DFB31)
-ELDER_UNLOCK = RedCapsule(29, "Elder Kai Unlock Ability", 0x4DFB32)
-KAME_GOHAN = RedCapsule(30, "Kamehameha (Gohan)", 0x4DFB33, stacks=True)
-SOAR_GOHAN = RedCapsule(31, "Soaring Dragon Strike (Gohan)", 0x4DFB34, stacks=True)
-SUPER_KAME_GOHAN = RedCapsule(32, "Super Kamehameha", 0x4DFB35, stacks=True)
-BREAK_GOHAN = RedCapsule(33, "Breakthrough (Gohan)", 0x4DFBEC)
+SSJ_GOHAN = RedCapsule(27, "Super Saiyan (Gohan)", 0x4DFB30, classification = ItemClassification.progression)
+SSJ2_GOHAN = RedCapsule(28, "Super Saiyan 2 (Gohan)", 0x4DFB31, classification = ItemClassification.progression)
+ELDER_UNLOCK = RedCapsule(29, "Elder Kai Unlock Ability", 0x4DFB32, classification = ItemClassification.progression)
+KAME_GOHAN = RedCapsule(30, "Kamehameha (Gohan)", 0x4DFB33)
+SOAR_GOHAN = RedCapsule(31, "Soaring Dragon Strike (Gohan)", 0x4DFB34)
+SUPER_KAME_GOHAN = RedCapsule(32, "Super Kamehameha", 0x4DFB35, classification = ItemClassification.progression)
+BREAK_GOHAN = RedCapsule(33, "Breakthrough (Gohan)", 0x4DFBEC, classification = ItemClassification.progression)
 
 ## Gt. Saiyaman
-JPUNCH = RedCapsule(34, "Justice Punch", 0x4DFB36, stacks=True)
-JKICK = RedCapsule(35, "Justice Kick", 0x4DFB37, stacks=True)
+JPUNCH = RedCapsule(34, "Justice Punch", 0x4DFB36)
+JKICK = RedCapsule(35, "Justice Kick", 0x4DFB37)
 JPOSE = RedCapsule(36, "Justice Pose", 0x4DFB38)
 BREAK_GTS = RedCapsule(37, "Breakthrough (Gt Saiyaman)", 0x4DFBEE)
 
 ## Goten
 SSJ_GOTEN = RedCapsule(38, "Super Saiyan (Goten)", 0x4DFB39)
-KAME_GOTEN = RedCapsule(39, "Kamehameha (Goten)", 0x4DFB3A, stacks=True)
-CHARGE = RedCapsule(40, "Charge", 0x4DFB3B, stacks=True)
+KAME_GOTEN = RedCapsule(39, "Kamehameha (Goten)", 0x4DFB3A)
+CHARGE = RedCapsule(40, "Charge", 0x4DFB3B)
 CHARGE_GOTENKS = RedCapsule(999, "Charge (Gotenks)", 0x4DFBB3)
 GOTENKS_GOTEN = RedCapsule(41, "Fusion - Gotenks (Goten)", 0x4DFBAF)
 SSJ_GOTENKS_GOTEN = RedCapsule(999, "Super Saiyan Gotenks (Goten)", 0x4DFBB1)
@@ -131,38 +115,38 @@ VICTORY_GOTEN = RedCapsule(999, "Victory Cannon (Gotenks) (Goten)", 0x4DFBB4)
 BREAK_GOTEN = RedCapsule(42, "Breakthrough (Goten)", 0x4DFBEE)
 
 ## Vegeta
-SSJ_VEGETA = RedCapsule(43, "Super Saiyan (Vegeta)", 0x4DFB3C)
-SSJ2_VEGETA = RedCapsule(44, "Super Saiyan 2 (Vegeta)", 0x4DFB3D)
-SSJ4_VEGETA = RedCapsule(45, "Super Saiyan 4 (Vegeta)", 0x4DFB3E)
+SSJ_VEGETA = RedCapsule(43, "Super Saiyan (Vegeta)", 0x4DFB3C, classification = ItemClassification.progression)
+SSJ2_VEGETA = RedCapsule(44, "Super Saiyan 2 (Vegeta)", 0x4DFB3D, classification = ItemClassification.progression)
+SSJ4_VEGETA = RedCapsule(45, "Super Saiyan 4 (Vegeta)", 0x4DFB3E, classification = ItemClassification.progression)
 SSJ4_VEGETA_GOGETA = RedCapsule(999, "Super Saiyan 4 (Gogeta) (Vegeta)", 0x4DFBCF)
 ATOMIC_BLAST = RedCapsule(999, "Atomic Blast (Majin Vegeta)", 0x4DFB41)
 BIG_KAME_VEGETA = RedCapsule(999, "Big Bang Kamehameha (Gogeta) (Vegeta)", 0x4DFBD2)
 BIG_KAME_100X_VEGETA = RedCapsule(999, "100x Big Bang Kamehameha (SSJ4 Gogeta) (Vegeta)", 0x4DFBD3)
-GALICK = RedCapsule(46, "Galick Gun", 0x4DFB3F, stacks=True)
-FINAL_IMPACT = RedCapsule(47, "Final Impact", 0x4DFB41, stacks=True)
+GALICK = RedCapsule(46, "Galick Gun", 0x4DFB3F)
+FINAL_IMPACT = RedCapsule(47, "Final Impact", 0x4DFB41)
 FINAL_EXP = RedCapsule(999, "Final Explosion (Majin Vegeta)", 0x4DFB45)
-FINAL_FLASH = RedCapsule(48, "Final Flash", 0x4DFB44, stacks=True)
+FINAL_FLASH = RedCapsule(48, "Final Flash", 0x4DFB44, classification = ItemClassification.progression)
 FINAL_SHINE = RedCapsule(999, "Final Shine Attack (SSJ4 Vegeta)", 0x4DFB42)
 FINAL_SHINE_GOGETA = RedCapsule(999, "Final Shine Attack (SSJ4 Gogeta)", 0x4DFBD1)
-BIG_BANG = RedCapsule(49, "Big Bang Attack", 0x4DFB44, stacks=True)
+BIG_BANG = RedCapsule(49, "Big Bang Attack", 0x4DFB44, classification = ItemClassification.progression)
 GOGETA_VEGETA = RedCapsule(50, "Fusion - Gogeta (Vegeta)", 0x4DFBC4)
 SSJ4_GOGETA_VEGETA = RedCapsule(51, "Fusion - Super Saiyan 4 Gogeta (Vegeta)", 0x4DFBCE)
 VEGITO_VEGETA = RedCapsule(52, "Potara - Vegito (Vegeta)", 0x4DFBD9)
-BREAK_VEGETA = RedCapsule(53, "Breakthrough (Vegeta)", 0x4DFBEF)
+BREAK_VEGETA = RedCapsule(53, "Breakthrough (Vegeta)", 0x4DFBEF, classification = ItemClassification.progression)
 
 ## Trunks
 SSJ_TRUNKS = RedCapsule(54, "Super Saiyan (Trunks)", 0x4DFB46)
 SSJ2_TRUNKS = RedCapsule(55, "Super Saiyan 2 (Trunks)", 0x4DFB47)
-BUSTER_CANNON = RedCapsule(56, "Buster Cannon", 0x4DFB48, stacks=True)
-FINISH_BUSTER = RedCapsule(57, "Finish Buster", 0x4DFB49, stacks=True)
-BURNING_SLASH = RedCapsule(58, "Burning Slash", 0x4DFB4A, stacks=True)
+BUSTER_CANNON = RedCapsule(56, "Buster Cannon", 0x4DFB48)
+FINISH_BUSTER = RedCapsule(57, "Finish Buster", 0x4DFB49)
+BURNING_SLASH = RedCapsule(58, "Burning Slash", 0x4DFB4A)
 BREAK_TRUNKS = RedCapsule(59, "Breakthrough (Trunks)", 0x4DFBF0)
 
 ## Kid Trunks
 SSJ_KTRUNKS = RedCapsule(60, "Super Saiyan (Kid Trunks)", 0x4DFB4B)
-DOUBLE_BUSTER = RedCapsule(61, "Double Buster (Kid Trunks)", 0x4DFB4C, stacks=True)
+DOUBLE_BUSTER = RedCapsule(61, "Double Buster (Kid Trunks)", 0x4DFB4C)
 DOUBLE_BUSTER_GOTENKS = RedCapsule(999, "Double Buster (Gotenks)", 0x4DFBBA)
-FINAL_CANNON = RedCapsule(62, "Final Cannon (Kid Trunks)", 0x4DFB4D, stacks=True)
+FINAL_CANNON = RedCapsule(62, "Final Cannon (Kid Trunks)", 0x4DFB4D)
 FINAL_CANNON_GOTENKS = RedCapsule(999, "Final Cannon (Gotenks)", 0x4DFBBC)
 GOTENKS_KTRUNKS = RedCapsule(63, "Fusion - Gotenks (Kid Trunks)", 0x4DFBB7)
 GALACTICA_DONUTS_KTRUNKS = RedCapsule(999, "Galactica Donuts (Gotenks) (Kid Trunks)", 0x4DFBBD)
@@ -174,82 +158,82 @@ BREAK_KTRUNKS = RedCapsule(64, "Breakthrough (Kid Trunks)", 0x4DFBF1)
 
 ## Krillin
 POTENTIAL_KRILLIN = RedCapsule(65, "Hidden Potential (Krillin)", 0x4DFB4E)
-KAME_KRILLIN = RedCapsule(66, "Kamehameha (Krillin)", 0x4DFB4F, stacks=True)
-DD_KRILLIN = RedCapsule(67, "Destructo Disc (Krillin)", 0x4DFB50, stacks=True)
-FIERCE_DD = RedCapsule(68, "Fierce Destructo Disc", 0x4DFB51, stacks=True)
-BREAK_KRILLIN = RedCapsule(69, "Breakthrough (Krillin)", 0x4DFBF2)
+KAME_KRILLIN = RedCapsule(66, "Kamehameha (Krillin)", 0x4DFB4F)
+DD_KRILLIN = RedCapsule(67, "Destructo Disc (Krillin)", 0x4DFB50, classification = ItemClassification.progression)
+FIERCE_DD = RedCapsule(68, "Fierce Destructo Disc", 0x4DFB51)
+BREAK_KRILLIN = RedCapsule(69, "Breakthrough (Krillin)", 0x4DFBF2, classification = ItemClassification.progression)
 
 ## Piccolo
-SYNC_NAIL = RedCapsule(70, "Sync With Nail", 0x4DFB52)
-FUSE_KAMI = RedCapsule(71, "Fuse With Kami", 0x4DFB53)
-DEST_WAVE = RedCapsule(72, "Destructive Wave", 0x4DFB54, stacks=True)
-LGRENADE = RedCapsule(73, "Light Grenade", 0x4DFB55, stacks=True)
-SBEAM_CANNON = RedCapsule(74, "Special Beam Cannon", 0x4DFB56, stacks=True)
-HZGRENADE = RedCapsule(75, "Hellzone Grenade", 0x4DFB57, stacks=True)
-BREAK_PICCOLO = RedCapsule(76, "Breakthrough (Piccolo)", 0x4DFBF3)
+SYNC_NAIL = RedCapsule(70, "Sync With Nail", 0x4DFB52, classification = ItemClassification.progression)
+FUSE_KAMI = RedCapsule(71, "Fuse With Kami", 0x4DFB53, classification = ItemClassification.progression)
+DEST_WAVE = RedCapsule(72, "Destructive Wave", 0x4DFB54)
+LGRENADE = RedCapsule(73, "Light Grenade", 0x4DFB55)
+SBEAM_CANNON = RedCapsule(74, "Special Beam Cannon", 0x4DFB56, classification = ItemClassification.progression)
+HZGRENADE = RedCapsule(75, "Hellzone Grenade", 0x4DFB57)
+BREAK_PICCOLO = RedCapsule(76, "Breakthrough (Piccolo)", 0x4DFBF3, classification = ItemClassification.progression)
 
 ## Tien
-DODON = RedCapsule(77, "Dodompa", 0x4DFB58, stacks=True)
-BLAST_CANNON = RedCapsule(78, "Ki Blast Cannon", 0x4DFB59, stacks=True)
-NEO_BLAST_CANNON = RedCapsule(79, "Neo Ki Blast Cannon", 0x4DFB5A, stacks=True)
-BREAK_TIEN = RedCapsule(80, "Breakthrough (Tien)", 0x4DFBF4)
+DODON = RedCapsule(77, "Dodompa", 0x4DFB58)
+BLAST_CANNON = RedCapsule(78, "Ki Blast Cannon", 0x4DFB59, classification = ItemClassification.progression)
+NEO_BLAST_CANNON = RedCapsule(79, "Neo Ki Blast Cannon", 0x4DFB5A)
+BREAK_TIEN = RedCapsule(80, "Breakthrough (Tien)", 0x4DFBF4, classification = ItemClassification.progression)
 
 ## Yamcha
-KAME_YAMCHA = RedCapsule(81, "Kamehameha (Yamcha)", 0x4DFB5B, stacks=True)
-WOLF_FANG = RedCapsule(82, "Wolf Fang Fist", 0x4DFB5C, stacks=True)
-SPIRIT_BALL = RedCapsule(83, "Spirit Ball Attack", 0x4DFB5D, stacks=True)
+KAME_YAMCHA = RedCapsule(81, "Kamehameha (Yamcha)", 0x4DFB5B)
+WOLF_FANG = RedCapsule(82, "Wolf Fang Fist", 0x4DFB5C)
+SPIRIT_BALL = RedCapsule(83, "Spirit Ball Attack", 0x4DFB5D)
 BREAK_YAMCHA = RedCapsule(84, "Breakthrough (Yamcha)", 0x4DFBF5)
 
 ## Hercule
 TENSION = RedCapsule(85, "High Tension", 0x4DFB5E)
-DYNAMITE_KICK = RedCapsule(86, "Dynamite Kick", 0x4DFB5F, stacks=True)
-ROLLING_PUNCH = RedCapsule(87, "Rolling Hercule Punch", 0x4DFB60, stacks=True)
+DYNAMITE_KICK = RedCapsule(86, "Dynamite Kick", 0x4DFB5F)
+ROLLING_PUNCH = RedCapsule(87, "Rolling Hercule Punch", 0x4DFB60)
 HERC_SPECIAL = RedCapsule(88, "Hercule Special", 0x4DFB61)
-PRESENT = RedCapsule(89, "Present For You", 0x4DFB62, stacks=True)
+PRESENT = RedCapsule(89, "Present For You", 0x4DFB62)
 BREAK_HERCULE = RedCapsule(90, "Breakthrough (Hercule)", 0x4DFBF6)
 
 ## Videl
-EAGLE_KICK = RedCapsule(91, "Eagle Kick", 0x4DFB63, stacks=True)
-HAWK_ARROW = RedCapsule(92, "Hawk Arrow", 0x4DFB64, stacks=True)
-CLOSE_CALL = RedCapsule(93, "Videl's Close Call", 0x4DFB65, stacks=True)
+EAGLE_KICK = RedCapsule(91, "Eagle Kick", 0x4DFB63)
+HAWK_ARROW = RedCapsule(92, "Hawk Arrow", 0x4DFB64)
+CLOSE_CALL = RedCapsule(93, "Videl's Close Call", 0x4DFB65)
 BREAK_VIDEL = RedCapsule(94, "Breakthrough (Videl)", 0x4DFBF7)
 
 ## Supreme Kai
-SHOCKWAVE = RedCapsule(95, "Shockwave", 0x4DFB66,stacks=True)
-ABILITIES = RedCapsule(96, "Supernatural Abilities", 0x4DFB67, stacks=True)
+SHOCKWAVE = RedCapsule(95, "Shockwave", 0x4DFB66)
+ABILITIES = RedCapsule(96, "Supernatural Abilities", 0x4DFB67)
 KIBITOKAI = RedCapsule(97, "Potara - Kibitoshin", 0x4DFBDE)
 BREAK_SK = RedCapsule(98, "Breakthrough (Supreme Kai)", 0x4DFBF8)
 
 ## Uub
-KI_CANNON = RedCapsule(99, "Ki Cannon", 0x4DFB68, stacks=True)
-FIERCE_FLURRY = RedCapsule(100, "Fierce Flurry", 0x4DFB69, stacks=True)
-BREAK_UUB = RedCapsule(101, "Breakthrough (Uub)", 0x4DFBF9)
+KI_CANNON = RedCapsule(99, "Ki Cannon", 0x4DFB68, classification = ItemClassification.progression)
+FIERCE_FLURRY = RedCapsule(100, "Fierce Flurry", 0x4DFB69)
+BREAK_UUB = RedCapsule(101, "Breakthrough (Uub)", 0x4DFBF9, classification = ItemClassification.progression)
 
 ## Raditz
-SUNDAY = RedCapsule(102, "Double Sunday", stacks=True)
-SATURDAY = RedCapsule(103, "Saturday Crush", stacks=True)
+SUNDAY = RedCapsule(102, "Double Sunday")
+SATURDAY = RedCapsule(103, "Saturday Crush")
 BREAK_RADITZ = RedCapsule(104, "Breakthrough (Raditz)")
 
 ## Nappa
-BOMBER_DX = RedCapsule(105, "Bomber DX", 0x4DFB6C, stacks=True)
-BREAK_CANNON = RedCapsule(106, "Break Cannon", 0x4DFB6D, stacks=True)
-GIANT_STORM = RedCapsule(107, "Giant Storm", 0x4DFB6E, stacks=True)
+BOMBER_DX = RedCapsule(105, "Bomber DX", 0x4DFB6C)
+BREAK_CANNON = RedCapsule(106, "Break Cannon", 0x4DFB6D)
+GIANT_STORM = RedCapsule(107, "Giant Storm", 0x4DFB6E)
 BREAK_NAPPA = RedCapsule(108, "Breakthrough (Nappa)", 0x4DFBFB)
 
 ## Ginyu
 SFP1 = RedCapsule(109, "Super Fighting Pose 1", 0x4DFB6F)
 SFP2 = RedCapsule(110, "Super Fighting Pose 2", 0x4DFB71)
-MILKY_CANNON = RedCapsule(111, "Milky Cannon", 0x4DFB71, stacks=True)
-STRONG_JERSEY = RedCapsule(112, "Strong Jersey", 0x4DFB72, stacks=True)
-BODY_CHANGE = RedCapsule(113, "Body Change", 0x4DFB73, stacks=True)
+MILKY_CANNON = RedCapsule(111, "Milky Cannon", 0x4DFB71)
+STRONG_JERSEY = RedCapsule(112, "Strong Jersey", 0x4DFB72)
+BODY_CHANGE = RedCapsule(113, "Body Change", 0x4DFB73)
 BREAK_GINYU = RedCapsule(114, "Breakthrough (Capt Ginyu)", 0x4DFBFC)
 
 ## Recoome
 SFP3 = RedCapsule(115, "Super Fighting Pose 3", 0x4DFB74)
 SFP4 = RedCapsule(116, "Super Fighting Pose 4", 0x4DFB75)
-ERASER_GUN = RedCapsule(117, "Recoome Eraser Gun", 0x4DFB76, stacks=True)
-REC_KICK = RedCapsule(118, "Recoome Kick", 0x4DFB77, stacks=True)
-REC_BOMBER = RedCapsule(119, "Recoome Bomber", 0x4DFB78, stacks=True)
+ERASER_GUN = RedCapsule(117, "Recoome Eraser Gun", 0x4DFB76)
+REC_KICK = RedCapsule(118, "Recoome Kick", 0x4DFB77)
+REC_BOMBER = RedCapsule(119, "Recoome Bomber", 0x4DFB78)
 BREAK_REC = RedCapsule(120, "Breakthrough (Recoome)", 0x4DFBFD)
 
 ## Frieza
@@ -257,109 +241,109 @@ SECOND_FORM = RedCapsule(121, "Second Form", 0x4DFB79)
 THIRD_FORM = RedCapsule(122, "Third Form", 0x4DFB7A)
 FINAL_FORM_FRIEZA = RedCapsule(123, "Final Form (Frieza)", 0x4DFB7B)
 HUNDRED_PERCENT = RedCapsule(124, "100% Final Form", 0x4DFB7C)
-DEATH_BEAM = RedCapsule(125, "Death Beam", 0x462DF0, stacks=True)
-DEATH_WAVE = RedCapsule(126, "Death Wave", 0x4DFB7E, stacks=True)
-DEATH_BALL = RedCapsule(127, "Death Ball", 0x4DFB7F, stacks=True)
+DEATH_BEAM = RedCapsule(125, "Death Beam", 0x462DF0)
+DEATH_WAVE = RedCapsule(126, "Death Wave", 0x4DFB7E)
+DEATH_BALL = RedCapsule(127, "Death Ball", 0x4DFB7F)
 BREAK_FRIEZA = RedCapsule(128, "Breakthrough (Frieza)", 0x4DFBFE)
 
 ## Android 16
-ROCKET_PUNCH = RedCapsule(129, "Rocket Punch", 0x4DFB81, stacks=True)
-HELL_FLASH = RedCapsule(130, "Hell Flash", 0x4DFB82, stacks=True)
+ROCKET_PUNCH = RedCapsule(129, "Rocket Punch", 0x4DFB81)
+HELL_FLASH = RedCapsule(130, "Hell Flash", 0x4DFB82)
 BREAK_16 = RedCapsule(131, "Breakthrough (16)", 0x4DFBFF)
 
 ## Android 17
-POWER_BLITZ_17 = RedCapsule(132, "Power Blitz (17)", 0x4DFB82, stacks=True)
-ENERGY_FIELD_17 = RedCapsule(133, "Energy Field (17)", 0x4DFB83, stacks=True)
-ACCEL_DANCE_17 = RedCapsule(134, "Accel Dance (17)", 0x4DFB84, stacks=True)
+POWER_BLITZ_17 = RedCapsule(132, "Power Blitz (17)", 0x4DFB82)
+ENERGY_FIELD_17 = RedCapsule(133, "Energy Field (17)", 0x4DFB83)
+ACCEL_DANCE_17 = RedCapsule(134, "Accel Dance (17)", 0x4DFB84)
 BREAK_17 = RedCapsule(135, "Breakthrough (17)", 0x4DFC00)
 
 ## Android 18
-POWER_BLITZ_18 = RedCapsule(136, "Power Blitz (18)", 0x4DFB85, stacks=True)
-DD_18 = RedCapsule(137, "Destructo Disc (18)", 0x4DFB86, stacks=True)
-ACCEL_DANCE_18 = RedCapsule(138, "Accel Dance (18)", 0x4DFB87, stacks=True)
+POWER_BLITZ_18 = RedCapsule(136, "Power Blitz (18)", 0x4DFB85)
+DD_18 = RedCapsule(137, "Destructo Disc (18)", 0x4DFB86)
+ACCEL_DANCE_18 = RedCapsule(138, "Accel Dance (18)", 0x4DFB87)
 BREAK_18 = RedCapsule(139, "Breakthrough (18)", 0x4DFC01)
 
 ## Dr. Gero (Android 20)
-PHOTON_WAVE = RedCapsule(140, "Photon Wave", 0x4DFB88, stacks=True)
-KI_ABSORB = RedCapsule(141, "Ki Blast Absorption", 0x4DFB89, stacks=True)
-LIFE_DRAIN = RedCapsule(142, "Life Drain", 0x4DFB8A, stacks=True)
+PHOTON_WAVE = RedCapsule(140, "Photon Wave", 0x4DFB88)
+KI_ABSORB = RedCapsule(141, "Ki Blast Absorption", 0x4DFB89)
+LIFE_DRAIN = RedCapsule(142, "Life Drain", 0x4DFB8A)
 BREAK_GERO = RedCapsule(143, "Breakthrough (Dr Gero)", 0x4DFC02)
 
 ## Cell
 ABSORB_17 = RedCapsule(144, "17 Absorption", 0x4DFB8B)
 PERFECT_FORM = RedCapsule(145, "Perfect Form", 0x4DFB8C)
 SUPER_PERFECT = RedCapsule(146, "Super Perfect Form", 0x4DFB8E)
-KAME_CELL = RedCapsule(147, "Kamehameha (Cell)", 0x4DFB8E, stacks=True)
-ENERGY_FIELD_CELL = RedCapsule(148, "Energy Field (Cell)", 0x4DFB8F, stacks=True)
-SPIRIT_BOMB_CELL = RedCapsule(149, "Spirit Bomb (Cell)", 0x4DFB91, stacks=True)
+KAME_CELL = RedCapsule(147, "Kamehameha (Cell)", 0x4DFB8E)
+ENERGY_FIELD_CELL = RedCapsule(148, "Energy Field (Cell)", 0x4DFB8F)
+SPIRIT_BOMB_CELL = RedCapsule(149, "Spirit Bomb (Cell)", 0x4DFB91)
 BREAK_CELL = RedCapsule(150, "Breakthrough (Cell)", 0x4DFC03)
 
 ## Majin Buu
-INN_CANNON = RedCapsule(151, "Innocence Cannon", 0x4DFB91, stacks=True)
-INN_EXPRESS = RedCapsule(152, "Innocence Express", 0x4DFB92, stacks=True)
-ANGRY_EXPLODE = RedCapsule(153, "Angry Explosion", 0x4DFB93, stacks=True)
+INN_CANNON = RedCapsule(151, "Innocence Cannon", 0x4DFB91)
+INN_EXPRESS = RedCapsule(152, "Innocence Express", 0x4DFB92)
+ANGRY_EXPLODE = RedCapsule(153, "Angry Explosion", 0x4DFB93)
 # noinspection SpellCheckingInspection
 BREAK_MBUU = RedCapsule(154, "Breakthrough (Majin Buu)", 0x4DFC04)
 
 ## Super Buu
 ABSORB = RedCapsule(155, "Absorption", 0x4DFB94)
-ILL_FLASH = RedCapsule(156, "Ill Flash", 0x4DFB95, stacks=True)
-ILL_BALL = RedCapsule(157, "Ill Ball Attack", 0x4DFB96, stacks=True)
+ILL_FLASH = RedCapsule(156, "Ill Flash", 0x4DFB95)
+ILL_BALL = RedCapsule(157, "Ill Ball Attack", 0x4DFB96)
 # noinspection SpellCheckingInspection
 BREAK_SBUU = RedCapsule(158, "Breakthrough (Super Buu)", 0x4DFC05)
 
 ## Kid Buu
-VANISH_BALL = RedCapsule(159, "Vanish Ball", 0x4DFB97, stacks=True)
+VANISH_BALL = RedCapsule(159, "Vanish Ball", 0x4DFB97)
 # noinspection SpellCheckingInspection
-KAME_KBUU = RedCapsule(160, "Kamehameha (Kid Buu)", 0x4DFB98, stacks=True)
+KAME_KBUU = RedCapsule(160, "Kamehameha (Kid Buu)", 0x4DFB98)
 # noinspection SpellCheckingInspection
-WARP_KAME_KBUU = RedCapsule(161, "Warp Kamehameha (Kid Buu)", 0x4DFB99, stacks=True)
+WARP_KAME_KBUU = RedCapsule(161, "Warp Kamehameha (Kid Buu)", 0x4DFB99)
 # noinspection SpellCheckingInspection
 BREAK_KBUU = RedCapsule(162, "Breakthrough (Kid Buu)", 0x4DFC06)
 
 ## Dabura
 DEMON_WILL = RedCapsule(163, "Demonic Will", 0x4DFB9A)
-HELL_BLITZ = RedCapsule(164, "Hell Blitz", 0x4DFB9B, stacks=True)
-EVIL_BLAST = RedCapsule(165, "Evil Blast", 0x4DFB9C, stacks=True)
-HELL_RUSH = RedCapsule(166, "Hell Blade Rush", 0x4DFB9E, stacks=True)
+HELL_BLITZ = RedCapsule(164, "Hell Blitz", 0x4DFB9B)
+EVIL_BLAST = RedCapsule(165, "Evil Blast", 0x4DFB9C)
+HELL_RUSH = RedCapsule(166, "Hell Blade Rush", 0x4DFB9E)
 # noinspection SpellCheckingInspection
 BREAK_DABURA = RedCapsule(167, "Breakthrough (Dabura)", 0x4DFC07)
 
 ## Cooler
 FINAL_FORM_COOLER = RedCapsule(168, "Final Form (Cooler)", 0x4DFB9E)
-DESTRUCT_RAY = RedCapsule(169, "Destructive Ray", 0x4DFB9F, stacks=True)
+DESTRUCT_RAY = RedCapsule(169, "Destructive Ray", 0x4DFB9F)
 # noinspection SpellCheckingInspection
-SAUZER_BLADE = RedCapsule(170, "Sauzer Blade", 0x4DFBA0, stacks=True)
-SUPERNOVA = RedCapsule(171, "Supernova", 0x4DFBA1, stacks=True)
+SAUZER_BLADE = RedCapsule(170, "Sauzer Blade", 0x4DFBA0)
+SUPERNOVA = RedCapsule(171, "Supernova", 0x4DFBA1)
 BREAK_COOLER = RedCapsule(172, "Breakthrough (Cooler)", 0x4DFC08)
 
 ## Bardock
-RIOT_JAVELIN = RedCapsule(173, "Riot Javelin", 0x4DFBA2, stacks=True)
-HEAT_PHALANX = RedCapsule(174, "Heat Phalanx", 0x4DFBA3, stacks=True)
+RIOT_JAVELIN = RedCapsule(173, "Riot Javelin", 0x4DFBA2)
+HEAT_PHALANX = RedCapsule(174, "Heat Phalanx", 0x4DFBA3)
 # noinspection SpellCheckingInspection
-SPIRIT_SAIYANS = RedCapsule(175, "Spirit of Saiyans", 0x4DFBA4, stacks=True)
+SPIRIT_SAIYANS = RedCapsule(175, "Spirit of Saiyans", 0x4DFBA4)
 # noinspection SpellCheckingInspection
 BREAK_BARDOCK = RedCapsule(176, "Breakthrough (Bardock)", 0x4DFC09)
 
 ## Broly
 # noinspection SpellCheckingInspection
-LSSJ_BROLY = RedCapsule(177, "Legendary Super Saiyan", 0x4DFBA5)
-BLASTER_SHELL = RedCapsule(178, "Blaster Shell", 0x4DFBA6, stacks=True)
+LSSJ_BROLY = RedCapsule(177, "Legendary Super Saiyan", 0x4DFBA5, classification = ItemClassification.progression)
+BLASTER_SHELL = RedCapsule(178, "Blaster Shell", 0x4DFBA6)
 # noinspection SpellCheckingInspection
-GIGANT_PRESS = RedCapsule(179, "Gigantic Press", 0x4DFBA7, stacks=True)
+GIGANT_PRESS = RedCapsule(179, "Gigantic Press", 0x4DFBA7)
 # noinspection SpellCheckingInspection
-GIGANT_METEOR = RedCapsule(180, "Gigantic Meteor", 0x4DFBA8, stacks=True)
-BREAK_BROLY = RedCapsule(181, "Breakthrough (Broly)", 0x4DFC0A)
+GIGANT_METEOR = RedCapsule(180, "Gigantic Meteor", 0x4DFBA8, classification = ItemClassification.progression)
+BREAK_BROLY = RedCapsule(181, "Breakthrough (Broly)", 0x4DFC0A, classification = ItemClassification.progression)
 
 ## Omega Shenron
-WHIRLWIND = RedCapsule(182, "Whirlwind Spin", 0x4DFBA9, stacks=True)
+WHIRLWIND = RedCapsule(182, "Whirlwind Spin", 0x4DFBA9)
 # noinspection SpellCheckingInspection
-DTHUNDER = RedCapsule(183, "Dragon Thunder", 0x4DFBAA, stacks=True)
-MINUS_BALL = RedCapsule(184, "Minus Power Energy Ball", 0x4DFBAB, stacks=True)
+DTHUNDER = RedCapsule(183, "Dragon Thunder", 0x4DFBAA)
+MINUS_BALL = RedCapsule(184, "Minus Power Energy Ball", 0x4DFBAB)
 BREAK_OMEGA = RedCapsule(185, "Breakthrough (Omega Shenron)", 0x4DFC0B)
 
 ## Saibaman
-ACID = RedCapsule(186, "Acid", 0x4DFBAC, stacks=True)
+ACID = RedCapsule(186, "Acid", 0x4DFBAC)
 # noinspection SpellCheckingInspection
 SELFDESTRUCT = RedCapsule(187, "Self-Destruct", 0x4DFBAD)
 # noinspection SpellCheckingInspection
@@ -367,7 +351,7 @@ BREAK_SAIBA = RedCapsule(188, "Breakthrough (Saibaman)", 0x4DFC0C)
 
 ## Cell Jr
 # noinspection SpellCheckingInspection
-KAME_CELLJR = RedCapsule(189, "Kamehameha (Cell Jr)", 0x4DFBAE, stacks=True)
+KAME_CELLJR = RedCapsule(189, "Kamehameha (Cell Jr)", 0x4DFBAE)
 # noinspection SpellCheckingInspection
 BREAK_CELLJR = RedCapsule(190, "Breakthrough (Cell Jr)", 0x4DFC0D)
 
@@ -468,7 +452,7 @@ DEMON_REALM_FLAMES = GreenCapsule(200, "Demon Realm's Flames", 0x4DFC3B)
 # noinspection SpellCheckingInspection
 KAKAROTS_CRYING = GreenCapsule(201, "Kakarot's Crying", 0x4DFC3C)
 # noinspection SpellCheckingInspection
-GINYU_SPECIAL_FORCES = GreenCapsule(202, "Ginyu Special Forcees", 0x4DFC3D)
+GINYU_SPECIAL_FORCES = GreenCapsule(202, "Ginyu Special Forces", 0x4DFC3D)
 COOLER_ARMORED_SQUAD = GreenCapsule(203, "Cooler's Armored Squad", 0x4DFC3E)
 POWER_FRIENDS = GreenCapsule(204, "Power of Friends", 0x4DFC3F)
 APPETITES_MEN = GreenCapsule(205, "Appetites of Men", 0x4DFC40)
@@ -659,7 +643,7 @@ SPARKING_EEEEEEE = GreenCapsule(361, "Sparking!!!!!!!", 0x4DFCDD)
 
 ## Bonus Exp
 WE_GOTTA_POWER_E = GreenCapsule(362, "WE GOTTA POWER!", 0x4DFCDE)
-WE_GOTTA_POWER_EE = GreenCapsule(363, "WE GOTTA POWER!!"0x4DFCDF)
+WE_GOTTA_POWER_EE = GreenCapsule(363, "WE GOTTA POWER!!", 0x4DFCDF)
 WE_GOTTA_POWER_EEE = GreenCapsule(364, "WE GOTTA POWER!!!", 0x4DFCE0)
 WE_GOTTA_POWER_EEEE = GreenCapsule(365, "WE GOTTA POWER!!!!", 0x4DFCE1)
 
@@ -700,7 +684,7 @@ WELL_CHILLED = YellowCapsule(370, "Well Chilled Juice", 0x4DFC13)
 EXTREME_CHILLED = YellowCapsule(371, "Extremely Chilled Juice", offset=0x4DFC14)
 THIRD_SENZU = YellowCapsule(372, "1/3 Senzu Bean", offset=0x4DFC15)
 HALF_SENZU = YellowCapsule(373, "1/2 Senzu Bean", offset=0x4DFC16)
-SENZU_BEAN = YellowCapsule(374, "Senzu Bean", offset=0x4DFC17)
+SENZU_BEAN = YellowCapsule(374, "Senzu Bean", offset=0x4DFC17, classification = ItemClassification.progression)
 KINGKAIS_WATER = YellowCapsule(375, "King Kai's Water", offset=0x4DFC18)
 SUPREMEKAIS_WATER = YellowCapsule(376, "Supreme Kai's Water", 0x4DFC19)
 GRANDKAIS_WATER = YellowCapsule(377, "Grand Supreme Kai's Water", offset=0x4DFC1B)
@@ -731,7 +715,7 @@ GAMBLE = YellowCapsule(401, "Gamble", offset=0x4DFD5B)
 
 YELLOW_CAPSULES = [
     TEMPURA, TONKATSU, CHICKEN_EGG, CHILLED, WELL_CHILLED, EXTREME_CHILLED, THIRD_SENZU, HALF_SENZU, SENZU_BEAN,
-    KINGKAIS_WATER, SUPREMEKAIS_WATER, GRANDKAIS_WATER, HOLY_WATER_DROP, HOLY_WATER_DROP, HOLY_WATER_BOTTLE, HOLY_WATER,
+    KINGKAIS_WATER, SUPREMEKAIS_WATER, GRANDKAIS_WATER, HOLY_WATER_DROP, HOLY_WATER_BOTTLE, HOLY_WATER,
     HERC_DRINK, HERC_DRINK_DX, HERC_DRINK_SP, KAMI_WATER_DROP, KAMI_WATER_BOTTLE, KAMI_WATER, PSHIELD_PROTO,
     PSHIELD_IMPROVED, PSHIELD_PROD, PORT_BARRIER, GERO_DEF_SYS, GERO_BARRIER_SYS, BIBIDIS_POT, VACCINE, SENZU_ROOT,
     SENZU_LEAF, SENZU_SEEDLING, EEL_SOUP, CF_TOAD, PAOZU_TAIL, GAMBLE
@@ -922,22 +906,22 @@ GRAY_CAPSULES = [
 ## todo: figure out Story Reenactment later
 
 # Custom items
-DRAGON_RADAR_GOKU = ItemData(520, "Dragon Radar (Goku)")
-DRAGON_RADAR_KGOHAN = ItemData(521, "Dragon Radar (Kid Gohan)")
-DRAGON_RADAR_TGOHAN = ItemData(522, "Dragon Radar (Teen Gohan)")
-DRAGON_RADAR_GOHAN = ItemData(523, "Dragon Radar (Gohan)")
-DRAGON_RADAR_PICCOLO = ItemData(524, "Dragon Radar (Piccolo)")
-DRAGON_RADAR_KRILLIN = ItemData(525, "Dragon Radar (Krillin)")
-DRAGON_RADAR_TIEN = ItemData(526, "Dragon Radar (Tien)")
-DRAGON_RADAR_VEGETA = ItemData(527, "Dragon Radar (Vegeta)")
-DRAGON_RADAR_YAMCHA = ItemData(528, "Dragon Radar (Yamcha)")
-DRAGON_RADAR_UUB = ItemData(529, "Dragon Radar (Uub)")
-DRAGON_RADAR_BROLY = ItemData(530, "Dragon Radar (Broly)")
-ZENIE_2K = ItemData(531, "2500 Zenie")
-ZENIE_5K = ItemData(532, "5000 Zenie")
-ZENIE_10K= ItemData(533, "10000 Zenie")
-ZENIE_25K = ItemData(534, "25000 Zenie")
-ZENIE_100K = ItemData(535, "100000 Zenie")
+DRAGON_RADAR_GOKU = Capsule(520, "Dragon Radar (Goku)")
+DRAGON_RADAR_KGOHAN = Capsule(521, "Dragon Radar (Kid Gohan)")
+DRAGON_RADAR_TGOHAN = Capsule(522, "Dragon Radar (Teen Gohan)")
+DRAGON_RADAR_GOHAN = Capsule(523, "Dragon Radar (Gohan)")
+DRAGON_RADAR_PICCOLO = Capsule(524, "Dragon Radar (Piccolo)")
+DRAGON_RADAR_KRILLIN = Capsule(525, "Dragon Radar (Krillin)")
+DRAGON_RADAR_TIEN = Capsule(526, "Dragon Radar (Tien)")
+DRAGON_RADAR_VEGETA = Capsule(527, "Dragon Radar (Vegeta)")
+DRAGON_RADAR_YAMCHA = Capsule(528, "Dragon Radar (Yamcha)")
+DRAGON_RADAR_UUB = Capsule(529, "Dragon Radar (Uub)")
+DRAGON_RADAR_BROLY = Capsule(530, "Dragon Radar (Broly)")
+ZENIE_2K = Capsule(531, "2500 Zenie")
+ZENIE_5K = Capsule(532, "5000 Zenie")
+ZENIE_10K= Capsule(533, "10000 Zenie")
+ZENIE_25K = Capsule(534, "25000 Zenie")
+ZENIE_100K = Capsule(535, "100000 Zenie")
 
 CUSTOM_ITEMS = [
     DRAGON_RADAR_GOKU, DRAGON_RADAR_KGOHAN, DRAGON_RADAR_TGOHAN, DRAGON_RADAR_GOHAN, DRAGON_RADAR_PICCOLO,
@@ -989,7 +973,7 @@ DW_CHARACTERS = [GOKU, KID_GOHAN, TEEN_GOHAN, GOHAN, PICCOLO, KRILLIN, TIEN, VEG
 
 dw_characters_as_dict = {}
 for char in DW_CHARACTERS:
-    dw_characters_as_dict[char.name] = char.item_id
+    dw_characters_as_dict[char.name] = char.code
 DW_CHARACTER_NAMES = dw_characters_as_dict
 
 
@@ -1045,17 +1029,17 @@ def item_name_groups():
 
     }
 
-def get_name_pairs() -> Dict[int, Capsule]:
+def get_name_pairs() -> Dict[str, Capsule]:
     collector = {}
     for item in ALL_ITEMS:
         collector[item.name] = item
     return collector
 
 
-def get_id_pairs() -> Dict[str, Capsule]:
+def get_id_pairs() -> Dict[int, Capsule]:
     collector = {}
     for item in ALL_ITEMS:
-        collector[item.item_id] = item
+        collector[item.code] = item
     return collector
 
 
@@ -1072,7 +1056,7 @@ ID_PAIRS = get_id_pairs()
 
 
 def item_name_to_id(name) -> int | None:
-    return NAME_PAIRS[name].item_id
+    return NAME_PAIRS[name].code
 
 
 def item_id_to_name(id) -> str | None:
@@ -1096,4 +1080,4 @@ def print_missing_addresses():
 # print_missing_addresses()
 
 def from_id(item) -> Capsule:
-    return ID_PAIRS[item.item_id]
+    return ID_PAIRS[item.code]

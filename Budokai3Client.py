@@ -110,9 +110,9 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
             is_connected = ctx.game_interface.get_connection_state()
             update_connection_status(ctx, is_connected)
             if is_connected:
-                await _handle_game_ready(ctx)
+                await _handle_game_ready(ctx) # note to self: leave this alone
             else:
-                await _handle_game_not_ready(ctx)
+                await _handle_game_not_ready(ctx) # note to self: leave this alone
         except ConnectionError:
             ctx.game_interface.disconnect_from_game()
         except Exception as e:

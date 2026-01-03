@@ -1,11 +1,7 @@
-from BaseClasses import ItemClassification, CollectionState, Item
+from BaseClasses import ItemClassification, CollectionState
 from .Logic import _get_options
 from .data import Items
 from .data.Items import *
-
-if TYPE_CHECKING:
-    # from . import Budokai3World
-    from .Budokai3Client import Budokai3Context
 
 
 def create_pool(state: CollectionState, player: int):
@@ -54,8 +50,8 @@ def create_prog_characters():
     return PROGRESSIVE_CAPSULES
 
 
-def progressive_order(item: ItemData, prog_type: str, count: int):
-    id = item.item_id
+def progressive_order(item: Capsule, prog_type: str, count: int):
+    id = item.code
     index = count - 1
     if not id: raise AttributeError
     if not prog_type: raise AttributeError
@@ -130,11 +126,11 @@ def progressive_order(item: ItemData, prog_type: str, count: int):
     return None
 
 
-def add_to_starting_pool(ctx: Budokai3Context, item: Item):
+def add_to_starting_pool(ctx, item: Capsule):
     pass
 
 
-def get_classification(item: ItemData):
+def get_classification(item: Capsule):
     if 'Progressive' in item.name: 
         return ItemClassification.progression
     if (item.name in Items.item_name_groups()["Fighters"] or item.name in Items.item_name_groups()["Tournament"]

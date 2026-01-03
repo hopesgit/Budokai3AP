@@ -1,17 +1,20 @@
+import os
 import typing
-from typing import Any, Dict, Mapping, Optional
+from typing import Any, Dict, Mapping, Optional, List
 
 import settings
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess
 
-from BaseClasses import Item, Tutorial, MultiWorld, CollectionState
+from BaseClasses import Tutorial, Region, Location, ItemClassification, Item
 from .data.Items import item_name_groups
-from .Regions import create_regions
+from .Regions import regions, RegionName
 # from .Container import Budokai3ProcedurePatch, generate_patch
 from .Budokai3Options import Budokai3Options
-# from . import ItemPool
+from . import ItemPool
 from .data import Items, Locations
+from .data.Items import Capsule
+from .import Logic
 
 
 def run_client(_url: Optional[str] = None):
@@ -60,10 +63,6 @@ class Budokai3Web(WebWorld):
     theme="ocean"
 
 
-class Budokai3Item(Item):
-    game: str = "Dragon Ball Z Budokai 3"
-
-
 class Budokai3World(World):
     """
     Only one will prevail! Dragon Ball Z Budokai 3 is a 2D fighting game based on the Dragon Ball anime series, mainly Dragon Ball Z.
@@ -76,7 +75,7 @@ class Budokai3World(World):
     options_dataclass = Budokai3Options
     options = Budokai3Options
     topology_present = True
-    item_name_to_id = {item.name: item.item_id for item in Items.ALL_ITEMS}
+    item_name_to_id = {item.name: item.code for item in Items.ALL_ITEMS}
     location_name_to_id = {location.name: location.location_id for location in Locations.LOCATIONS}
     item_name_groups = item_name_groups()
     # location_name_groups = Planets.get_location_groups()
@@ -84,13 +83,39 @@ class Budokai3World(World):
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
     ut_can_gen_without_yaml = True
 
+
+    def create_item(self, name: str) -> Capsule:
+        return Items.get_name_pairs()[name]
+
+
     def get_filler_item_name(self) -> str:
         return Items.ZENIE_2K.name
 
+
     def create_regions(self) -> None:
         player = self.player
-        multiworld = self.multiworld
-        create_regions(multiworld, player)
+        name_to_region = {}
+        for region_info in regions:
+            region = Region(region_info.name, player, self.multiworld)
+            name_to_region[region_info.name] = region
+            for location in region_info.locations:
+                loc = Location(player, location, self.location_name_to_id.get(location), region)
+                region.locations.append(loc)
+            self.multiworld.regions.append(region)
+    
+        for region_info in regions:
+            region = name_to_region[region_info.name]
+            for connection in region_info.connections:
+                entrance = region.connect(name_to_region[connection])
+                if connection == RegionName.Shenron_Goku:
+                    entrance.access_rule = lambda state: Logic.can_wish_goku(state, self.player)
+                if connection == RegionName.DU_Goku:
+                    entrance.access_rule = lambda state: Logic.has_goku(state, self.player)
+                if connection == RegionName.Dragon_Arena:
+                    entrance.access_rule = lambda state: Logic.has_dragon_arena(state, self.player)
+                if connection in [RegionName.Menu, RegionName.Shop, RegionName.Credits]:
+                    entrance.access_rule = lambda state: True
+
 
     # def create_item(self, name: str, override: Optional[ItemClassification] = None) -> "Item":
     #     if override:
@@ -98,8 +123,8 @@ class Budokai3World(World):
     #     item_data = Items.from_name(name)
     #     return Budokai3Item(name, ItemPool.get_classification(item_data), self.item_name_to_id[name], self.player)
 
-    # def create_event(self, name: str) -> "Item":
-    #     return Budokai3Item(name, ItemClassification.progression, None, self.player)
+    def create_event(self, name: str) -> "Item":
+        return Item(name, ItemClassification.progression, None, self.player)
 
     # def pre_fill(self) -> None:
     #     for location_name, item_name in self.prefilled_item_map.items():
@@ -107,12 +132,15 @@ class Budokai3World(World):
     #         item = self.create_item(item_name, ItemClassification.progression)
     #         location.place_locked_item(item)
     #
-    # def create_items(self) -> None:
-    #     items_to_add: list["Item"] = []
-    #     items_to_add += ItemPool.create_planets(self)
-    #     items_to_add += ItemPool.create_equipment(self)
-    #     items_to_add += ItemPool.create_collectables(self)
-    #     items_to_add += ItemPool.create_upgrades(self)
+    def create_items(self) -> None:
+        items_to_add: List[Capsule] = []
+        items_to_add += ItemPool.create_grays(False)
+        # items_to_add += ItemPool.create_greens()
+        items_to_add += ItemPool.create_yellows()
+        items_to_add += ItemPool.create_reds(False)
+        self.multiworld.itempool = items_to_add
+
+        
 
         # # add platinum bolts in whatever slots we have left
         # unfilled = [i for i in self.multiworld.get_unfilled_locations(self.player) if not i.is_event]
@@ -124,10 +152,10 @@ class Budokai3World(World):
         #
         # self.multiworld.itempool += items_to_add
 
-    # def set_rules(self) -> None:
-    #     boss_location = self.multiworld.get_location(Locations.YEEDIL_DEFEAT_MUTATED_PROTOPET.name, self.player)
-    #     boss_location.place_locked_item(self.create_event("Victory"))
-    #     self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+    def set_rules(self) -> None:
+        congrats = self.multiworld.get_location(Locations.MENU_CAPSULE_1.name, self.player)
+        congrats.place_locked_item(self.create_event("Victory"))
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
     #
     # def generate_output(self, output_directory: str) -> None:
     #     apdbzb3 = Budokai3ProcedurePatch(player=self.player, player_name=self.multiworld.get_player_name(self.player))

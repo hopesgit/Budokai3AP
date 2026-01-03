@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 
-from Budokai3Client import Budokai3Context
+# from .Budokai3Client import Budokai3Context
 
 if TYPE_CHECKING:
     pass
@@ -19,5 +19,3 @@ class Budokai3ProcedurePatch(APProcedurePatch, APTokenMixin):
     ]
     md5 = "225b94da75fa16da774e4fcf18f82d0f"
 
-
-    def __init__(self, ctx: Budokai3Context):

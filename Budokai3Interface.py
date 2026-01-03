@@ -286,12 +286,14 @@ class Budokai3Interface:
 
 
     def give_system_capsule_to_player(self, item):
+        self.logger.info(f'Sending system capsule {item.name} to {item.offset}...')
         self.pcsx2_interface.write_int8(item.offset, 1)
 
 
     def give_capsule_to_player(self, item):
         item_data = Items.from_id(item.item)
         offset = item_data.offset
+        self.logger.info(f'Sending item {item.name} to {offset}...')
         current_count = self.pcsx2_interface.read_int8(offset)
         if current_count < 9:
             self.pcsx2_interface.write_int8(offset, current_count + 1)
@@ -320,7 +322,7 @@ class Budokai3Interface:
             self.pcsx2_interface.connect()
             if not self.pcsx2_interface.is_connected():
                 return
-            self.logger.info("Connected to PCSX2 Emulator")
+            self.logger.info("Connected to PCSX2.")
         try:
             game_id = self.pcsx2_interface.get_game_id()
             self.current_game = None
@@ -329,8 +331,9 @@ class Budokai3Interface:
                 # self.addresses = Addresses(game_id)
             if self.current_game is None and self.game_id_error != game_id and game_id != b'\x00\x00\x00\x00\x00\x00':
                 self.logger.warning(
-                    f"Connected to the wrong game ({game_id}, "
-                    f"please connect to DBZ Budokai 3 (Game ID starts with a SLUS-)")
+                    f"Connected to the wrong game, ({game_id}"
+                    f"Please connect to DBZ Budokai 3 (Game ID is SLUS-20998(GH) for NTSC-U versions; SLES-52730 or SLES-53346 for PAL.)"
+                    f"Please note that PAL versions are not supported at this time.")
                 self.game_id_error = game_id
         except RuntimeError:
             pass
@@ -340,7 +343,7 @@ class Budokai3Interface:
     def disconnect_from_game(self):
         self.pcsx2_interface.disconnect()
         self.current_game = None
-        self.logger.info("Disconnected from PCSX2 Emulator")
+        self.logger.info("Disconnected from PCSX2.")
 
     def get_connection_state(self) -> bool:
         try:
@@ -375,37 +378,6 @@ class Budokai3Interface:
 
     def nop_instruction(self, address: int):
         self.write_instruction(address, 0x0)
-
-    # def get_text_offset_addr(self, text_id: int) -> Optional[int]:
-    #     text_address_table = self.get_segment_pointer_table().help_messages
-
-    #     # If text segment starts with "WAD", it means the game is currently performing a light reload
-    #     # (e.g. after a death) and writing over this data would most likely crash the game.
-    #     header = self.pcsx2_interface.read_int32(text_address_table)
-    #     if header & 0x00FFFFFF == 0x444157:  # "WAD"
-    #         return None
-
-    #     # Since the order of text IDs is always the same in the table for a given version of the game, we store the
-    #     # position of each text ID we encounter to avoid looping over that table ever again.
-    #     if text_id in self.text_ids_cache:
-    #         offset_addr = text_address_table + self.text_ids_cache[text_id] * 0x10
-    #         found_text_id = self.pcsx2_interface.read_int32(offset_addr + 0x4)
-    #         if found_text_id == text_id:
-    #             return offset_addr
-    #         # When changing planets, offsets can slightly shift for some reason: invalidate the cache
-    #         self.text_ids_cache.clear()
-
-    #     # Perform a lookup on the text offsets table to know the address of the string referenced by the given text ID
-    #     # Cache all offsets in this table inside the dictionary to not have to perform that lookup next time.
-    #     i = 0
-    #     while True:
-    #         current_text_id = self.pcsx2_interface.read_int32(text_address_table + i * 0x10 + 0x4)
-    #         self.text_ids_cache[current_text_id] = i
-    #         if current_text_id > 0x2000000:
-    #             return None
-    #         if current_text_id == text_id:
-    #             return text_address_table + i * 0x10
-    #         i += 1
 
     # def get_text_address(self, text_id: int) -> Optional[int]:
     #     offset_addr = self.get_text_offset_addr(text_id)

@@ -13,29 +13,29 @@ class LocationData(NamedTuple):
 
 # Dragon World Checks
 ## Goku
-GOKU_RADITZ_CLEAR = LocationData(1, "Goku - Saiyan Saga - Defeat Raditz", can_goku)
-GOKU_NAPPA_CLEAR = LocationData(2, "Goku - Saiyan Saga - Defeat Nappa", can_goku)
-GOKU_VEGETA_1_CLEAR = LocationData(3, "Goku - Saiyan Saga - Defeat Vegeta", can_goku)
-GOKU_RECOOME_CLEAR = LocationData(4, "Goku - Namek Saga - Defeat Recoome", can_goku)
-GOKU_GINYU_CLEAR = LocationData(5, "Goku - Namek Saga - Defeat Ginyu", can_goku)
-GOKU_FRIEZA_1_CLEAR = LocationData(6, "Goku - Namek Saga - Defeat Final Form Frieza", can_goku)
-GOKU_FRIEZA_2_CLEAR = LocationData(7, "Goku - Namek Saga - Defeat 100% Final Form Frieza", can_goku)
-GOKU_COOLER_CLEAR = LocationData(8, "Goku - Android Saga - Defeat Cooler", can_goku)
-GOKU_CELL_CLEAR = LocationData(9, "Goku - Android Saga - Defeat Cell", can_goku)
-GOKU_MAJIN_VEGETA_CLEAR = LocationData(10, "Goku - Buu Saga - Defeat Majin Vegeta", can_goku)
-GOKU_MAJIN_BUU_CLEAR = LocationData(11, "Goku - Buu Saga - Defeat Majin Buu", can_goku)
-GOKU_SUPER_BUU_1_CLEAR = LocationData(12, "Goku - Buu Saga - Defeat Super Buu (Gohan)", can_goku)
-GOKU_SUPER_BUU_2_CLEAR = LocationData(13, "Goku - Buu Saga - Defeat Super Buu", can_goku)
-GOKU_KID_BUU_CLEAR = LocationData(14, "Goku - Buu Saga - Defeat Kid Buu", can_goku)
-GOKU_UUB_CLEAR = LocationData(15, "Goku - Extra Saga - Defeat Uub", can_super_spirit_bomb) # Must have defeated Kid Buu with a
+GOKU_RADITZ_CLEAR = LocationData(1, "Goku: Saiyan Saga - Defeat Raditz", can_goku)
+GOKU_NAPPA_CLEAR = LocationData(2, "Goku: Saiyan Saga - Defeat Nappa", can_goku)
+GOKU_VEGETA_1_CLEAR = LocationData(3, "Goku: Saiyan Saga - Defeat Vegeta", can_goku)
+GOKU_RECOOME_CLEAR = LocationData(4, "Goku: Namek Saga - Defeat Recoome", can_goku)
+GOKU_GINYU_CLEAR = LocationData(5, "Goku: Namek Saga - Defeat Ginyu", can_goku)
+GOKU_FRIEZA_1_CLEAR = LocationData(6, "Goku: Namek Saga - Defeat Final Form Frieza", can_goku)
+GOKU_FRIEZA_2_CLEAR = LocationData(7, "Goku: Namek Saga - Defeat 100% Final Form Frieza", can_goku)
+GOKU_COOLER_CLEAR = LocationData(8, "Goku: Android Saga - Defeat Cooler", can_goku)
+GOKU_CELL_CLEAR = LocationData(9, "Goku: Android Saga - Defeat Cell", can_goku)
+GOKU_MAJIN_VEGETA_CLEAR = LocationData(10, "Goku: Buu Saga - Defeat Majin Vegeta", can_goku)
+GOKU_MAJIN_BUU_CLEAR = LocationData(11, "Goku: Buu Saga - Defeat Majin Buu", can_goku)
+GOKU_SUPER_BUU_1_CLEAR = LocationData(12, "Goku: Buu Saga - Defeat Super Buu (Gohan)", can_goku)
+GOKU_SUPER_BUU_2_CLEAR = LocationData(13, "Goku: Buu Saga - Defeat Super Buu", can_goku)
+GOKU_KID_BUU_CLEAR = LocationData(14, "Goku: Buu Saga - Defeat Kid Buu", can_goku)
+GOKU_UUB_CLEAR = LocationData(15, "Goku: Extra Saga - Defeat Uub", can_super_spirit_bomb) # Must have defeated Kid Buu with a
                                                                                      # successful Super Spirit Bomb
-GOKU_COOLER_2_CLEAR = LocationData(16, "Goku 2 - Namek Saga - Defeat Cooler", can_wish_goku)
-GOKU_METAL_COOLER_CLEAR = LocationData(17, "Goku 2 - Namek Saga - Defeat Metal Cooler", can_wish_goku)
-GOKU_VEGETA_2_CLEAR = LocationData(18, "Goku 2 - Namek Saga - Defeat Super Saiyan Vegeta", can_wish_goku_vegeta)
-GOKU_COOLER_3_CLEAR = LocationData(19, "Goku 2 - Namek Saga - Defeat Cooler after Vegeta", can_wish_goku_vegeta)
-GOKU_BROLY_CLEAR = LocationData(20, "Goku 2 - Buu Saga - Defeat Broly", can_wish_goku)
-GOKU_GOTENKS_CLEAR = LocationData(21, "Goku 2 - Extra Saga - Defeat Gotenks", can_wish_and_spirit_bomb)
-GOKU_OMEGA_CLEAR = LocationData(22, "Goku 2 - Extra Saga - Defeat Omega Shenron", can_wish_and_spirit_bomb)
+GOKU_COOLER_2_CLEAR = LocationData(16, "Goku 2: Namek Saga - Defeat Cooler", can_wish_goku)
+GOKU_METAL_COOLER_CLEAR = LocationData(17, "Goku 2: Namek Saga - Defeat Metal Cooler", can_wish_goku)
+GOKU_VEGETA_2_CLEAR = LocationData(18, "Goku 2: Namek Saga - Defeat Super Saiyan Vegeta", can_wish_goku_vegeta)
+GOKU_COOLER_3_CLEAR = LocationData(19, "Goku 2: Namek Saga - Defeat Cooler after Vegeta", can_wish_goku_vegeta)
+GOKU_BROLY_CLEAR = LocationData(20, "Goku 2: Buu Saga - Defeat Broly", can_wish_goku)
+GOKU_GOTENKS_CLEAR = LocationData(21, "Goku 2: Extra Saga - Defeat Gotenks", can_wish_and_spirit_bomb)
+GOKU_OMEGA_CLEAR = LocationData(22, "Goku 2: Extra Saga - Defeat Omega Shenron", can_wish_and_spirit_bomb)
 
 GOKU_BOSSES = [
     GOKU_RADITZ_CLEAR, GOKU_NAPPA_CLEAR, GOKU_VEGETA_1_CLEAR, GOKU_RECOOME_CLEAR, GOKU_GINYU_CLEAR, GOKU_FRIEZA_1_CLEAR,
@@ -171,10 +171,10 @@ TIEN_BOSSES = [
 ]
 
 ## Yamcha
-YAMCHA_SAIBAMEN_CLEAR = LocationData(96, "Yamcha - Saiyan Saga - Defeat Saibamen", can_yamcha)
+YAMCHA_SAIBAMEN_CLEAR = LocationData(96, "Yamcha - Saiyan Saga - Defeat Saibaman", can_yamcha)
 YAMCHA_DR_GERO_CLEAR = LocationData(97, "Yamcha - Android Saga - Defeat Dr Gero", can_yamcha)
 YAMCHA_TIEN_CLEAR = LocationData(98, "Yamcha - Extra Saga - Defeat Tien", can_yamcha)
-YAMCHA_VEGETA_CLEAR = LocationData(99, "Yamcha 2 - Extra Saga - Defeat Vegeta", can_wish_yamcha)
+YAMCHA_VEGETA_CLEAR = LocationData(99, "Yamcha - Buu Saga - Defeat Vegeta", can_yamcha)
 
 YAMCHA_BOSSES = [
     YAMCHA_SAIBAMEN_CLEAR, YAMCHA_DR_GERO_CLEAR, YAMCHA_TIEN_CLEAR, YAMCHA_VEGETA_CLEAR
@@ -306,16 +306,37 @@ DW_WISHES = [
 ]
 
 ## DW Static Capsules
-GOKU_CAPSULE_1 = LocationData(172, "Goku - Saiyan Saga - Starting Capsule", has_goku)
-GOKU_CAPSULE_2 = LocationData(173, "Goku - Saiyan Saga - Capsule at Plains Marker", can_goku)
-GOKU_CAPSULE_3 = LocationData(174, "Goku - Saiyan Saga - Capsule at Plains", can_goku)
-GOKU_CAPSULE_4 = LocationData(175, "Goku - Saiyan Saga - Vegeta Reward", can_goku)
-GOKU_CAPSULE_5 = LocationData(176, "Goku - Namek Saga - Capsule at Capsule House", can_goku)
-GOKU_CAPSULE_6 = LocationData(177, "Goku - Namek Saga - Recoome Reward 1", can_goku)
-GOKU_CAPSULE_7 = LocationData(178, "Goku - Namek Saga - Recoome Reward 2", can_goku)
-GOKU_CAPSULE_8 = LocationData(179, "Goku - Namek Saga - Ginyu Reward", can_goku)
-GOKU_CAPSULE_9 = LocationData(180, "Goku - Namek Saga - Capsule given before 100% Final Power Frieza Battle", can_goku)
-GOKU_CAPSULE_10 = LocationData(181, "Goku - Namek Saga - 100% Full Power Frieza Reward", can_goku)
+GOKU_CAPSULE_1 = LocationData(172, "Goku: Saiyan Saga - Starting Capsule", has_goku)
+## from beginning
+# "Goku - Saiyan Saga - Capsule from Bulma at West City after Speaking with Chichi at Goku's House" (S)
+# Goku - Saiyan Saga - Capsule after optional battle with Tien at World Tournament (S14)
+# Goku - Saiyan Saga - 5-star Dragon Ball at ??? in Glacier (S4) 
+# Goku - Saiyan Saga - 3-star Dragon Ball at ??? in ocean North of Kami's Lookout (S1)
+# Goku - Saiyan Saga - Capsule at ??? south of Kami's Lookout (S9)
+# Goku - Saiyan Saga - Capsule at Gleaming ??? North of Central City (S3)
+# Goku: Saiyan Sage - Money at Gleaming ??? in NW Island (S1)
+## After Raditz
+# GOku 2 - Saiyan Saga - Capsule from Kami at Kami's Lookout after Raditz (S5)
+# Goku: Capsule at Gleaming ??? North of East City (S4)
+# GOku: Dragon Radar at Gleaming ??? Between Central and East City (S7)
+# Goku 2: Capsule from Chichi at Goku's House (S11)
+# Goku: Money at Gleaming ??? in Mountains North of West City (S6)
+# Goku: Money at Gleaming ??? in Northern Mountains (S2)
+## After Nappa
+# Capsule from Master Roshi at Kame House (S12)
+# Capsule at Gleaming ??? on island north of West City 1 (S6) #Membership cards, ugh
+# Capsule at Gleaming ??? on island north of West City 2 (S6) #Membership cards, ugh
+## Namek Saga Start
+# Dragon Radar at Gleaming ??? near Goku's Spaceship (S8)
+GOKU_CAPSULE_2 = LocationData(173, "Goku: Saiyan Saga - Capsule at Plains Marker", can_goku)
+GOKU_CAPSULE_3 = LocationData(174, "Goku: Saiyan Saga - Capsule at Plains", can_goku)
+GOKU_CAPSULE_4 = LocationData(175, "Goku: Saiyan Saga - Vegeta Reward", can_goku)
+GOKU_CAPSULE_5 = LocationData(176, "Goku: Namek Saga - Capsule at Capsule House", can_goku)
+GOKU_CAPSULE_6 = LocationData(177, "Goku: Namek Saga - Recoome Reward 1", can_goku)
+GOKU_CAPSULE_7 = LocationData(178, "Goku: Namek Saga - Recoome Reward 2", can_goku)
+GOKU_CAPSULE_8 = LocationData(179, "Goku: Namek Saga - Ginyu Reward", can_goku)
+GOKU_CAPSULE_9 = LocationData(180, "Goku: Namek Saga - Capsule given before 100% Final Power Frieza Battle", can_goku)
+GOKU_CAPSULE_10 = LocationData(181, "Goku: Namek Saga - 100% Full Power Frieza Reward", can_goku)
 GOKU_CAPSULE_11 = LocationData(182, "Goku - Android Saga - Capsule at Plains near Cell Ring", can_goku)
 GOKU_CAPSULE_12 = LocationData(183, "Goku - Android Saga - Capsule near Baba's House", can_goku)
 GOKU_CAPSULE_13 = LocationData(184, "Goku - Android Saga - Perfect Form Cell Reward", can_goku)
@@ -421,8 +442,6 @@ BROLY_CAPSULE_3 = LocationData(283, "Broly - Capsule at ??? near Kami's Lookout"
 BROLY_CAPSULE_4 = LocationData(284, "Broly - Capsule Given Before Gohan 1", can_broly)
 BROLY_CAPSULE_5 = LocationData(285, "Broly - Capsule Given upon Completion", can_broly)
 BROLY_CAPSULE_6 = LocationData(286, "Broly 2 - Capsule at Plains near Northern Mountains", can_wish_broly)
-### everything else are random capsules. Some of these locations give a specified capsule once and then a random capsule afterward
-
 MENU_CAPSULE_1 = LocationData(287, "Clear all Dragon Universe Stories", has_cleared_story)
 
 GOKU_CAPSULES = [
@@ -508,6 +527,11 @@ KGOHAN_LOCS = [
 TGOHAN_LOCS = [
 
 ]
+
+# Additional item locs:
+# Yamcha - Androids Saga - Money in Ocean East of Goku's House (S12)
+# Yamcha - Androids Saga - Capsule at Gleaming ??? on Large Single Island North of West City (S6)
+
 
 # Dragon Arena Checks
 GOKU_BREAK_IN = LocationData(300, "Dragon Arena - Defeat Break-In Challenger - Goku", has_dragon_arena)

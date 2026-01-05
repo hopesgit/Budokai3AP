@@ -5,8 +5,9 @@ from Options import (
     Choice,
     Toggle,
     OptionSet,
+    ItemSet
 )
-from .data.Items import DW_CHARACTER_NAMES
+from .data.Items import DU_CHARACTERS_AS_DICT, DU_CHARACTER_NAMES
 
 
 class StartWithStoryCharacters(Toggle):
@@ -18,18 +19,18 @@ class StartWithStoryCharacters(Toggle):
     display_name = "Start with Story Characters"
 
 
-class StartWithSuperAttacks(Choice):
+class RequireSuperAttacks(Choice):
     """Turn this on if you want to ensure that you have a special attack for a character before you can use them in Dragon World.\n
     For example, if you have Goku, you wouldn't be considered being able to use him until you acquire Kamehameha or Dragon Fist.
 
-    NOTE: The starting capsule(s) in each Dragon World route will still be checkable with only the character, so be sure
+    NOTE: The starting capsule(s) in each Dragon Universe route will still be checkable with only the character, so be sure
     to start a route if you have the character! This does not apply to Kid Gohan, who has no starting items.
 
     Choices:\n
     - **Off** - You don't want for the logic to consider whether you have any super attacks for a route to be playable.\n
     - **Random** - You do want for the logic to consider whether you have any super attacks, and you don't want to be given them.\n
-    - **Plando** - A super move for your character will be in the starting items for the route.\n
-    - **Start** - You will be given a random special move for each Dragon World story character when you first connect.\n
+    - **Plando/Vanilla** - A super move for each character will be in the capsules given at the beginning of his route.\n
+    - **Start** - A random special move (->E or <-E) for each Dragon Universe story character when you first connect.\n
     - **Choose** - You choose who to start with a special attack for.\n
     You might want this if you want to be challenged with Goku, but not with Krillin, for example.\n
     NOTE: Plando is how the unmodified game works. Once you start a character's route, you are given a red capsule or two for that character.
@@ -39,20 +40,27 @@ class StartWithSuperAttacks(Choice):
     option_off = 0
     option_randomize = 1
     option_plando = 2
+    alias_vanilla = 2
     option_start = 3
     option_choose = 4
-    display_name = "Start with Super Attacks"
+    # option_expand = 5
+    #     - **Expand** - Same as random, but include Ultimate and Dragon Rush moves.
+    # I want to add the above option but it's not worth doing before reaching v0.1
+    display_name = "Require Super Attacks"
 
 
-class SuperAttackStarters(OptionSet):
+class SuperAttackStarters(ItemSet):
     """List of character names whom you want to start with one of their super attacks (red capsules). Only has an effect
-    if 'Start with Super Attacks' is 'choose'."""
-    options = DW_CHARACTER_NAMES
+    if 'Start with Super Attacks' is 'choose'.\n
+    Valid Choices: Goku, Kid Gohan, Teen Gohan, Gohan, Krillin, Piccolo, Tien, Yamcha, Vegeta, Uub, Broly"""
+    options = DU_CHARACTERS_AS_DICT
     display_name = "Super Attack Starters"
+    valid_keys = DU_CHARACTER_NAMES
 
 
 class ProgressiveCharacters(Choice):
     """
+    NOTE: This changes how "Start With Super Attacks' works. Instead of including the attack, a progressive item for that character will be included in the spots you choose.\n 
     Turn this on if you want to play with progressive character unlocks. For example, there are 11 Progressive Goku-s in the pool.
     Rather than receiving Goku and his moves separately, you can choose to receive them in a planned order.
     The order would be in roughly story order, but more specifically as follows:\n
@@ -66,9 +74,13 @@ class ProgressiveCharacters(Choice):
     8) Super Saiyan 2
     9) Super Saiyan 3
     10) Super Saiyan 4
-    11) Breakthrough (Breakthrough is always last)
+    11) Breakthrough (Breakthrough is always last, but fusions/potara will go after it if applicable)
+    12) Fusion - Gogeta
+    13) Fusion - Super Saiyan 4 Gogeta
+    14) Potara - Vegito
 
-    NOTE: This ONLY applies to Dragon World characters. The rest work as normal.
+    NOTE: This ONLY applies to Dragon World characters. The rest work as normal. Tien, Yamcha, and Uub also only have
+    one progressive items path because of a lack of transformations.
 
     Choices:\n
     - **off** - No progressive items for me, thanks.\n
@@ -90,18 +102,29 @@ class ProgressiveCharacters(Choice):
 
 class StartWithDragonRadar(Toggle):
     """
-    Start with the Dragon Radar for each of your story routes.
+    Start with the Dragon Radar for each of your story routes (and its locations in each story to the location pool).
     """
-    default = True
+    default = False
     display_name = "Start with Dragon Radar"
+    visibility = False
+
+# Additional Option ideas:
+# Option that sets the flags for each DU route to be the second route 
+#   This eliminates some backtracking (though notably, not all. Some routes have branching bosses, and those can't be planned around)
+#   Will not be included in 0.1
+# Option that removes requirements for red capsules
+#   This would allow the player to use more moves. This would be relevant for Vegeta, Teen Gohan, Piccolo, Broly, Goku...
+# Option that 
 
 
 class BallRando(Toggle):
     """
-    Adds Dragon Balls for each story route to the item pool.
+    Adds Dragon Balls for each story route to the item pool (and their locations to the location pool). Makes it so that 
+    you can't get wish items without having all seven of that character's Dragon Balls.
     """
     display_name = "Dragon Ball Randomizer"
     default = False
+    visibility = False
 
 
 class AttackRando(Toggle):
@@ -144,12 +167,13 @@ class Completionist(Toggle):
     """
     default = False
     display_name = "Completionist"
+    visibility = False
 
 
 @dataclass
 class Budokai3Options(PerGameCommonOptions):
     start_with_story_characters: StartWithStoryCharacters
-    start_with_super_attacks: StartWithSuperAttacks
+    require_super_attacks: RequireSuperAttacks
     super_attack_starters: SuperAttackStarters
     progressive_characters: ProgressiveCharacters
     start_with_dragon_radar: StartWithDragonRadar

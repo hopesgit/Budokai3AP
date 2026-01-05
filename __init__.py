@@ -82,6 +82,7 @@ class Budokai3World(World):
     settings: Budokai3Settings
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
     ut_can_gen_without_yaml = True
+    starting_items: List[Capsule] = []
 
 
     def create_item(self, name: str) -> Capsule:
@@ -117,12 +118,6 @@ class Budokai3World(World):
                     entrance.access_rule = lambda state: True
 
 
-    # def create_item(self, name: str, override: Optional[ItemClassification] = None) -> "Item":
-    #     if override:
-    #         return Budokai3Item(name, override, self.item_name_to_id[name], self.player)
-    #     item_data = Items.from_name(name)
-    #     return Budokai3Item(name, ItemPool.get_classification(item_data), self.item_name_to_id[name], self.player)
-
     def create_event(self, name: str) -> "Item":
         return Item(name, ItemClassification.progression, None, self.player)
 
@@ -135,28 +130,27 @@ class Budokai3World(World):
     def create_items(self) -> None:
         items_to_add: List[Capsule] = []
         items_to_add += ItemPool.create_grays(False)
-        # items_to_add += ItemPool.create_greens()
-        items_to_add += ItemPool.create_yellows()
+        # # items_to_add += ItemPool.create_greens()
+        # items_to_add += ItemPool.create_yellows()
         items_to_add += ItemPool.create_reds(False)
+
+        unfilled_locs = [item for item in self.multiworld.get_unfilled_locations(self.player) if not item.is_event]
+        remaining = len(unfilled_locs) - len(items_to_add)
+        assert remaining >= 0, "There are more items than locations."
+        print(f"[Budokai 3]: Trying to fill {remaining} remaining locations...")
+        for _ in range(remaining):
+            item = Capsule(531, self.get_filler_item_name())
+            items_to_add.append(item)
+
         self.multiworld.itempool = items_to_add
 
-        
-
-        # # add platinum bolts in whatever slots we have left
-        # unfilled = [i for i in self.multiworld.get_unfilled_locations(self.player) if not i.is_event]
-        # remain = len(unfilled) - len(items_to_add)
-        # assert remain >= 0, "There are more items than locations. This is not supported."
-        # print(f"Not enough items to fill all locations. Adding {remain} filler items to the item pool")
-        # for _ in range(remain):
-        #     items_to_add.append(self.create_item(Items.BOLT_PACK.name, ItemClassification.filler))
-        #
-        # self.multiworld.itempool += items_to_add
 
     def set_rules(self) -> None:
         congrats = self.multiworld.get_location(Locations.MENU_CAPSULE_1.name, self.player)
         congrats.place_locked_item(self.create_event("Victory"))
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
-    #
+    
+
     # def generate_output(self, output_directory: str) -> None:
     #     apdbzb3 = Budokai3ProcedurePatch(player=self.player, player_name=self.multiworld.get_player_name(self.player))
     #     generate_patch(self, apdbzb3)
@@ -167,7 +161,7 @@ class Budokai3World(World):
     def get_options_as_dict(self) -> Dict[str, Any]:
         return self.options.as_dict(self,
             "start_with_story_characters",
-            "start_with_super_attacks",
+            "require_super_attacks",
             "super_attack_starters",
             "progressive_characters",
             "start_with_dragon_radar",
@@ -181,3 +175,11 @@ class Budokai3World(World):
     
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.get_options_as_dict()
+
+
+    def fill_hook(self,
+                  progitempool: List["Item"],
+                  usefulitempool: List["Item"],
+                  filleritempool: List["Item"],
+                  fill_locations: List["Location"]) -> None:
+        pass

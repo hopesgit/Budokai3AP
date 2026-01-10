@@ -102,7 +102,7 @@ class ProgressiveCharacters(Choice):
 
 class StartWithDragonRadar(Toggle):
     """
-    Start with the Dragon Radar for each of your story routes (and its locations in each story to the location pool).
+    Start with the Dragon Radar for each of your story routes (and adds its locations in each story to the location pool).
     """
     default = False
     display_name = "Start with Dragon Radar"
@@ -114,7 +114,8 @@ class StartWithDragonRadar(Toggle):
 #   Will not be included in 0.1
 # Option that removes requirements for red capsules
 #   This would allow the player to use more moves. This would be relevant for Vegeta, Teen Gohan, Piccolo, Broly, Goku...
-# Option that 
+# Option that adds money spots in to the pool. This would allow for more locations, but makes it more difficult to make money in-game
+# Option to implement special bonus rando, similar to Smash Bros Melee. Most aren't exactly relevant... So this is just an idea, mostly
 
 
 class BallRando(Toggle):

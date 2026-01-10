@@ -16,6 +16,8 @@ from .data import Items, Locations
 from .data.Items import Capsule
 from .import Logic
 
+version = "0.0.1"
+
 
 def run_client(_url: Optional[str] = None):
     from .Budokai3Client import launch

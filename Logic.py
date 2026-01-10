@@ -2,9 +2,39 @@
 from BaseClasses import CollectionState
 
 from .data import Items
+from . import Logic
+import typing
 
 def _get_options(state: CollectionState, player: int):
     return state.multiworld.worlds[player].options
+
+def can_use_moves_for_character(state: CollectionState, player: int, moves: typing.List[Items.Capsule], breakthrough_item: Items.Capsule, progressive_item = None, character = "") -> bool:
+    
+    def can_use_moves_regular(state, player, moves, breakthrough_item) -> bool:
+        moves_copy = moves.copy()
+        moves_copy.append(breakthrough_item)
+        names = [item.name for item in moves_copy]
+        return state.has_any(names, player)
+    
+    def can_use_moves_prog(state, player, moves, progressive_item):
+        return True
+    
+    rsa = _get_options(state, player).require_super_attacks.value
+    sas = _get_options(state, player).super_attack_starters.value
+    prog = _get_options(state, player).progressive_characters.value
+    if rsa == 0:
+        return True
+    elif rsa in [1, 2, 3]:
+        if prog: 
+            return can_use_moves_prog(state, player, moves, progressive_item)
+        else: 
+            return can_use_moves_regular(state, player, moves, breakthrough_item)
+    elif rsa == 4 and character in sas:
+        if prog: 
+            return can_use_moves_prog(state, player, moves, progressive_item)
+        else: 
+            return can_use_moves_regular(state, player, moves, breakthrough_item)
+
 
 def has_goku(state: CollectionState, player: int) -> bool:
     return state.has(Items.GOKU.name, player)
@@ -12,7 +42,7 @@ def has_goku(state: CollectionState, player: int) -> bool:
 def can_goku(state: CollectionState, player: int) -> bool:
     check1 = has_goku(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has_any([Items.KAME_GOKU.name, Items.DRAG_FIST_GOKU.name], player)
     elif opt == 'choose':
@@ -34,7 +64,7 @@ def has_kid_gohan(state: CollectionState, player: int) -> bool:
 def can_kid_gohan(state: CollectionState, player: int) -> bool:
     check1 = has_kid_gohan(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has(Items.MASENKO.name, player)
     elif opt == 'choose':
@@ -51,7 +81,7 @@ def can_teen_gohan(state: CollectionState, player: int) -> bool:
     check1 = has_teen_gohan(state, player)
     check2 = True
     can_soar = state.has_all([Items.SOAR_TGOHAN.name, Items.SSJ_TGOHAN.name, Items.SSJ2_TGOHAN.name], player)
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has(Items.KAME_TGOHAN.name, player) or can_soar
     elif opt == 'choose':
@@ -67,7 +97,7 @@ def has_gohan(state: CollectionState, player: int) -> bool:
 def can_gohan(state: CollectionState, player: int) -> bool:
     check1 = has_gohan(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has_any([Items.KAME_GOHAN.name, Items.SOAR_GOHAN.name], player)
     elif opt == 'choose':
@@ -84,7 +114,7 @@ def can_piccolo(state: CollectionState, player: int) -> bool:
     check1 = has_piccolo(state, player)
     check2 = True
     can_light_grenade = state.has_all([Items.LGRENADE.name, Items.SYNC_NAIL.name, Items.FUSE_KAMI.name], player)
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has(Items.DEST_WAVE.name, player) or can_light_grenade
     elif opt == 'choose':
@@ -100,7 +130,7 @@ def has_vegeta(state: CollectionState, player: int) -> bool:
 def can_vegeta(state: CollectionState, player: int) -> bool:
     check1 = has_vegeta(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has_any([Items.GALICK.name, Items.FINAL_IMPACT.name], player)
     elif opt == 'choose':
@@ -120,7 +150,7 @@ def has_krillin(state: CollectionState, player: int) -> bool:
 def can_krillin(state: CollectionState, player: int) -> bool:
     check1 = has_krillin(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has_any([Items.KAME_KRILLIN.name, Items.DD_KRILLIN.name], player)
     elif opt == 'choose':
@@ -136,7 +166,7 @@ def has_tien(state: CollectionState, player: int) -> bool:
 def can_tien(state: CollectionState, player: int) -> bool:
     check1 = has_tien(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has_any([Items.DODON.name, Items.BLAST_CANNON.name], player)
     elif opt == 'choose':
@@ -152,7 +182,7 @@ def has_yamcha(state: CollectionState, player: int) -> bool:
 def can_yamcha(state: CollectionState, player: int) -> bool:
     check1 = has_yamcha(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has_any([Items.KAME_YAMCHA.name, Items.WOLF_FANG.name], player)
     elif opt == 'choose':
@@ -169,7 +199,7 @@ def can_broly(state: CollectionState, player: int) -> bool:
     check1 = has_broly(state, player)
     check2 = True
     can_press = state.has_all([Items.LSSJ_BROLY.name, Items.GIGANT_PRESS.name], player)
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has(Items.BLASTER_SHELL.name, player) or can_press
     elif opt == 'choose':
@@ -185,7 +215,7 @@ def has_uub(state: CollectionState, player: int) -> bool:
 def can_uub(state: CollectionState, player: int) -> bool:
     check1 = has_uub(state, player)
     check2 = True
-    opt = _get_options(state, player).start_with_super_attacks
+    opt = _get_options(state, player).require_super_attacks
     if opt in ["random", "plando", "start"]:
         check2 = state.has_any([Items.KI_CANNON.name, Items.FIERCE_FLURRY.name], player)
     elif opt == 'choose':

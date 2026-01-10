@@ -3,7 +3,10 @@ from typing import Optional
 import Utils
 import asyncio
 import os
+import threading
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
+from . import version
+from .data import ROMAddresses
 from .data.Items import get_offset_from_name
 from .data.Locations import get_all_active_locations
 from .Budokai3Interface import Budokai3Interface, ConnectionState
@@ -42,6 +45,13 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
             Budokai3Interface.pcsx2_interface.write_int8(offset, 1)
             logger.info("Done! Be sure to save using Save/Quit in Dragon World or Save in the Options menu to enable the capsule.")
 
+    def _cmd_test_deathlink(self):
+        """
+        Test function. Doesn't accept any arguments.
+        """
+        # self.ctx.begin_death_link()
+        self.ctx.store_deathlink()
+
 
 class Budokai3Context(CommonContext):
     command_processor = Budokai3CommandProcessor
@@ -54,6 +64,8 @@ class Budokai3Context(CommonContext):
     is_loading: bool = False
     slot_data: dict[str, Utils.Any] | None = None
     last_error_message: Optional[str] = None
+    death_link_timer = None
+    deathlink_queued: bool = False
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
@@ -66,17 +78,6 @@ class Budokai3Context(CommonContext):
         await self.get_username()
         await self.send_connect()
 
-    # def on_package(self, cmd: str, args: dict):
-    #     if cmd == "Connected":
-    #         self.slot_data = args["slot_data"]
-
-    #         # Scout all active locations for lookups that may be required later on
-    #         all_locations = [loc.location_id for loc in get_all_active_locations(self.slot_data)]
-    #         self.locations_scouted = set(all_locations)
-    #         Utils.async_start(self.send_msgs([{
-    #             "cmd": "LocationScouts",
-    #             "locations": list(self.locations_scouted)
-    #         }]))
 
     def run_gui(self):
         from kvui import GameManager
@@ -86,10 +87,57 @@ class Budokai3Context(CommonContext):
                 ("Client", "Archipelago")
             ]
             base_title = "Archipelago DBZ Budokai 3 Client"
+            base_title += f' v{version} |'
 
         self.ui = Budokai3Manager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
+
+    def begin_death_link(self):
+
+        def update_p1hp():
+            Budokai3Interface.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x00000000)
+    
+
+        logger.info('Death Link received.')
+        timer = threading.Timer(60.0, logger.info, args=["Death link timer expired."])
+        if not self.death_link_timer:
+            logger.info('Setting Player 1 HP to 0...')
+            self.death_link_timer = timer
+            self.death_link_timer.start()
+        else:
+            logger.info('Death link abuse protection triggered; death cancelled.')
+
+        while self.death_link_timer.is_alive():
+            update_p1hp()
+            
+        self.death_link_timer = None
+
+
+    def store_deathlink(self):
+        self.deathlink_queued = True
+        logger.info("Deathlink received.")
+
+        # Check for currently in battle; if so, apply deathlink now
+        if self.game_interface.read_p1_hp() > 0:
+            self.game_interface.deathlink_set_p1_hp()
+            logger.info("Battle detected. HP reduced. Enjoy!")
+            self.deathlink_queued = False
+
+        # if not, queue a thing to check until P1HP changes
+        # asyncio.create_task(self.await_battle(), name = "Await Battle")
+        self.await_battle()
+
+
+    def await_battle(self):
+        import time
+        logger.info("Awaiting battle...")
+        while self.game_interface.read_p1_hp() == 0:
+            time.sleep(1)
+        self.game_interface.deathlink_set_p1_hp()
+        logger.info("Battle detected. HP reduced. Enjoy!")
+        self.deathlink_queued = False
+    
 
 def update_connection_status(ctx: Budokai3Context, status: bool):
     if ctx.is_connected == status:
@@ -120,6 +168,15 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
                 logger.error(str(e))
             await asyncio.sleep(3)
             continue
+
+
+async def handle_deathlink(ctx: Budokai3Context):
+    if ctx.game_interface.get_alive():
+        if ctx.is_pending_death_link_reset:
+            ctx.is_pending_death_link_reset = False
+        if ctx.queued_deaths > 0 and ctx.game_interface.get_pause_state() == 0 and ctx.game_interface.get_ratchet_state() != 97:
+            ctx.is_pending_death_link_reset = True
+            ctx.game_interface.kill_player()
 
 
 def launch():

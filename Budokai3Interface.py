@@ -11,7 +11,7 @@ from .data import Items
 from .pcsx2_interface.pine import Pine
 
 if TYPE_CHECKING:
-    pass
+    from .data import ROMAddresses
 
 _SUPPORTED_VERSIONS = ["SLUS-20998", "SLUS-20998GH"]
 
@@ -309,6 +309,16 @@ class Budokai3Interface:
         else:
             new_amount = current_zenie + amount
         self.pcsx2_interface.write_int32(0x58F718, new_amount)
+
+
+    def hobble_player(self):
+        pass
+
+    def read_p1_hp(self) -> int:
+        self.pcsx2_interface.read_int32(ROMAddresses.P1HP.start_offset)
+    
+    def deathlink_set_p1_hp(self):
+        self.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x00000000)
 
     # def get_pause_state(self) -> int:
     #     address = self.addresses.pause_state

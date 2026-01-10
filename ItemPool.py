@@ -4,6 +4,55 @@ from .data import Items
 from .data.Items import *
 
 
+GOKU_NORM = [GOKU.code, KAME_GOKU.code, KAIOKEN.code, DRAG_FIST_GOKU.code, SPIRIT_BOMB_GOKU.code, SSJ_GOKU.code, 
+                WARP_KAME_GOKU.code, SSJ2_GOKU.code, SSJ3_GOKU.code, SSJ4_GOKU.code, BREAK_GOKU.code, VEGITO_GOKU.code, 
+                GOGETA_GOKU.code, SSJ4_GOGETA_GOKU.code]
+GOKU_ATTACKS = [GOKU.code, KAME_GOKU.code, DRAG_FIST_GOKU.code, WARP_KAME_GOKU.code, SPIRIT_BOMB_GOKU.code, 
+                KAIOKEN.code, SSJ_GOKU.code, SSJ2_GOKU.code, SSJ3_GOKU.code, SSJ4_GOKU.code, BREAK_GOKU.code, 
+                VEGITO_GOKU.code, GOGETA_GOKU.code, SSJ4_GOGETA_GOKU.code]
+GOKU_TRANSFORMS = [GOKU.code, KAIOKEN.code, SSJ_GOKU.code, SSJ2_GOKU.code, SSJ3_GOKU.code, SSJ4_GOKU.code, 
+                    KAME_GOKU.code, DRAG_FIST_GOKU.code, WARP_KAME_GOKU.code, SPIRIT_BOMB_GOKU.code, BREAK_GOKU.code, 
+                    VEGITO_GOKU.code, GOGETA_GOKU.code, SSJ4_GOGETA_GOKU.code]
+KGOHAN_NORM = [KID_GOHAN.code, MASENKO.code, POTENTIAL_KGOHAN.code, BREAK_KGOHAN.code]
+KGOHAN_ATTACKS = [KID_GOHAN.code, MASENKO.code, POTENTIAL_KGOHAN.code, BREAK_KGOHAN.code]
+KGOHAN_TRANSFORMS = [KID_GOHAN.code, POTENTIAL_KGOHAN.code, MASENKO.code, BREAK_KGOHAN.code]
+TGOHAN_NORM = [TEEN_GOHAN.code, KAME_TGOHAN.code, SSJ_TGOHAN.code, SSJ2_TGOHAN.code, SOAR_TGOHAN.code, FS_KAME.code, 
+                BREAK_TGOHAN.code]
+TGOHAN_ATTACKS = [TEEN_GOHAN.code, KAME_TGOHAN.code, SOAR_TGOHAN.code, FS_KAME.code, SSJ_TGOHAN.code, SSJ2_TGOHAN.code, 
+                    BREAK_TGOHAN.code]
+TGOHAN_TRANSFORMS = [TEEN_GOHAN.code, SSJ_TGOHAN.code, SSJ2_TGOHAN.code, KAME_TGOHAN.code, SOAR_TGOHAN.code, 
+                        FS_KAME.code, BREAK_TGOHAN.code]
+GOHAN_NORM = [GOHAN.code, KAME_GOHAN.code, SSJ_GOHAN.code, SSJ2_GOHAN.code, SOAR_GOHAN.code, SUPER_KAME_GOHAN.code, 
+                ELDER_UNLOCK.code, BREAK_GOHAN.code]
+GOHAN_ATTACKS = [GOHAN.code, KAME_GOHAN.code, SOAR_GOHAN.code, SUPER_KAME_GOHAN.code, SSJ_GOHAN.code, SSJ2_GOHAN.code, 
+                    ELDER_UNLOCK.code, BREAK_GOHAN.code]
+GOHAN_TRANSFORMS = [GOHAN.code, SSJ_GOHAN.code, SSJ2_GOHAN.code, ELDER_UNLOCK.code, KAME_GOHAN.code, SOAR_GOHAN.code, 
+                    SUPER_KAME_GOHAN.code, BREAK_GOHAN.code]
+VEGETA_NORM = [VEGETA.code, GALICK.code, FINAL_IMPACT.code, SSJ_VEGETA.code, BIG_BANG.code, FINAL_FLASH.code, 
+                SSJ2_VEGETA.code, SSJ4_VEGETA.code, BREAK_VEGETA.code, VEGITO_VEGETA.code, GOGETA_VEGETA.code, SSJ4_GOGETA_VEGETA.code]
+VEGETA_ATTACKS = [VEGETA.code, GALICK.code, FINAL_IMPACT.code, BIG_BANG.code, FINAL_FLASH.code, SSJ_VEGETA.code, 
+                    SSJ2_VEGETA.code, SSJ4_VEGETA.code, BREAK_VEGETA.code, VEGITO_VEGETA.code, GOGETA_VEGETA.code, SSJ4_GOGETA_VEGETA.code]
+VEGETA_TRANSFORMS = [VEGETA.code, SSJ_VEGETA.code, SSJ2_VEGETA.code, SSJ4_VEGETA.code, GALICK.code, FINAL_IMPACT.code, 
+                        BIG_BANG.code, FINAL_FLASH.code, BREAK_VEGETA.code, VEGITO_VEGETA.code, GOGETA_VEGETA.code, SSJ4_GOGETA_VEGETA.code]
+KRILLIN_NORM = [KRILLIN.code, KAME_KRILLIN.code, DD_KRILLIN.code, POTENTIAL_KRILLIN.code, FIERCE_DD.code, BREAK_KRILLIN.code]
+KRILLIN_ATTACKS = [KRILLIN.code, KAME_KRILLIN.code, DD_KRILLIN.code, FIERCE_DD.code, POTENTIAL_KRILLIN.code, BREAK_KRILLIN.code]
+KRILLIN_TRANSFORMS = [KRILLIN.code, POTENTIAL_KRILLIN.code, KAME_KRILLIN.code, DD_KRILLIN.code, FIERCE_DD.code, BREAK_KRILLIN.code]
+PICCOLO_NORM = [PICCOLO.code, DEST_WAVE.code, SBEAM_CANNON.code, SYNC_NAIL.code, FUSE_KAMI.code, LGRENADE.code, 
+                HZGRENADE.code, BREAK_PICCOLO.code]
+PICCOLO_ATTACKS = [PICCOLO.code, DEST_WAVE.code, SBEAM_CANNON.code, LGRENADE.code, HZGRENADE.code, SYNC_NAIL.code, 
+                    FUSE_KAMI.code, BREAK_PICCOLO.code]
+PICCOLO_TRANSFORMS = [PICCOLO.code, SYNC_NAIL.code, FUSE_KAMI.code, DEST_WAVE.code, SBEAM_CANNON.code, LGRENADE.code, 
+                        HZGRENADE.code, BREAK_PICCOLO.code]
+TIEN_NORM = [TIEN.code, BLAST_CANNON.code, DODON.code, NEO_BLAST_CANNON.code, BREAK_TIEN.code]
+YAMCHA_NORM = [YAMCHA.code, KAME_YAMCHA.code, WOLF_FANG.code, SPIRIT_BALL.code, BREAK_YAMCHA.code]
+UUB_NORM = [UUB.code, KI_CANNON.code, FIERCE_FLURRY.code, BREAK_UUB.code]
+BROLY_NORM = [BROLY.code, LSSJ_BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, BREAK_BROLY.code]
+BROLY_ATTACKS = [BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, LSSJ_BROLY.code, BREAK_BROLY.code]
+BROLY_TRANSFORMS = [BROLY.code, LSSJ_BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, BREAK_BROLY.code]
+
+
+
+
 def create_pool(state: CollectionState, player: int):
     prog_chars = _get_options(state, player).progressive_characters != 'off'
     create_greens()
@@ -55,92 +104,46 @@ def progressive_order(item: Capsule, prog_type: str, count: int):
     index = count - 1
     if not id: raise AttributeError
     if not prog_type: raise AttributeError
-    goku_norm = [GOKU.code, KAME_GOKU.code, KAIOKEN.code, DRAG_FIST_GOKU.code, SPIRIT_BOMB_GOKU.code, SSJ_GOKU.code, 
-                 WARP_KAME_GOKU.code, SSJ2_GOKU.code, SSJ3_GOKU.code, SSJ4_GOKU.code, BREAK_GOKU.code, VEGITO_GOKU.code, 
-                 GOGETA_GOKU.code, SSJ4_GOGETA_GOKU.code]
-    goku_attacks = [GOKU.code, KAME_GOKU.code, DRAG_FIST_GOKU.code, WARP_KAME_GOKU.code, SPIRIT_BOMB_GOKU.code, 
-                    KAIOKEN.code, SSJ_GOKU.code, SSJ2_GOKU.code, SSJ3_GOKU.code, SSJ4_GOKU.code, BREAK_GOKU.code, 
-                    VEGITO_GOKU.code, GOGETA_GOKU.code, SSJ4_GOGETA_GOKU.code]
-    goku_transforms = [GOKU.code, KAIOKEN.code, SSJ_GOKU.code, SSJ2_GOKU.code, SSJ3_GOKU.code, SSJ4_GOKU.code, 
-                       KAME_GOKU.code, DRAG_FIST_GOKU.code, WARP_KAME_GOKU.code, SPIRIT_BOMB_GOKU.code, BREAK_GOKU.code, 
-                       VEGITO_GOKU.code, GOGETA_GOKU.code, SSJ4_GOGETA_GOKU.code]
-    kgohan_norm = [KID_GOHAN.code, MASENKO.code, POTENTIAL_KGOHAN.code, BREAK_KGOHAN.code]
-    kgohan_attacks = [KID_GOHAN.code, MASENKO.code, POTENTIAL_KGOHAN.code, BREAK_KGOHAN.code]
-    kgohan_transforms = [KID_GOHAN.code, POTENTIAL_KGOHAN.code, MASENKO.code, BREAK_KGOHAN.code]
-    tgohan_norm = [TEEN_GOHAN.code, KAME_TGOHAN.code, SSJ_TGOHAN.code, SSJ2_TGOHAN.code, SOAR_TGOHAN.code, FS_KAME.code, 
-                   BREAK_TGOHAN.code]
-    tgohan_attacks = [TEEN_GOHAN.code, KAME_TGOHAN.code, SOAR_TGOHAN.code, FS_KAME.code, SSJ_TGOHAN.code, SSJ2_TGOHAN.code, 
-                      BREAK_TGOHAN.code]
-    tgohan_transforms = [TEEN_GOHAN.code, SSJ_TGOHAN.code, SSJ2_TGOHAN.code, KAME_TGOHAN.code, SOAR_TGOHAN.code, 
-                         FS_KAME.code, BREAK_TGOHAN.code]
-    gohan_norm = [GOHAN.code, KAME_GOHAN.code, SSJ_GOHAN.code, SSJ2_GOHAN.code, SOAR_GOHAN.code, SUPER_KAME_GOHAN.code, 
-                  ELDER_UNLOCK.code, BREAK_GOHAN.code]
-    gohan_attacks = [GOHAN.code, KAME_GOHAN.code, SOAR_GOHAN.code, SUPER_KAME_GOHAN.code, SSJ_GOHAN.code, SSJ2_GOHAN.code, 
-                     ELDER_UNLOCK.code, BREAK_GOHAN.code]
-    gohan_transforms = [GOHAN.code, SSJ_GOHAN.code, SSJ2_GOHAN.code, ELDER_UNLOCK.code, KAME_GOHAN.code, SOAR_GOHAN.code, 
-                        SUPER_KAME_GOHAN.code, BREAK_GOHAN.code]
-    vegeta_norm = [VEGETA.code, GALICK.code, FINAL_IMPACT.code, SSJ_VEGETA.code, BIG_BANG.code, FINAL_FLASH.code, 
-                   SSJ2_VEGETA.code, SSJ4_VEGETA.code, BREAK_VEGETA.code, VEGITO_VEGETA.code, GOGETA_VEGETA.code, SSJ4_GOGETA_VEGETA.code]
-    vegeta_attacks = [VEGETA.code, GALICK.code, FINAL_IMPACT.code, BIG_BANG.code, FINAL_FLASH.code, SSJ_VEGETA.code, 
-                      SSJ2_VEGETA.code, SSJ4_VEGETA.code, BREAK_VEGETA.code, VEGITO_VEGETA.code, GOGETA_VEGETA.code, SSJ4_GOGETA_VEGETA.code]
-    vegeta_transforms = [VEGETA.code, SSJ_VEGETA.code, SSJ2_VEGETA.code, SSJ4_VEGETA.code, GALICK.code, FINAL_IMPACT.code, 
-                         BIG_BANG.code, FINAL_FLASH.code, BREAK_VEGETA.code, VEGITO_VEGETA.code, GOGETA_VEGETA.code, SSJ4_GOGETA_VEGETA.code]
-    krillin_norm = [KRILLIN.code, KAME_KRILLIN.code, DD_KRILLIN.code, POTENTIAL_KRILLIN.code, FIERCE_DD.code, BREAK_KRILLIN.code]
-    krillin_attacks = [KRILLIN.code, KAME_KRILLIN.code, DD_KRILLIN.code, FIERCE_DD.code, POTENTIAL_KRILLIN.code, BREAK_KRILLIN.code]
-    krillin_transforms = [KRILLIN.code, POTENTIAL_KRILLIN.code, KAME_KRILLIN.code, DD_KRILLIN.code, FIERCE_DD.code, BREAK_KRILLIN.code]
-    piccolo_norm = [PICCOLO.code, DEST_WAVE.code, SBEAM_CANNON.code, SYNC_NAIL.code, FUSE_KAMI.code, LGRENADE.code, 
-                    HZGRENADE.code, BREAK_PICCOLO.code]
-    piccolo_attacks = [PICCOLO.code, DEST_WAVE.code, SBEAM_CANNON.code, LGRENADE.code, HZGRENADE.code, SYNC_NAIL.code, 
-                       FUSE_KAMI.code, BREAK_PICCOLO.code]
-    piccolo_transforms = [PICCOLO.code, SYNC_NAIL.code, FUSE_KAMI.code, DEST_WAVE.code, SBEAM_CANNON.code, LGRENADE.code, 
-                          HZGRENADE.code, BREAK_PICCOLO.code]
-    tien_norm = [TIEN.code, BLAST_CANNON.code, DODON.code, NEO_BLAST_CANNON.code, BREAK_TIEN.code]
-    yamcha_norm = [YAMCHA.code, KAME_YAMCHA.code, WOLF_FANG.code, SPIRIT_BALL.code, BREAK_YAMCHA.code]
-    uub_norm = [UUB.code, KI_CANNON.code, FIERCE_FLURRY.code, BREAK_UUB.code]
-    broly_norm = [BROLY.code, LSSJ_BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, BREAK_BROLY.code]
-    broly_attacks = [BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, LSSJ_BROLY.code, BREAK_BROLY.code]
-    broly_transforms = [BROLY.code, LSSJ_BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, BREAK_BROLY.code]
-
     # 531 - 541: Goku, Kid Gohan, Teen Gohan, Gohan, Krillin, Piccolo, Vegeta, Tien, Yamcha, Uub, Broly
     match id:
-        case 531:
-            if prog_type == 'prog_normal': return goku_norm[index]
-            if prog_type == 'prog_attacks': return goku_attacks[index]
-            if prog_type == "prog_transforms": return goku_transforms[index]
-        case 532:
-            if prog_type == 'prog_normal': return kgohan_norm[index]
-            if prog_type == 'prog_attacks': return kgohan_attacks[index]
-            if prog_type == "prog_transforms": return kgohan_transforms[index]
-        case 533:
-            if prog_type == 'prog_normal': return tgohan_norm[index]
-            if prog_type == 'prog_attacks': return tgohan_attacks[index]
-            if prog_type == "prog_transforms": return tgohan_transforms[index]
-        case 534:
-            if prog_type == 'prog_normal': return gohan_norm[index]
-            if prog_type == 'prog_attacks': return gohan_attacks[index]
-            if prog_type == "prog_transforms": return gohan_transforms[index]
-        case 535:
-            if prog_type == 'prog_normal': return krillin_norm[index]
-            if prog_type == 'prog_attacks': return krillin_attacks[index]
-            if prog_type == "prog_transforms": return krillin_transforms[index]
-        case 536:
-            if prog_type == 'prog_normal': return piccolo_norm[index]
-            if prog_type == 'prog_attacks': return piccolo_attacks[index]
-            if prog_type == "prog_transforms": return piccolo_transforms[index]
-        case 537:
-            if prog_type == 'prog_normal': return vegeta_norm[index]
-            if prog_type == 'prog_attacks': return vegeta_attacks[index]
-            if prog_type == "prog_transforms": return vegeta_transforms[index]
-        case 538:
-            return tien_norm[index]
-        case 539:
-            return yamcha_norm[index]
-        case 540:
-            return uub_norm[index]
-        case 541:
-            if prog_type == 'prog_normal': return broly_norm[index]
-            if prog_type == 'prog_attacks': return broly_attacks[index]
-            if prog_type == "prog_transforms": return broly_transforms[index]
+        case PROGRESSIVE_GOKU.code:
+            if prog_type == 'prog_normal': return GOKU_NORM[index]
+            if prog_type == 'prog_attacks': return GOKU_ATTACKS[index]
+            if prog_type == "prog_transforms": return GOKU_TRANSFORMS[index]
+        case PROGRESSIVE_KID_GOHAN.code:
+            if prog_type == 'prog_normal': return KGOHAN_NORM[index]
+            if prog_type == 'prog_attacks': return KGOHAN_ATTACKS[index]
+            if prog_type == "prog_transforms": return KGOHAN_TRANSFORMS[index]
+        case PROGRESSIVE_TEEN_GOHAN.code:
+            if prog_type == 'prog_normal': return TGOHAN_NORM[index]
+            if prog_type == 'prog_attacks': return TGOHAN_ATTACKS[index]
+            if prog_type == "prog_transforms": return TGOHAN_TRANSFORMS[index]
+        case PROGRESSIVE_GOHAN.code:
+            if prog_type == 'prog_normal': return GOHAN_NORM[index]
+            if prog_type == 'prog_attacks': return GOHAN_ATTACKS[index]
+            if prog_type == "prog_transforms": return GOHAN_TRANSFORMS[index]
+        case PROGRESSIVE_KRILLIN.code:
+            if prog_type == 'prog_normal': return KRILLIN_NORM[index]
+            if prog_type == 'prog_attacks': return KRILLIN_ATTACKS[index]
+            if prog_type == "prog_transforms": return KRILLIN_TRANSFORMS[index]
+        case PROGRESSIVE_PICCOLO.code:
+            if prog_type == 'prog_normal': return PICCOLO_NORM[index]
+            if prog_type == 'prog_attacks': return PICCOLO_ATTACKS[index]
+            if prog_type == "prog_transforms": return PICCOLO_TRANSFORMS[index]
+        case PROGRESSIVE_VEGETA.code:
+            if prog_type == 'prog_normal': return VEGETA_NORM[index]
+            if prog_type == 'prog_attacks': return VEGETA_ATTACKS[index]
+            if prog_type == "prog_transforms": return VEGETA_TRANSFORMS[index]
+        case PROGRESSIVE_TIEN.code:
+            return TIEN_NORM[index]
+        case PROGRESSIVE_YAMCHA.code:
+            return YAMCHA_NORM[index]
+        case PROGRESSIVE_UUB.code:
+            return UUB_NORM[index]
+        case PROGRESSIVE_BROLY.code:
+            if prog_type == 'prog_normal': return BROLY_NORM[index]
+            if prog_type == 'prog_attacks': return BROLY_ATTACKS[index]
+            if prog_type == "prog_transforms": return BROLY_TRANSFORMS[index]
     return None
 
 

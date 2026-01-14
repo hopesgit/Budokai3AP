@@ -4,7 +4,7 @@ from typing import Any, Dict, Mapping, Optional, List
 
 import settings
 from worlds.AutoWorld import World, WebWorld
-from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess, icon_paths
 
 from BaseClasses import Tutorial, Region, Location, ItemClassification, Item
 from .data.Items import item_name_groups
@@ -25,10 +25,15 @@ def run_client(_url: Optional[str] = None):
 
 
 components.append(
-    Component("DBZ Budokai 3 Client", func=run_client, component_type=Type.CLIENT,
-              file_identifier=SuffixIdentifier(".apdbzb3"))
+    Component(
+        "DBZ Budokai 3 Client", 
+        func=run_client, 
+        component_type=Type.CLIENT,
+        file_identifier=SuffixIdentifier(".apdbzb3"),
+        icon="Budokai 3"
+    )
 )
-
+icon_paths["Budokai 3"] = "ap:worlds.dbz_budokai_3.data/img/budokai3logo.png"
 
 class Budokai3Settings(settings.Group):
     class IsoFile(settings.UserFilePath):

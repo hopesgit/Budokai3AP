@@ -12,7 +12,7 @@ from .data.Items import DU_CHARACTERS_AS_DICT, DU_CHARACTER_NAMES
 
 class StartWithStoryCharacters(Toggle):
     """
-    Start with all story characters. Makes it easier to jump into your favorite Dragon World story.\n
+    Start with all story characters. Makes it easier to jump into your favorite Dragon Universe story.\n
     Adds Goku, Kid Gohan, Teen Gohan, Gohan, Piccolo, Vegeta, Krillin, Tien, Yamcha, Uub, and Broly to the starting items.
     """
     default = False
@@ -20,7 +20,7 @@ class StartWithStoryCharacters(Toggle):
 
 
 class RequireSuperAttacks(Choice):
-    """Turn this on if you want to ensure that you have a special attack for a character before you can use them in Dragon World.\n
+    """Turn this on if you want to ensure that you have a special attack for a character before you can use them in Dragon Universe.\n
     For example, if you have Goku, you wouldn't be considered being able to use him until you acquire Kamehameha or Dragon Fist.
 
     NOTE: The starting capsule(s) in each Dragon Universe route will still be checkable with only the character, so be sure
@@ -79,7 +79,7 @@ class ProgressiveCharacters(Choice):
     13) Fusion - Super Saiyan 4 Gogeta
     14) Potara - Vegito
 
-    NOTE: This ONLY applies to Dragon World characters. The rest work as normal. Tien, Yamcha, and Uub also only have
+    NOTE: This ONLY applies to Dragon Universe characters. The rest work as normal. Tien, Yamcha, and Uub also only have
     one progressive items path because of a lack of transformations.
 
     Choices:\n

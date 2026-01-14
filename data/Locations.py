@@ -80,6 +80,7 @@ GOHAN_VIDEL_CLEAR = LocationData(39, "Gohan: Defeat Videl", can_gohan)
 GOHAN_PICCOLO_CLEAR = LocationData(40, "Gohan: Defeat Piccolo", can_gohan)
 GOHAN_DABURA_CLEAR = LocationData(41, "Gohan: Defeat Dabura", can_gohan)
 GOHAN_MAJIN_BUU_CLEAR = LocationData(42, "Gohan: Defeat Majin Buu", can_gohan)
+GOHAN_SUPER_BUU_CLEAR = LocationData(999, "Gohan: Defeat Super Buu", can_gohan)
 GOHAN_VEGETA_CLEAR = LocationData(43, "Gohan 2: Defeat Vegeta", can_wish_gohan)
 GOHAN_MAJIN_VEGETA_CLEAR = LocationData(44, "Gohan 2: Defeat Majin Vegeta", can_wish_gohan)
 GOHAN_KID_BUU_CLEAR = LocationData(45, "Gohan 2: Defeat Kid Buu", can_wish_gohan)
@@ -87,7 +88,7 @@ GOHAN_BROLY_CLEAR = LocationData(46, "Gohan 2: Defeat Broly", can_wish_gohan)
 
 GOHAN_BOSSES = [
     GOHAN_GOTEN_CLEAR, GOHAN_VIDEL_CLEAR, GOHAN_PICCOLO_CLEAR, GOHAN_DABURA_CLEAR, GOHAN_MAJIN_BUU_CLEAR,
-    GOHAN_VEGETA_CLEAR, GOHAN_MAJIN_VEGETA_CLEAR, GOHAN_KID_BUU_CLEAR, GOHAN_BROLY_CLEAR
+    GOHAN_SUPER_BUU_CLEAR, GOHAN_VEGETA_CLEAR, GOHAN_MAJIN_VEGETA_CLEAR, GOHAN_KID_BUU_CLEAR, GOHAN_BROLY_CLEAR
 ]
 
 ## Vegeta
@@ -308,20 +309,21 @@ DW_WISHES = [
 ## DW Static Capsules
 GOKU_CAPSULE_1 = LocationData(172, "Goku: Starting Capsule", has_goku)
 ## from beginning
-# "Goku - Saiyan Saga - Capsule from Bulma at West City after Speaking with Chichi at Goku's House" (S)
-# Goku - Saiyan Saga - Capsule after optional battle with Tien at World Tournament (S14)
-# Goku - Saiyan Saga - 5-star Dragon Ball at ??? in Glacier (S4) 
-# Goku - Saiyan Saga - 3-star Dragon Ball at ??? in ocean North of Kami's Lookout (S1)
-# Goku - Saiyan Saga - Capsule at ??? south of Kami's Lookout (S9)
-# Goku - Saiyan Saga - Capsule at Gleaming ??? North of Central City (S3)
-# Goku: Saiyan Sage - Money at Gleaming ??? in NW Island (S1)
+# Goku: Saiyan Saga: Capsule from Bulma at West City after Speaking with Chichi at Goku's House
+# Goku: Saiyan Saga: (Gleaming) Capsule north of East City (S4)
+# Goku: Saiyan Saga: Capsule after optional battle with Tien at World Tournament (S14)
+# Goku: Saiyan Saga: 5-star Dragon Ball at ??? in Glacier (S4) 
+# Goku: Saiyan Saga: 3-star Dragon Ball at ??? in ocean North of Kami's Lookout (S1)
+# Goku: Saiyan Saga: Capsule at ??? south of Kami's Lookout (S9)
+# Goku: Saiyan Saga: Capsule at Gleaming ??? North of Central City (S2)
+# Goku: Saiyan Saga: Dragon Radar at Gleaming ??? Between Central and East City (S7)
+# Goku: Saiyan Saga: Money at Gleaming ??? in NW Island (S1)
+# Goku: Saiyan Saga: (Gleaming) Money in mountains north of West City (S6)
+# Goku: Saiyan Saga: (Gleaming) Money in northern mountains (S2)
+# Goku: Saiyan Saga: Capsule from Yamcha at North City
 ## After Raditz
-# GOku 2 - Saiyan Saga - Capsule from Kami at Kami's Lookout after Raditz (S5)
-# Goku: Capsule at Gleaming ??? North of East City (S4)
-# GOku: Dragon Radar at Gleaming ??? Between Central and East City (S7)
-# Goku 2: Capsule from Chichi at Goku's House (S11)
-# Goku: Money at Gleaming ??? in Mountains North of West City (S6)
-# Goku: Money at Gleaming ??? in Northern Mountains (S2)
+# Goku 2: Saiyan Saga: Capsule from Kami at Kami's Lookout after Raditz (S5)
+# Goku 2: Saiyan Saga: Capsule from Chichi at Goku's House (S11)
 ## After Nappa
 # Capsule from Master Roshi at Kame House (S12)
 # Capsule at Gleaming ??? on island north of West City 1 (S6) #Membership cards, ugh
@@ -329,7 +331,7 @@ GOKU_CAPSULE_1 = LocationData(172, "Goku: Starting Capsule", has_goku)
 ## Namek Saga Start
 # Dragon Radar at Gleaming ??? near Goku's Spaceship (S8)
 GOKU_CAPSULE_2 = LocationData(173, "Goku: Saiyan Saga: Capsule at Plains Marker", can_goku)
-GOKU_CAPSULE_3 = LocationData(174, "Goku: Saiyan Saga: Capsule at Plains", can_goku)
+GOKU_CAPSULE_3 = LocationData(174, "Goku: Saiyan Saga: Capsule at Plains", can_goku) # After Nappa
 GOKU_CAPSULE_4 = LocationData(175, "Goku: Saiyan Saga: Vegeta Reward", can_goku)
 GOKU_CAPSULE_5 = LocationData(176, "Goku: Namek Saga: Capsule at Capsule House", can_goku)
 GOKU_CAPSULE_6 = LocationData(177, "Goku: Namek Saga: Recoome Reward 1", can_goku)
@@ -374,12 +376,12 @@ GOKU_CAPSULE_35 = LocationData(206, "Goku 2: Extra Saga: Omega Shenron Reward", 
 # Kid Gohan: Siayan Saga: Capsule at Mountains spot in mountains near Goku's House 2 (S11)
 # Kid Gohan: Saiyan Saga: Capsule at West City after Piccolo Battle (S6)
 # Kid Gohan: Saiyan Saga: Capsule at East City after Piccolo Battle (S8)
-# Kid GOhan: Namek Saga: (Gleaming) Dragon radar on southeast continent (S15)
+# Kid Gohan: Namek Saga: (Gleaming) Dragon radar on southeast continent (S15)
 # Kid Gohan: Namek Saga: Dragon Ball on large island east of northeast continent (S8)
 # Kid Gohan: Namek Saga: Dragon Ball on island north of northeast continent (S4)
 # Kid Gohan: Namek Saga: Dragon Ball on large western island (S9)
 # Kid Gohan: Namek Saga: Planet Namek spot on southeastern continent after Recoome Battle (S15)
-# Kid GOhan 2: Saiyan Saga: (Gleaming) Money on southeastmost island (S16) 
+# Kid Gohan 2: Saiyan Saga: (Gleaming) Money on southeastmost island (S16) 
 # Kid Gohan 2: Saiyan Saga: (Gleaming) Money south of longer southwestern peninsula, in middle of ocean (S13)
 KID_GOHAN_CAPSULE_1 = LocationData(207, "Kid Gohan: Saiyan Saga: Capsule at Mountains near Goku's House", has_kid_gohan)
 KID_GOHAN_CAPSULE_2 = LocationData(208, "Kid Gohan: Namek Saga: Capsule at Guru's House", can_kid_gohan)
@@ -387,19 +389,67 @@ KID_GOHAN_CAPSULE_3 = LocationData(209, "Kid Gohan: Namek Saga: Recoome Reward",
 KID_GOHAN_CAPSULE_4 = LocationData(210, "Kid Gohan: Namek Saga: Capsule given upon Completion", can_kid_gohan)
 KID_GOHAN_CAPSULE_5 = LocationData(211, "Kid Gohan 2: Saiyan Saga: Goku Reward", can_wish_kid_gohan)
 TEEN_GOHAN_CAPSULE_1 = LocationData(212, "Teen Gohan: Starting Capsule", has_teen_gohan)
+# Teen Gohan: Dragon Ball north of Central City (S3)
+# Teen Gohan: Dragon Ball on northeast area of Glacier (S4)
+# Teen Gohan: Dragon Ball on forested island east of West City (S6)
+# Teen Gohan: (Gleaming) Money on plains northeast of West City (S6)
+# Teen Gohan: Dragon Ball south of forested island near West City (S10)
+# Teen Gohan: (Gleaming) Membership Cards on island west of North City (S2)
+# Teen Gohan: Dragon Ball in southwest mountains
+# Teen Gohan: (Gleaming) Dragon Radar in northeast section of main continent (S3)
+# Teen Gohan: Dragon Ball south of South City (S14)
+# Teen Gohan: Dragon Ball on island south of Goku's House (S11)
+# Teen Gohan: Capsule at end of Bulma side-quest
+# Teen Gohan: Capsule at event in northwest craggy island (S1)
+# Teen Gohan: (Gleaming) Money on large island north of West City (S6)
+# Teen Gohan: (Gleaming) Capsule on peninsula near Goku's House (S11)
+# Teen Gohan: (Gleaming) Capsule in northeast section of main continent (S3)
+## After Goku
+# Teen Gohan: Capsule at West City after Battle with Goku (S6)
+# Teen Gohan: Capsule at Kami's Lookout after Battle with Goku (S5)
+# Teen Gohan: Capsule at Korin's Tower after Battle with Goku (S5)
+# Teen Gohan: Capsule in desert near Baba's Palace after Battle with Goku (S13)
+# Teen Gohan 2: Capsule in desert north of South City (S14)
+# Teen Gohan 2: Capsule at South City (S14)
+# Teen Gohan 2: Capsule at Time Machine (S1)
+# Teen Gohan 2: (Ki Search) Capsule from Goku at end of Hide & Seek Side-Quest
+## this one is complicated to explain, but it goes as follows:
+## Meet Goku at Goku's House
+## Find him again using Ki Search on an island north of Kami's Lookout
+# Teen Gohan 2: Capsule from Chichi at Goku's house after Goku Battle
 TEEN_GOHAN_CAPSULE_2 = LocationData(213, "Teen Gohan: Capsule at Central City", can_teen_gohan)
 TEEN_GOHAN_CAPSULE_3 = LocationData(214, "Teen Gohan: Capsule at Kami's Lookout", can_teen_gohan)
 TEEN_GOHAN_CAPSULE_4 = LocationData(215, "Teen Gohan: Capsule 1 at Cell Ring", can_teen_gohan)
 TEEN_GOHAN_CAPSULE_5 = LocationData(216, "Teen Gohan: Capsule 2 at Cell Ring", can_teen_gohan)
-TEEN_GOHAN_CAPSULE_6 = LocationData(217, "Teen Gohan: Super Perfect Cell Reward", can_teen_gohan)
+TEEN_GOHAN_CAPSULE_6 = LocationData(217, "Teen Gohan: Defeat Super Perfect Cell with Father-Son Kamehameha", can_teen_gohan)
 TEEN_GOHAN_CAPSULE_7 = LocationData(218, "Teen Gohan: Capsule given upon Completion", can_teen_gohan)
 TEEN_GOHAN_CAPSULE_8 = LocationData(219, "Teen Gohan 2: Capsule at Goku's House", can_wish_teen_gohan)
 GOHAN_CAPSULE_1 = LocationData(220, "Gohan: Starting Capsule 1", has_gohan)
 GOHAN_CAPSULE_2 = LocationData(221, "Gohan: Starting Capsule 2", has_gohan)
+# Gohan: (Gleaming) Money northeast of West City (S6)
+# Gohan: Capsule from Bulma at West City (S6)
+# Gohan: Dragon Ball at desert near Baba's Palace (S9)
+# Gohan: Dragon Ball on island near World Tournament Stage (S15)
+# Gohan: Dragon Ball on darker area of plains near Central City (S6)
+# Gohan: (Gleaming) Money on forested island east of West City (S6)
+# Gohan: Capsule at Hercule City (S8)
+# Gohan: Dragon Ball in ocean south of glacier (S8)
+# Gohan: Dragon Ball in forests north of Kami's Lookout (S1)
+# Gohan: Dragon Ball in northern mountains (S3)
+# Gohan: Dragon Radar east of Central City (S7)
+# Gohan: Dragon Ball on beach near West City (S6)
+# Gohan: Membership Cards in bay in southwest area of main continent (S13)
+# Gohan: (Gleaming) Capsule in mountains near Goku's House (S11) # After Videl/Vegeta battle
+# Gohan: Capsule on desert/mountains line near Goku's House (S11) # After Videl/Vegeta battle
+# Gohan: (Gleaming) Capsule in desert near Goku's House (S11) # After Videl/Vegeta battle
+## After meeting Vegeta and Battling Dabura:
+# Gohan 2: Capsule in northwest continent (S1) # After Mahjin Vegeta battle
+# Gohan 2: Capsule at Plains near Central City (S6) # After Majin Vegeta battle
+# Gohan 2: (Gleaming) Capsule in mountains near Goku's House (S11) # After Majin Vegeta battle
 GOHAN_CAPSULE_3 = LocationData(222, "Gohan: Capsule at Goku's House 1", can_gohan)
 GOHAN_CAPSULE_4 = LocationData(223, "Gohan: Goten Reward", can_gohan)
-GOHAN_CAPSULE_5 = LocationData(224, "Gohan: Capsule at End of Videl Story Quest", can_gohan)
-GOHAN_CAPSULE_6 = LocationData(225, "Gohan: Capsule at Mountains Marker near Babidi's Spaceship", can_gohan)
+GOHAN_CAPSULE_5 = LocationData(224, "Gohan: Capsule at End of Videl Side-quest", can_gohan)
+GOHAN_CAPSULE_6 = LocationData(225, "Gohan: Capsule at Desert near Babidi's Spaceship", can_gohan)
 GOHAN_CAPSULE_7 = LocationData(226, "Gohan: Capsule at Goku's House 2", can_gohan)
 GOHAN_CAPSULE_8 = LocationData(227, "Gohan: Dabura Reward", can_gohan)
 GOHAN_CAPSULE_9 = LocationData(228, "Gohan: Capsule given before Majin Buu Battle at Forest Marker", can_gohan)

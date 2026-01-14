@@ -139,6 +139,14 @@ class AttackRando(Toggle):
     visibility=False
 
 
+class ShopRando(Toggle):
+    """
+    Randomize shop slots into the location pool. Would otherwise be called "Shopsanity".
+    """
+    default = False
+    display_name = "Shop Randomizer"
+
+
 class Inspiration(Toggle):
     """
     Everyone's suddenly had a "breakthrough"...
@@ -180,6 +188,7 @@ class Budokai3Options(PerGameCommonOptions):
     start_with_dragon_radar: StartWithDragonRadar
     ball_rando: BallRando
     attack_rando: AttackRando
+    shop_rando: ShopRando
     inspiration: Inspiration
     pandemic: Pandemic
     completionist: Completionist

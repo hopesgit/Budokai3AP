@@ -16,7 +16,7 @@ HUD_MESSAGE_DURATION = 50
 
 
 class Budokai3CommandProcessor(ClientCommandProcessor):
-    def __init__(self, ctx: CommonContext):
+    def __init__(self, ctx: 'Budokai3Context'):
         super().__init__(ctx)
 
     def _cmd_test_hud(self, *args):
@@ -49,8 +49,21 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
         """
         Test function. Doesn't accept any arguments.
         """
-        # self.ctx.begin_death_link()
+        if not self.ctx.deathlink_enabled:
+            logger.warning('Death link is not enabled. Use the /deathlink command to toggle it on, then retry this command.')
+            return
         self.ctx.store_deathlink()
+
+    def _cmd_deathlink(self):
+        """Toggle the deathlink setting. """
+        self.ctx.deathlink_enabled = not self.ctx.deathlink_enabled
+        ending = "enabled" if self.ctx.deathlink_enabled else "disabled"
+        dl_text = f"Death link {ending}."
+        logger.info(dl_text)
+
+    def _cmd_trap_party(self):
+        """Rave?"""
+        party(self.ctx)
 
 
 class Budokai3Context(CommonContext):
@@ -60,12 +73,15 @@ class Budokai3Context(CommonContext):
     game = "Dragon Ball Z Budokai 3"
     items_handling = 0b111
     pcsx2_sync_task = None
-    is_connected = ConnectionState.DISCONNECTED
+    is_connected: bool = False
     is_loading: bool = False
+    is_in_menu: bool = False
+    is_in_du: bool = False
+    if_in_battle: bool = False
     slot_data: dict[str, Utils.Any] | None = None
     last_error_message: Optional[str] = None
-    death_link_timer = None
     deathlink_queued: bool = False
+    deathlink_enabled: bool = False
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
@@ -77,7 +93,6 @@ class Budokai3Context(CommonContext):
             await super(Budokai3Context, self).server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
-
 
     def run_gui(self):
         from kvui import GameManager
@@ -92,75 +107,42 @@ class Budokai3Context(CommonContext):
         self.ui = Budokai3Manager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-
-    def begin_death_link(self):
-
-        def update_p1hp():
-            Budokai3Interface.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x00000000)
-    
-
-        logger.info('Death Link received.')
-        timer = threading.Timer(60.0, logger.info, args=["Death link timer expired."])
-        if not self.death_link_timer:
-            logger.info('Setting Player 1 HP to 0...')
-            self.death_link_timer = timer
-            self.death_link_timer.start()
-        else:
-            logger.info('Death link abuse protection triggered; death cancelled.')
-
-        while self.death_link_timer.is_alive():
-            update_p1hp()
-            
-        self.death_link_timer = None
-
-
     def store_deathlink(self):
         self.deathlink_queued = True
-        logger.info("Deathlink received.")
-
-        # Check for currently in battle; if so, apply deathlink now
-        if self.game_interface.read_p1_hp() > 0:
-            self.game_interface.deathlink_set_p1_hp()
-            logger.info("Battle detected. HP reduced. Enjoy!")
-            self.deathlink_queued = False
-
-        # if not, queue a thing to check until P1HP changes
-        # asyncio.create_task(self.await_battle(), name = "Await Battle")
-        self.await_battle()
+        logger.info("Deathlink received. Awaiting battle...")
 
 
-    def await_battle(self):
-        import time
-        logger.info("Awaiting battle...")
-        while self.game_interface.read_p1_hp() == 0:
-            time.sleep(1)
-        self.game_interface.deathlink_set_p1_hp()
-        logger.info("Battle detected. HP reduced. Enjoy!")
-        self.deathlink_queued = False
+def on_package(self, cmd: str, args: dict):
+    if cmd == 'Connected':
+        self.slot_data = args["slot_data"]
+        if "death_link" in args["slot_data"]:
+            deathlink = args["slot_data"]["death_link"]
+            self.deathlink_enabled = deathlink
+            Utils.async_start(self.update_death_link(deathlink))
     
-
 def update_connection_status(ctx: Budokai3Context, status: bool):
     if ctx.is_connected == status:
         return
 
+    ctx.is_connected = status
     if status:
         logger.info("Connected to DBZ Budokai 3")
     else:
         logger.info("Unable to connect to the PCSX2 instance, attempting to reconnect...")
-    ctx.is_connected = status
-
 
 async def pcsx2_sync_task(ctx: Budokai3Context):
     logger.info("Starting Budokai 3 Connector, attempting to connect to emulator...")
     ctx.game_interface.connect_to_game()
     while not ctx.exit_event.is_set():
         try:
+            await handle_deathlink(ctx)
+            # await prevent_idents(ctx)
             is_connected = ctx.game_interface.get_connection_state()
             update_connection_status(ctx, is_connected)
             if is_connected:
-                await _handle_game_ready(ctx) # note to self: leave this alone
+                await _handle_game_ready(ctx)
             else:
-                await _handle_game_not_ready(ctx) # note to self: leave this alone
+                await _handle_game_not_ready(ctx)
         except ConnectionError:
             ctx.game_interface.disconnect_from_game()
         except Exception as e:
@@ -169,15 +151,109 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
             await asyncio.sleep(3)
             continue
 
+def party(ctx: Budokai3Context):
+    ctx.game_interface.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x45ff0000)
+    ctx.game_interface.pcsx2_interface.write_int32(ROMAddresses.P2HP.start_offset, 0x45ff0000)
+
+async def prevent_idents(ctx: Budokai3Context):
+    start = 0x01050b0
+    count = 0
+    while count < 168:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105168
+    count = 0
+    while count < 248:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105260
+    count = 0
+    while count < 256:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105360
+    count = 0
+    while count < 160:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105400
+    count = 0
+    while count < 176:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x01054b0
+    count = 0
+    while count < 224:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105b90
+    count = 0
+    while count < 232:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105678
+    count = 0
+    while count < 216:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x01750
+    count = 0
+    while count < 208:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105820
+    count = 0
+    while count < 288:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+    start = 0x0105940
+    count = 0
+    while count < 280:
+        ctx.game_interface.nop_instruction((start + count))
+        count += 4
+
+async def _handle_game_ready(ctx: Budokai3Context):
+    connected_to_server = (ctx.server is not None) and (ctx.slot is not None)
+    if connected_to_server:
+        init(ctx)
+    update(ctx, connected_to_server)
+
+async def _handle_game_not_ready(ctx: Budokai3Context):
+    """If the game is not connected, try to reconnect."""
+    ctx.game_interface.connect_to_game()
+    await asyncio.sleep(3)
+
+def init(ctx: 'Budokai3Context'):
+    """
+    Gets called every time the game is connected.
+    
+    Game fixes go here.
+    """
+    pass
+
+def update(ctx: 'Budokai3Context', ap_connected: bool):
+    button_input = ctx.game_interface.pcsx2_interface.read_int8(ROMAddresses.Controller_Shoulder_Buttons.start_offset)
+    if button_input == 0xFFFFFFFF: # L1 + L2 + R1 + R2
+        ctx.game_interface.return_to_main_menu(True)
 
 async def handle_deathlink(ctx: Budokai3Context):
-    if ctx.game_interface.get_alive():
-        if ctx.is_pending_death_link_reset:
-            ctx.is_pending_death_link_reset = False
-        if ctx.queued_deaths > 0 and ctx.game_interface.get_pause_state() == 0 and ctx.game_interface.get_ratchet_state() != 97:
-            ctx.is_pending_death_link_reset = True
-            ctx.game_interface.kill_player()
-
+    if ctx.deathlink_enabled:
+        if ctx.deathlink_queued:
+            if ctx.game_interface.pcsx2_interface.read_int32(ROMAddresses.P1HP.start_offset) != 0:
+                logger.info("Battle detected.")
+                ctx.deathlink_queued = False
+                ctx.game_interface.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x00000000)
+                logger.info("P1 HP reduced. Enjoy!")
 
 def launch():
     import multiprocessing

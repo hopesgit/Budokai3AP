@@ -310,21 +310,17 @@ class Budokai3Interface:
             new_amount = current_zenie + amount
         self.pcsx2_interface.write_int32(0x58F718, new_amount)
 
-
-    def hobble_player(self):
-        pass
+    def in_battle(self) -> bool:
+        return self.read_p1_hp() != 0x0
 
     def read_p1_hp(self) -> int:
-        self.pcsx2_interface.read_int32(ROMAddresses.P1HP.start_offset)
+        return self.pcsx2_interface.read_int32(ROMAddresses.P1HP.start_offset)
     
     def deathlink_set_p1_hp(self):
         self.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x00000000)
 
-    # def get_pause_state(self) -> int:
-    #     address = self.addresses.pause_state
-    #     if self.get_current_planet() is Budokai3Planet.Oozla:
-    #         address = self.addresses.oozla_pause_state
-    #     return self.pcsx2_interface.read_int8(address)
+    def return_to_main_menu(self, save: bool = False):
+        pass
 
     def connect_to_game(self):
         """Initializes the connection to PCSX2 and verifies it is connected to Budokai 3"""
@@ -341,9 +337,10 @@ class Budokai3Interface:
                 # self.addresses = Addresses(game_id)
             if self.current_game is None and self.game_id_error != game_id and game_id != b'\x00\x00\x00\x00\x00\x00':
                 self.logger.warning(
-                    f"Connected to the wrong game, ({game_id}"
-                    f"Please connect to DBZ Budokai 3 (Game ID is SLUS-20998(GH) for NTSC-U versions; SLES-52730 or SLES-53346 for PAL.)"
-                    f"Please note that PAL versions are not supported at this time.")
+                    f"Connected to the wrong game, {game_id}.\n"
+                    f"Please connect to DBZ Budokai 3 for the PlayStation 2 system.\n" 
+                    f"Game ID is SLUS-20998(GH) for NTSC-U versions; SLES-52730 or SLES-53346 for PAL; SLPS-25460 or SLPS-73235 for Japan"
+                    )
                 self.game_id_error = game_id
         except RuntimeError:
             pass
@@ -365,21 +362,6 @@ class Budokai3Interface:
         except RuntimeError:
             return False
 
-    # def is_loading(self) -> bool:
-    #     return not self.pcsx2_interface.read_int8(self.addresses.loaded_flag)
-
-    # def get_moby(self, uid: int) -> Optional[MobyInstance]:
-    #     address = self.get_segment_pointer_table().moby_instances
-    #     uid_offset = 0xB2
-    #     for _ in range(self.get_segment_pointer_table().moby_instances, self.get_segment_pointer_table().moby_pvars):
-    #         if self.pcsx2_interface.read_int16(address + uid_offset) == uid:
-    #             moby_data = struct.unpack("<16xfff4xBBBBIIfx?HHHIBBBB36xII44xI14xH6xH76x",
-    #                                       self.pcsx2_interface.read_bytes(address, MOBY_SIZE))
-    #             return MobyInstance(*((address,) + moby_data))
-    #         address += MOBY_SIZE
-
-    #     return None
-
     def read_instruction(self, address: int) -> int:
         return self.pcsx2_interface.read_int32(address)
 
@@ -388,6 +370,9 @@ class Budokai3Interface:
 
     def nop_instruction(self, address: int):
         self.write_instruction(address, 0x0)
+
+    def call_credits(self):
+        self.pcsx2_interface.read_bytes(0x104970, 4)
 
     # def get_text_address(self, text_id: int) -> Optional[int]:
     #     offset_addr = self.get_text_offset_addr(text_id)
@@ -402,9 +387,6 @@ class Budokai3Interface:
     #         return True
     #     return False
 
-    # def can_display_hud_notification(self):
-    #     return self.get_pause_state() == 0 and self.get_ratchet_state() != 97
-
     # def trigger_hud_notification_display(self):
     #     try:
     #         # Overwrite from start of "You got a skill point!" text with payload message.
@@ -415,18 +397,3 @@ class Budokai3Interface:
 
     # def is_hud_notification_pending(self):
     #     return self.pcsx2_interface.read_int8(self.addresses.custom_text_notification_trigger) == 0x01
-
-    # def get_segment_pointer_table(self) -> Optional[MemorySegmentTable]:
-    #     # if self.addresses is None:
-    #     #     return None
-
-    #     # table_base_address = self.addresses.planet[self.get_current_planet().value].segment_pointers
-    #     # if table_base_address is None:
-    #     #     return None
-
-    #     try:
-    #         table_bytes = self.pcsx2_interface.read_bytes(table_base_address, MEMORY_SEGMENTS * 4)
-    #     except ValueError:
-    #         return None
-
-    #     return MemorySegmentTable.from_list(array.array('I', table_bytes).tolist())

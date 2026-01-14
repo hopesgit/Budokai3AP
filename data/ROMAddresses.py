@@ -51,6 +51,9 @@ class Function(Address):
 
 
 P1HP = RAMAddress(0x497B60, 4, name="P1 HP")
+P1Ki = RAMAddress(0x497B70, 4, name="P1 Ki")
+P2HP = RAMAddress(0x499B80, 4, name="P2 HP")
+P2Ki = RAMAddress(0x499B90, 4, name="P2 Ki")
 # until mentioned otherwise, vals are 00 when unpressed, FF when pressed
 Controller_DPad_Right = RAMAddress(0x492EC8, 1, name="Dpad Right")
 Controller_DPad_Left = RAMAddress(0x492EC9, 1, name="Dpad Left")

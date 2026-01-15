@@ -226,45 +226,45 @@ def can_uub(state: CollectionState, player: int) -> bool:
     return check1 and check2
 
 def can_wish_goku(state: CollectionState, player: int) -> bool:
-    return state.has(Items.GOKU.name, player) and state.has("Event - Dragon World Goku Cleared", player)
+    return state.has(Items.GOKU.name, player) and state.has("Event - Dragon Universe Goku Cleared", player)
 
 def can_wish_kid_gohan(state: CollectionState, player: int) -> bool:
-    return state.has(Items.KID_GOHAN.name, player) and state.has("Event - Dragon World Kid Gohan Cleared", player)
+    return state.has(Items.KID_GOHAN.name, player) and state.has("Event - Dragon Universe Kid Gohan Cleared", player)
 
 def can_wish_teen_gohan(state: CollectionState, player: int) -> bool:
-    return state.has(Items.TEEN_GOHAN.name, player) and state.has("Event - Dragon World Teen Gohan Cleared", player)
+    return state.has(Items.TEEN_GOHAN.name, player) and state.has("Event - Dragon Universe Teen Gohan Cleared", player)
 
 def can_wish_gohan(state: CollectionState, player: int) -> bool:
-    return state.has(Items.KID_GOHAN.name, player) and state.has("Event - Dragon World Gohan Cleared", player)
+    return state.has(Items.KID_GOHAN.name, player) and state.has("Event - Dragon Universe Gohan Cleared", player)
 
 def can_wish_piccolo(state: CollectionState, player: int) -> bool:
-    return state.has(Items.PICCOLO.name, player) and state.has("Event - Dragon World Goku Cleared", player)
+    return state.has(Items.PICCOLO.name, player) and state.has("Event - Dragon Universe Goku Cleared", player)
 
 def can_wish_vegeta(state: CollectionState, player: int) -> bool:
-    return state.has(Items.VEGETA.name, player) and state.has("Event - Dragon World Vegeta Cleared", player)
+    return state.has(Items.VEGETA.name, player) and state.has("Event - Dragon Universe Vegeta Cleared", player)
 
 def can_wish_krillin(state: CollectionState, player: int) -> bool:
-    return state.has(Items.KRILLIN.name, player) and state.has("Event - Dragon World Krillin Cleared", player)
+    return state.has(Items.KRILLIN.name, player) and state.has("Event - Dragon Universe Krillin Cleared", player)
 
 def can_wish_tien(state: CollectionState, player: int) -> bool:
-    return state.has(Items.TIEN.name, player) and state.has("Event - Dragon World Tien Cleared", player)
+    return state.has(Items.TIEN.name, player) and state.has("Event - Dragon Universe Tien Cleared", player)
 
 def can_wish_yamcha(state: CollectionState, player: int) -> bool:
-    return state.has(Items.YAMCHA.name, player) and state.has("Event - Dragon World Yamcha Cleared", player)
+    return state.has(Items.YAMCHA.name, player) and state.has("Event - Dragon Universe Yamcha Cleared", player)
 
 def can_wish_uub(state: CollectionState, player: int) -> bool:
-    return state.has(Items.UUB.name, player) and state.has("Event - Dragon World Uub Cleared", player)
+    return state.has(Items.UUB.name, player) and state.has("Event - Dragon Universe Uub Cleared", player)
 
 def can_wish_broly(state: CollectionState, player: int) -> bool:
-    return state.has(Items.BROLY.name, player) and state.has("Event - Dragon World Broly Cleared", player)
+    return state.has(Items.BROLY.name, player) and state.has("Event - Dragon Universe Broly Cleared", player)
 
 def has_cleared_story(state: CollectionState, player: int) -> bool:
-    return state.has_all(["Event - Dragon World Goku Cleared", "Event - Dragon World Kid Gohan Cleared",
-                          "Event - Dragon World Teen Gohan Cleared", "Event - Dragon World Gohan Cleared",
-                          "Event - Dragon World Krillin Cleared", "Event - Dragon World Piccolo Cleared",
-                          "Event - Dragon World Vegeta Cleared", "Event - Dragon World Tien Cleared",
-                          "Event - Dragon World Yamcha Cleared", "Event - Dragon World Broly Cleared",
-                          "Event - Dragon World Uub Cleared"], player)
+    return state.has_all(["Event - Dragon Universe Goku Cleared", "Event - Dragon Universe Kid Gohan Cleared",
+                          "Event - Dragon Universe Teen Gohan Cleared", "Event - Dragon Universe Gohan Cleared",
+                          "Event - Dragon Universe Krillin Cleared", "Event - Dragon Universe Piccolo Cleared",
+                          "Event - Dragon Universe Vegeta Cleared", "Event - Dragon Universe Tien Cleared",
+                          "Event - Dragon Universe Yamcha Cleared", "Event - Dragon Universe Broly Cleared",
+                          "Event - Dragon Universe Uub Cleared"], player)
 
 def can_complete_reenactment_0(state: CollectionState, player: int) -> bool:
     return state.has(Items.GOKU.name, player) and state.has(Items.KAME_GOKU.name, player)

@@ -43,7 +43,7 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, Budokai3Context):
             logger.debug(f"Writing to {hex(offset)}...")
             Budokai3Interface.pcsx2_interface.write_int8(offset, 1)
-            logger.info("Done! Be sure to save using Save/Quit in Dragon World or Save in the Options menu to enable the capsule.")
+            logger.info("Done! Be sure to save using Save/Quit in Dragon Universe or Save in the Options menu to enable the capsule.")
 
     def _cmd_test_deathlink(self):
         """

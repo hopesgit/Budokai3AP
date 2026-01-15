@@ -11,7 +11,7 @@ class LocationData(NamedTuple):
     address: Optional[Address] = None
 
 
-# Dragon World Checks
+# Dragon Universe Checks
 ## Goku
 GOKU_RADITZ_CLEAR = LocationData(1, "Goku: Saiyan Saga - Defeat Raditz", can_goku)
 GOKU_NAPPA_CLEAR = LocationData(2, "Goku: Saiyan Saga - Defeat Nappa", can_goku)
@@ -795,7 +795,7 @@ while x <= 99:
 SHOP_LOCS = shop_locs
 
 LOCATIONS = [
-    # splitting the dragon world locs into per-character collections
+    # splitting the Dragon Universe locs into per-character collections
     # so that I can add them as development goes on
     *GOKU_LOCS,
     *GOKU_WISH_LOCS,

@@ -88,7 +88,7 @@ class ProgressiveCharacters(Choice):
     - **prog_attacks** - Your item progression will put attacks after the character.\n
     - **prog_transforms** - Your item progression will put transformations ahead of attacks.\n
 
-    NOTE: Prioritizing transformations may mean that you won't be able to play Goku or Vegeta for some time if you also chose to require super attacks for your DW characters.
+    NOTE: Prioritizing transformations may mean that you won't be able to play Goku or Vegeta for some time if you also chose to require super attacks for your Dragon Universe characters.
     """
 
     default = 0

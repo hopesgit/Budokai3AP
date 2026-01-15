@@ -88,7 +88,7 @@ def create_grays(progressive_characters: bool = False):
 def create_reds(progressive_characters: bool = False):
     accum = []
     for item in RED_CAPSULES:
-        if progressive_characters and item in DW_RED_CAPSULES:
+        if progressive_characters and item in DU_RED_CAPSULES:
             continue
         else: accum.append(item)
 

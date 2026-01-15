@@ -75,7 +75,7 @@ class Budokai3World(World):
     Only one will prevail! Dragon Ball Z Budokai 3 is a 2D fighting game based on the Dragon Ball anime series, mainly Dragon Ball Z.
     Released in 2004, DBZ Budokai 3 stars Earth's defenders (and Broly) as you play through the story of Dragon Ball Z from their perspectives.
     The iconic attacks and transformations the characters can use are represented by the Exciting Skill System (ESS), skills contained in capsules.
-    Power up via capsules and take down your enemies in Dragon World, Tournament, and Dragon Arena modes in order to save the Earth!
+    Power up via capsules and take down your enemies in Dragon Universe, Tournament, and Dragon Arena modes in order to save the Earth!
     """
     game = "Dragon Ball Z Budokai 3"
     web = Budokai3Web()

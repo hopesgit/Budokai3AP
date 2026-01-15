@@ -208,7 +208,7 @@ BROLY_BOSSES = [
     BROLY_GOTEN_CLEAR, BROLY_GOHAN_1_CLEAR, BROLY_GOHAN_1_CLEAR, BROLY_GOHAN_2_CLEAR, BROLY_GOHAN_2_CLEAR
 ]
 
-DW_BOSSES = [
+DU_BOSSES = [
     *GOKU_BOSSES,
     *KID_GOHAN_BOSSES,
     *TEEN_GOHAN_BOSSES,
@@ -249,7 +249,7 @@ REENACTMENT_18 = LocationData(132, "Goku: Defeat Omega Shenron with 100X Big Ban
 REENACTMENT_19 = LocationData(133, "Broly: Use a Fully-Powered Gigantic Meteor against Gohan 1", can_complete_reenactment_19)
 REENACTMENT_20 = LocationData(134, "Uub: Use Ki Cannon against Goku 1", can_complete_reenactment_20)
 
-DW_REENACTMENTS = [
+DU_REENACTMENTS = [
     REENACTMENT_0, REENACTMENT_1, REENACTMENT_2, REENACTMENT_3, REENACTMENT_4, REENACTMENT_5, REENACTMENT_6, REENACTMENT_7,
     REENACTMENT_8, REENACTMENT_9, REENACTMENT_10, REENACTMENT_11, REENACTMENT_12, REENACTMENT_13, REENACTMENT_14,
     REENACTMENT_15, REENACTMENT_16, REENACTMENT_17, REENACTMENT_18, REENACTMENT_19, REENACTMENT_20
@@ -261,7 +261,7 @@ Z1_CLEAR = LocationData(136, "Clear DU on Z1", has_z_hard)
 Z2_CLEAR = LocationData(137, "Clear DU on Z2", has_z_hard)
 Z3_CLEAR = LocationData(138, "Clear DU on Z3", has_z_hard_3)
 
-DW_DIFFICULTIES = [VERY_HARD_CLEAR, Z1_CLEAR, Z2_CLEAR, Z3_CLEAR]
+DU_DIFFICULTIES = [VERY_HARD_CLEAR, Z1_CLEAR, Z2_CLEAR, Z3_CLEAR]
 
 ## Wishes
 GOKU_WISH_1 = LocationData(139, "Goku Wish 1", can_wish_goku)
@@ -298,7 +298,7 @@ BROLY_WISH_1 = LocationData(169, "Broly Wish 1", can_wish_broly)
 BROLY_WISH_2 = LocationData(170, "Broly Wish 2", can_wish_broly)
 BROLY_WISH_3 = LocationData(171, "Broly Wish 3", can_wish_broly)
 
-DW_WISHES = [
+DU_WISHES = [
     GOKU_WISH_1, GOKU_WISH_2, GOKU_WISH_3, KGOHAN_WISH_1, KGOHAN_WISH_2, KGOHAN_WISH_3, TGOHAN_WISH_1, TGOHAN_WISH_2,
     TGOHAN_WISH_3, GOHAN_WISH_1, GOHAN_WISH_2, GOHAN_WISH_3, VEGETA_WISH_1, VEGETA_WISH_2, VEGETA_WISH_3, KRILLIN_WISH_1,
     KRILLIN_WISH_2, KRILLIN_WISH_3, PICCOLO_WISH_1, PICCOLO_WISH_2, PICCOLO_WISH_3, TIEN_WISH_1, TIEN_WISH_2, TIEN_WISH_3,
@@ -306,7 +306,7 @@ DW_WISHES = [
     BROLY_WISH_3
 ]
 
-## DW Static Capsules
+## DU Static Capsules
 GOKU_CAPSULE_1 = LocationData(172, "Goku: Starting Capsule", has_goku)
 ## from beginning
 # Goku: Saiyan Saga: Capsule from Bulma at West City after Speaking with Chichi at Goku's House
@@ -468,6 +468,12 @@ VEGETA_CAPSULE_1 = LocationData(234, "Vegeta: Starting Capsule", has_vegeta)
 # Vegeta: Saiyan Saga: (Gleaming) Capsule in mountains northeast of North City (S3)
 # Vegeta: Saiyan Saga: (Gleaming) Membership cards in northeastern mountains (S3)
 # Vegeta: Saiyan Saga: (Gleaming) Money on glacier (S4)
+# Vegeta: Namek Saga: Dragon Ball at ruined village on southwest continent (S10)
+# Vegeta: Namek Saga: Dragon Ball on the tip of the club-shaped chain of islands in southeast (S12)
+# Vegeta: Namek Saga: (Gleaming) Capsule on northwest tip of northeast continent (S3)
+# Vegeta: Namek Saga: (Gleaming) Capsule at Planet Namek spot on northwest continent (S6)
+# Vegeta: Namek Saga: (Gleaming) Dragon Radar on "club-shaped" section of islands in southeast (S12)
+# Vegeta: Namek Saga: (Gleaming) Capsule on closest island southeast of southwest continent (S14)
 VEGETA_CAPSULE_2 = LocationData(235, "Vegeta: Namek Saga: Capsule at Planet Namek in Northwest Continent", can_vegeta)
 VEGETA_CAPSULE_3 = LocationData(236, "Vegeta: Namek Saga: Recoome Reward", can_vegeta)
 VEGETA_CAPSULE_4 = LocationData(237, "Vegeta: Android Saga: Capsule given in Saga Intro 1", can_vegeta)
@@ -672,14 +678,14 @@ BROLY_CAPSULES = [
     BROLY_CAPSULE_5, BROLY_CAPSULE_6
 ]
 
-DW_STATIC_CAPSULES = [
+DU_STATIC_CAPSULES = [
     *GOKU_CAPSULES, *KGOHAN_CAPSULES, *TGOHAN_CAPSULES, *GOHAN_CAPSULES, 
     *VEGETA_CAPSULES, *KRILLIN_CAPSULES, *PICCOLO_CAPSULES, *TIEN_CAPSULES, 
     *YAMCHA_CAPSULES, UUB_CAPSULE_1, *BROLY_CAPSULES
 ]
 
-DRAGON_WORLD_LOCS = [
-    *DW_BOSSES, *DW_REENACTMENTS, *DW_DIFFICULTIES, *DW_WISHES, *DW_STATIC_CAPSULES
+DRAGON_UNIVERSE_LOCS = [
+    *DU_BOSSES, *DU_REENACTMENTS, *DU_DIFFICULTIES, *DU_WISHES, *DU_STATIC_CAPSULES
 ]
 
 GOKU_LOCS = [

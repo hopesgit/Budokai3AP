@@ -61,7 +61,7 @@ class SuperAttackStarters(ItemSet):
 class ProgressiveCharacters(Choice):
     """
     NOTE: This changes how "Start With Super Attacks' works. Instead of including the attack, a progressive item for that character will be included in the spots you choose.\n 
-    Turn this on if you want to play with progressive character unlocks. For example, there are 11 Progressive Goku-s in the pool.
+    Turn this on if you want to play with progressive character unlocks. For example, there are 14 Progressive Goku-s in the pool.
     Rather than receiving Goku and his moves separately, you can choose to receive them in a planned order.
     The order would be in roughly story order, but more specifically as follows:\n
     1) Goku (The character is always first)

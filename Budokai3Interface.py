@@ -13,7 +13,7 @@ from .pcsx2_interface.pine import Pine
 if TYPE_CHECKING:
     from .data import ROMAddresses
 
-_SUPPORTED_VERSIONS = ["SLUS-20998", "SLUS-20998GH"]
+_SUPPORTED_VERSIONS = ["SLUS-20998"]
 
 HUD_MESSAGE_DURATION = 2.0
 HUD_MAX_MESSAGE_WIDTH = 35
@@ -339,8 +339,8 @@ class Budokai3Interface:
                 self.logger.warning(
                     f"Connected to the wrong game, {game_id}.\n"
                     f"Please connect to DBZ Budokai 3 for the PlayStation 2 system.\n" 
-                    f"Game ID is SLUS-20998(GH) for NTSC-U versions; SLES-52730 or SLES-53346 for PAL; SLPS-25460 or SLPS-73235 for Japan"
-                    )
+                    f"Game ID is SLUS-20998(GH) for NTSC-U versions; SLES-52730 or SLES-53346 for PAL; SLPS-25460 or SLPS-73235 for Japan."
+                    f"For now, only SLUS-20998 is supported.")
                 self.game_id_error = game_id
         except RuntimeError:
             pass

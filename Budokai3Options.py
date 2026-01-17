@@ -5,7 +5,8 @@ from Options import (
     Choice,
     Toggle,
     OptionSet,
-    ItemSet
+    ItemSet,
+    OptionDict
 )
 from .data.Items import DU_CHARACTERS_AS_DICT, DU_CHARACTER_NAMES
 
@@ -13,7 +14,8 @@ from .data.Items import DU_CHARACTERS_AS_DICT, DU_CHARACTER_NAMES
 class StartWithStoryCharacters(Toggle):
     """
     Start with all story characters. Makes it easier to jump into your favorite Dragon Universe story.\n
-    Adds Goku, Kid Gohan, Teen Gohan, Gohan, Piccolo, Vegeta, Krillin, Tien, Yamcha, Uub, and Broly to the starting items.
+    Adds Goku, Kid Gohan, Teen Gohan, Gohan, Piccolo, Vegeta, Krillin, Tien, Yamcha, Uub, and Broly to the starting items.\n
+    If Progressive Characters is on, then the items given will be progressive items for those characters.
     """
     default = False
     display_name = "Start with Story Characters"
@@ -108,15 +110,6 @@ class StartWithDragonRadar(Toggle):
     display_name = "Start with Dragon Radar"
     visibility = False
 
-# Additional Option ideas:
-# Option that sets the flags for each DU route to be the second route 
-#   This eliminates some backtracking (though notably, not all. Some routes have branching bosses, and those can't be planned around)
-#   Will not be included in 0.1
-# Option that removes requirements for red capsules
-#   This would allow the player to use more moves. This would be relevant for Vegeta, Teen Gohan, Piccolo, Broly, Goku...
-# Option that adds money spots in to the pool. This would allow for more locations, but makes it more difficult to make money in-game
-# Option to implement special bonus rando, similar to Smash Bros Melee. Most aren't exactly relevant... So this is just an idea, mostly
-
 
 class BallRando(Toggle):
     """
@@ -176,6 +169,67 @@ class Completionist(Toggle):
     """
     default = False
     display_name = "Completionist"
+    visibility = False
+
+
+class ColorblindModeRed(Choice):
+    """
+    The menus in this game often use red, green, or blue.\n
+    To improve readability and understandability for those with visual impairments, you can suggest replacement colors.\n
+    This option only impacts what red can be turned into. Red is most prominently used in the following places: 
+    * map markers in Dragon Universe
+    * the scouter display of drained energy during hyper mode
+    * the glow of the character who's in hyper mode
+    * red capsules (they aren't visually distinct from green capsules)
+    """
+    default = 0
+    option_red = 0
+    option_yellow = 1
+    option_purple = 2
+    option_orange = 3
+    option_pink = 4
+    option_brown = 5
+    visibility = False
+    
+
+class ColorblindModeGreen(Choice):
+    """
+    The menus in this game often use red, green, or blue.\n
+    To improve readability and understandability for those with visual impairments, you can suggest replacement colors.\n
+    This option only impacts what green can be turned into. Green is most prominently used in the following places: 
+    * health bars in battle
+    * many ground textures are green
+    * the save menu background color
+    * green capsules (they aren't visually distinct from red capsules)
+    * green overlay while using Vegeta's scouter in DU
+    """
+    default = 0
+    option_green = 0
+    option_yellow = 1
+    option_purple = 2
+    option_orange = 3
+    option_pink = 4
+    option_brown = 5
+    visibility = False
+
+
+class ColorblindModeBlue(Choice):
+    """
+    The menus in this game often use red, green, or blue.\n
+    To improve readability and understandability for those with visual impairments, you can suggest replacement colors.\n
+    This option only impacts what blue can be turned into. Blue is most prominently used in the following places:
+    - save prompt background
+    - Battle results screen
+    - level-up screen
+    - in-battle scouter background color
+    """
+    default = 0
+    option_blue = 0
+    option_yellow = 1
+    option_purple = 2
+    option_orange = 3
+    option_pink = 4
+    option_brown = 5
     visibility = False
 
 

@@ -7,7 +7,7 @@ import os
 import threading
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
 from . import version
-from .data import Addresses
+from .data.Addresses import Addresses
 from .data.Items import get_offset_from_name
 from .data.Locations import get_all_active_locations
 from .Budokai3Interface import Budokai3Interface, ConnectionState
@@ -81,8 +81,10 @@ class Budokai3Context(CommonContext):
     notification_manager: NotificationManager
     game = "Dragon Ball Z Budokai 3"
     items_handling = 0b111
+    game_version: str = None
     pcsx2_sync_task = None
     is_connected: bool = False
+    current_screen: int = None
     is_loading: bool = False
     is_in_menu: bool = False
     is_in_du: bool = False
@@ -160,8 +162,8 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
             continue
 
 def party(ctx: Budokai3Context):
-    ctx.game_interface.pcsx2_interface.write_int32(Addresses.P1HP.start_offset, 0x45ff0000)
-    ctx.game_interface.pcsx2_interface.write_int32(Addresses.P2HP.start_offset, 0x45ff0000)
+    ctx.game_interface.pcsx2_interface.write_int32(Addresses.p1_hp().start_offset, 0x45ff0000)
+    ctx.game_interface.pcsx2_interface.write_int32(Addresses.p2_hp().start_offset, 0x45ff0000)
 
 async def prevent_idents(ctx: Budokai3Context):
     start = 0x01050b0
@@ -264,6 +266,7 @@ async def handle_check_goal_complete(ctx: Budokai3Context):
 async def _handle_game_not_ready(ctx: Budokai3Context):
     """If the game is not connected, try to reconnect."""
     ctx.game_interface.connect_to_game()
+    if ctx.game_interface.current_game: ctx.game_version = ctx.game_interface.current_game
     await asyncio.sleep(3)
 
 def init(ctx: 'Budokai3Context'):

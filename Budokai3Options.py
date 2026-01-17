@@ -4,11 +4,19 @@ from Options import (
     PerGameCommonOptions,
     Choice,
     Toggle,
-    OptionSet,
     ItemSet,
-    OptionDict
 )
 from .data.Items import DU_CHARACTERS_AS_DICT, DU_CHARACTER_NAMES
+
+
+class Completionist(Toggle):
+    """
+    Set this to true to change your goal to 100% capsules. If there are more capsules than checks,
+    then the remainder will be granted to you at the start of the game.
+    """
+    default = False
+    display_name = "Completionist"
+    visibility = False
 
 
 class StartWithStoryCharacters(Toggle):
@@ -102,12 +110,19 @@ class ProgressiveCharacters(Choice):
     display_name = "Progressive Characters"
 
 
-class StartWithDragonRadar(Toggle):
+class RandomizeDragonRadar(Choice):
     """
-    Start with the Dragon Radar for each of your story routes (and adds its locations in each story to the location pool).
+    Adds the Dragon Radar for each story route  to the item pool (and adds its locations in each story to the location pool).\n
+    Choices:\n
+    * **off**: Dragon radars can continue to be picked up where they usually are.
+    * **on**: Dragon radar items will be included in the item pool. The locations where they can be found will be randomized.
+    * **start**: Dragon radars will always be available at the beginning of each story. The locations where they can be found will be randomized.
     """
-    default = False
-    display_name = "Start with Dragon Radar"
+    default = 0
+    display_name = "Randomize Dragon Radar"
+    option_off = 0
+    option_on = 1
+    option_start = 2
     visibility = False
 
 
@@ -160,16 +175,6 @@ class Pandemic(Toggle):
     default = False
     visibility = False
     display_name = "Pandemic"
-
-
-class Completionist(Toggle):
-    """
-    Set this to true to change your goal to 100% capsules. If there are more capsules than checks,
-    then the remainder will be granted to you at the start of the game.
-    """
-    default = False
-    display_name = "Completionist"
-    visibility = False
 
 
 class ColorblindModeRed(Choice):
@@ -235,14 +240,17 @@ class ColorblindModeBlue(Choice):
 
 @dataclass
 class Budokai3Options(PerGameCommonOptions):
+    completionist: Completionist
     start_with_story_characters: StartWithStoryCharacters
     require_super_attacks: RequireSuperAttacks
     super_attack_starters: SuperAttackStarters
     progressive_characters: ProgressiveCharacters
-    start_with_dragon_radar: StartWithDragonRadar
+    randomize_dragon_radar: RandomizeDragonRadar
     ball_rando: BallRando
     attack_rando: AttackRando
     shop_rando: ShopRando
     inspiration: Inspiration
     pandemic: Pandemic
-    completionist: Completionist
+    colorblind_mode_red: ColorblindModeRed
+    colorblind_mode_blue: ColorblindModeBlue
+    colorblind_mode_green: ColorblindModeGreen

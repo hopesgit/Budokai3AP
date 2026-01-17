@@ -11,14 +11,13 @@ from .data import Items
 from .pcsx2_interface.pine import Pine
 
 if TYPE_CHECKING:
-    from .data import ROMAddresses
+    from .data.Addresses import Addresses
 
 _SUPPORTED_VERSIONS = ["SLUS-20998"]
 
 HUD_MESSAGE_DURATION = 2.0
 HUD_MAX_MESSAGE_WIDTH = 35
 
-MOBY_SIZE = 0x100
 MEMORY_SEGMENTS = 35
 
 
@@ -32,164 +31,40 @@ class ConnectionState(Enum):
     IN_MENU = 2
 
 
-class Budokai3Planet(IntEnum):
-    """Game planets with their corresponding IDs"""
-    Title_Screen = -1
-    Aranos_Tutorial = 0
-    Oozla = 1
-    Maktar_Nebula = 2
-    Endako = 3
-    Barlow = 4
-    Feltzin_System = 5
-    Notak = 6
-    Siberius = 7
-    Tabora = 8
-    Dobbo = 9
-    Hrugis_Cloud = 10
-    Joba = 11
-    Todano = 12
-    Boldan = 13
-    Aranos_Prison = 14
-    Gorn = 15
-    Snivelak = 16
-    Smolg = 17
-    Damosel = 18
-    Grelbin = 19
-    Yeedil = 20
-    Dobbo_Orbit = 22
-    Damosel_Orbit = 23
-    Ship_Shack = 24
-    Wupash_Nebula = 25
-    Jamming_Array = 26
-    Insomniac_Museum = 30
+class Budokai3Screen(IntEnum):
+    TITLE = 0x0004
+    MAIN = 0x0005
+    PRACTICE = 0x0013
+    SHOP = 0x0016
+    OPTIONS = 0x001C
+    DU_TITLE = 0x0106
+    DU_CHAR_SEL = 0x0107
+    DU_WORLD_MAP = 0x0108
+    DU_BATTLE = 0x0109
+    DU_BATTLE_RESULT = 0x010A
+    SHENRON = 0x010B
+    CREDITS = 0x010C
+    DUEL_MENU = 0x020E
+    DUEL_BATTLE = 0x020F
+    WT_MENU = 0x0310
+    WT_BRACKET = 0x0311
+    WT_BATTLE = 0x0312
+    PRAC_CHAR_SEL = 0x0413
+    PRAC_BATTLE = 0x0414
+    TRN_CHAP_SEL = 0x0513
+    TRN_BATTLE = 0x0515
+    DA_ENTRANCE = 0x0617
+    DA_CHAR_SEL = 0x0618
+    DA_BATTLE = 0x0619
+    DA_RESULTS = 0x061A
+    DA_SAVE = 0x061B
 
+BATTLE_SCREENS = [
+    Budokai3Screen.DU_BATTLE.value, Budokai3Screen.DUEL_BATTLE.value, Budokai3Screen.WT_BATTLE.value, Budokai3Screen.PRAC_BATTLE.value, 
+    Budokai3Screen.TRN_BATTLE.value, Budokai3Screen.DA_BATTLE.value
+]
 
-class PauseState(Enum):
-    INGAME = 0
-    CUTSCENE = 2
-    MENU = 3
-    QUICKSELECT = 4
-    VENDOR = 5
-    SHIP = 6
-    MINIGAME = 7
-    UPGRADE = 8
-
-
-@dataclass
-class MobyInstance:
-    address: int
-    x: float  # 0x10, 32 bits
-    y: float  # 0x14, 32 bits
-    z: float  # 0x18, 32 bits
-    state: int  # 0x20, 8 bits
-    group: int  # 0x21, 8 bits
-    moby_class: int  # 0x22, 8 bits
-    alpha: int  # 0x23, 8 bits
-    class_address: int  # 0x24, 32 bits
-    chain_address: int  # 0x28, 32 bits
-    scale: float  # 0x2C, 32 bits
-    is_drawn: bool  # 0x31, 8 bits
-    draw_distance: int  # 0x32, 16 bits
-    flags1: int  # 0x34, 16 bits
-    flags2: int  # 0x36, 16 bits
-    lighting: float  # 0x38, 32 bits
-    red: int  # 0x3C, 8 bits
-    green: int  # 0x3D, 8 bits
-    blue: int  # 0x3E, 8 bits
-    shine: int  # 0x3F, 8 bits
-    update_function_address: int  # 0x64, 32 bits
-    pvars_address: int  # 0x68, 32 bits
-    colldata_address: int  # 0x98, 32 bits
-    oclass: int  # 0xAA, 16 bits
-    uid: int  # 0xB2, 16 bits
-
-    def push(self):
-        Budokai3Interface.pcsx2_interface.write_float(self.address + 0x10, self.x)
-        Budokai3Interface.pcsx2_interface.write_float(self.address + 0x14, self.y)
-        Budokai3Interface.pcsx2_interface.write_float(self.address + 0x18, self.z)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x20, self.state)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x21, self.group)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x22, self.moby_class)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x23, self.alpha)
-        Budokai3Interface.pcsx2_interface.write_int32(self.address + 0x24, self.class_address)
-        Budokai3Interface.pcsx2_interface.write_int32(self.address + 0x28, self.chain_address)
-        Budokai3Interface.pcsx2_interface.write_float(self.address + 0x2C, self.scale)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x31, self.is_drawn)
-        Budokai3Interface.pcsx2_interface.write_int16(self.address + 0x32, self.draw_distance)
-        Budokai3Interface.pcsx2_interface.write_int16(self.address + 0x34, self.flags1)
-        Budokai3Interface.pcsx2_interface.write_int16(self.address + 0x36, self.flags2)
-        Budokai3Interface.pcsx2_interface.write_float(self.address + 0x38, self.lighting)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x3C, self.red)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x3D, self.green)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x3E, self.blue)
-        Budokai3Interface.pcsx2_interface.write_int8(self.address + 0x3F, self.shine)
-        Budokai3Interface.pcsx2_interface.write_int32(self.address + 0x64, self.update_function_address)
-        Budokai3Interface.pcsx2_interface.write_int32(self.address + 0x68, self.pvars_address)
-        Budokai3Interface.pcsx2_interface.write_int32(self.address + 0x98, self.colldata_address)
-        Budokai3Interface.pcsx2_interface.write_int16(self.address + 0xAA, self.oclass)
-        Budokai3Interface.pcsx2_interface.write_int16(self.address + 0xB2, self.uid)
-
-
-@dataclass(frozen=True)
-class MemorySegmentTable:
-    kernel: int = field()
-    code: int
-    base: int
-    tfrag_geometry: int
-    occlusion: int
-    sky: int
-    collision: int
-    shared_vram: int
-    particle_vram: int
-    effects_vram: int
-    moby_classes: int
-    ties: int
-    shrubs: int
-    ratchet_seqs: int
-    help_messages: int
-    tie_instances: int
-    shrub_instances: int
-    moby_instances: int
-    moby_pvars: int
-    misc_instances: int
-    misc_instances_end: int
-    hud: int
-    gui: int
-
-    @classmethod
-    def from_list(cls, raw_table: List[int]):
-        return cls(
-            kernel=raw_table[0],
-            code=raw_table[1],
-            base=raw_table[2],
-            tfrag_geometry=raw_table[7],
-            occlusion=raw_table[8],
-            sky=raw_table[9],
-            collision=raw_table[10],
-            shared_vram=raw_table[11],
-            particle_vram=raw_table[12],
-            effects_vram=raw_table[13],
-            moby_classes=raw_table[14],
-            ties=raw_table[15],
-            shrubs=raw_table[16],
-            ratchet_seqs=raw_table[17],
-            help_messages=raw_table[19],
-            tie_instances=raw_table[20],
-            shrub_instances=raw_table[21],
-            moby_instances=raw_table[22],
-            moby_pvars=raw_table[23],
-            misc_instances=raw_table[24],
-            misc_instances_end=raw_table[25],
-            hud=raw_table[31],
-            gui=raw_table[32],
-        )
-
-    def __repr__(self):
-        string: str = ""
-        for f in dataclasses.fields(self):
-            string += f"{f.name:<18}: 0x{getattr(self, f.name):0>8X}\n"
-        return string
-
+SAVE_FILE_LOADED = [x.value for x in Budokai3Screen if x.value != Budokai3Screen.TITLE.value]
 
 # class Shop:
 #     # CURSOR_OFFSET: int = -0xC0
@@ -270,7 +145,7 @@ class MemorySegmentTable:
 class Budokai3Interface:
     """Interface sitting in front of the pcsx2_interface to provide higher level functions for interacting with Budokai3"""
     pcsx2_interface: Pine = Pine()
-    # addresses: Addresses = None
+    addresses: Addresses = None
     # shop: Shop = None
     connection_status: str
     logger: Logger
@@ -300,7 +175,7 @@ class Budokai3Interface:
 
  
     def increment_money(self, item):
-        name: str = item.name.strip(' Zenie')
+        name: str = item.name.rsplit(' Zenie', 1)[0]
         amount: int = int(name)
         current_zenie = self.pcsx2_interface.read_int32(0x58F718)
         max = 0xFFFF
@@ -308,16 +183,23 @@ class Budokai3Interface:
             new_amount = max
         else:
             new_amount = current_zenie + amount
+        self.logger.info(f"Adding {new_amount} Zenie.")
         self.pcsx2_interface.write_int32(0x58F718, new_amount)
 
+    def get_screen(self) -> int:
+        return self.pcsx2_interface.read_int16(self.addresses.CUR_SCREEN.start_offset)
+
     def in_battle(self) -> bool:
-        return self.read_p1_hp() != 0x0
+        return self.get_screen() in BATTLE_SCREENS
+    
+    def save_file_loaded(self) -> bool:
+        return self.get_screen() in SAVE_FILE_LOADED
 
     def read_p1_hp(self) -> int:
-        return self.pcsx2_interface.read_int32(ROMAddresses.P1HP.start_offset)
+        return self.pcsx2_interface.read_int32(self.addresses.P1HP.start_offset)
     
     def deathlink_set_p1_hp(self):
-        self.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x00000000)
+        self.pcsx2_interface.write_int32(self.addresses.P1HP.start_offset, 0x00000000)
 
     def return_to_main_menu(self, save: bool = False):
         pass
@@ -334,7 +216,7 @@ class Budokai3Interface:
             self.current_game = None
             if game_id in _SUPPORTED_VERSIONS:
                 self.current_game = game_id
-                # self.addresses = Addresses(game_id)
+                self.addresses = Addresses(game_id)
             if self.current_game is None and self.game_id_error != game_id and game_id != b'\x00\x00\x00\x00\x00\x00':
                 self.logger.warning(
                     f"Connected to the wrong game, {game_id}.\n"

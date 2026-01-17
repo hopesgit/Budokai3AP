@@ -1,6 +1,6 @@
 from typing import NamedTuple, Optional, Callable, Dict
 from ..Logic import *
-from .ROMAddresses import Address
+from .Addresses import Address
 
 
 class LocationData(NamedTuple):
@@ -20,8 +20,8 @@ GOKU_RECOOME_CLEAR = LocationData(4, "Goku: Namek Saga - Defeat Recoome", can_go
 GOKU_GINYU_CLEAR = LocationData(5, "Goku: Namek Saga - Defeat Ginyu", can_goku)
 GOKU_FRIEZA_1_CLEAR = LocationData(6, "Goku: Namek Saga - Defeat Final Form Frieza", can_goku)
 GOKU_FRIEZA_2_CLEAR = LocationData(7, "Goku: Namek Saga - Defeat 100% Final Form Frieza", can_goku)
-GOKU_COOLER_CLEAR = LocationData(8, "Goku: Android Saga - Defeat Cooler", can_goku)
-GOKU_CELL_CLEAR = LocationData(9, "Goku: Android Saga - Defeat Cell", can_goku)
+GOKU_COOLER_CLEAR = LocationData(8, "Goku: Android Saga - Defeat Metal Cooler at Time Machine", can_goku)
+GOKU_CELL_CLEAR = LocationData(9, "Goku: Android Saga - Defeat Cell at Cell Games Arena", can_goku)
 GOKU_MAJIN_VEGETA_CLEAR = LocationData(10, "Goku: Buu Saga - Defeat Majin Vegeta", can_goku)
 GOKU_MAJIN_BUU_CLEAR = LocationData(11, "Goku: Buu Saga - Defeat Majin Buu", can_goku)
 GOKU_SUPER_BUU_1_CLEAR = LocationData(12, "Goku: Buu Saga - Defeat Super Buu (Gohan)", can_goku)
@@ -122,7 +122,7 @@ VEGETA_BOSSES = [
 KRILLIN_SAIBAMEN_CLEAR = LocationData(65, "Krillin - Saiyan Saga - Defeat Saibamen", can_krillin)
 KRILLIN_NAPPA_CLEAR = LocationData(66, "Krillin - Saiyan Saga - Defeat Nappa", can_krillin)
 KRILLIN_RECOOME_CLEAR = LocationData(67, "Krillin - Namek Saga - Defeat Recoome", can_krillin)
-KRILLIN_GINYU_GOKU_CLEAR = LocationData(68, "Krillin - Namek Saga - Defeat Goku w/ Scouter", can_krillin)
+KRILLIN_GINYU_GOKU_CLEAR = LocationData(68, "Krillin - Namek Saga - Defeat Goku with Scouter", can_krillin)
 KRILLIN_FRIEZA_1_CLEAR = LocationData(69, "Krillin - Namek Saga - Defeat Second Form Frieza", can_krillin)
 KRILLIN_FRIEZA_2_CLEAR = LocationData(70, "Krillin - Namek Saga - Defeat Final Form Frieza", can_krillin)
 KRILLIN_CELL_CLEAR = LocationData(71, "Krillin 2 - Android Saga - Defeat Perfect Form Cell", can_wish_krillin)
@@ -172,10 +172,10 @@ TIEN_BOSSES = [
 ]
 
 ## Yamcha
-YAMCHA_SAIBAMEN_CLEAR = LocationData(96, "Yamcha: Saiyan Saga - Defeat Saibaman", can_yamcha)
-YAMCHA_DR_GERO_CLEAR = LocationData(97, "Yamcha: Android Saga - Defeat Dr Gero", can_yamcha)
-YAMCHA_TIEN_CLEAR = LocationData(98, "Yamcha: Buu Saga - Defeat Tien", can_yamcha)
-YAMCHA_VEGETA_CLEAR = LocationData(99, "Yamcha: Buu Saga - Defeat Vegeta", can_yamcha)
+YAMCHA_SAIBAMEN_CLEAR = LocationData(96, "Yamcha: Saiyan Saga - Defeat Saibaman at Plains", can_yamcha)
+YAMCHA_DR_GERO_CLEAR = LocationData(97, "Yamcha: Android Saga - Defeat Dr Gero at South City", can_yamcha)
+YAMCHA_VEGETA_CLEAR = LocationData(98, "Yamcha 2: Buu Saga - Defeat Vegeta at World Tournament", can_yamcha) # find all events relating to Bulma's new partner in Cell Saga
+YAMCHA_TIEN_CLEAR = LocationData(99, "Yamcha 2: Buu Saga - Defeat Tien at World Tournament", can_yamcha) # don't find all events relating to Bulma's new partner in Cell Saga
 
 YAMCHA_BOSSES = [
     YAMCHA_SAIBAMEN_CLEAR, YAMCHA_DR_GERO_CLEAR, YAMCHA_TIEN_CLEAR, YAMCHA_VEGETA_CLEAR
@@ -183,10 +183,11 @@ YAMCHA_BOSSES = [
 
 ## Uub
 UUB_GOKU_1_CLEAR = LocationData(100, "Uub: Defeat Goku at World Tournament", can_uub)
-UUB_VEGETA_CLEAR = LocationData(101, "Uub: Defeat Vegeta", can_uub)
-UUB_MAJIN_BUU_CLEAR = LocationData(102, "Uub: Defeat Majin Buu", can_uub)
+UUB_VEGETA_CLEAR = LocationData(101, "Uub: Defeat Vegeta at West City", can_uub)
+UUB_MAJIN_BUU_CLEAR = LocationData(102, "Uub: Defeat Majin Buu at Hercule City", can_uub)
 UUB_GOKU_2_CLEAR = LocationData(103, "Uub: Defeat Goku at Archipelago", can_uub)
-UUB_OMEGA_SHENRON_CLEAR = LocationData(104, "Uub: Defeat Omega Shenron", can_uub)
+UUB_OMEGA_SHENRON_CLEAR = LocationData(104, "Uub 2: Defeat Omega Shenron at Mountains", can_uub) 
+# meet Master Roshi at Kame House before Goku 2 and the story's path will diverge
 
 UUB_BOSSES = [
     UUB_GOKU_1_CLEAR, UUB_VEGETA_CLEAR, UUB_MAJIN_BUU_CLEAR, UUB_GOKU_2_CLEAR, UUB_OMEGA_SHENRON_CLEAR
@@ -323,31 +324,49 @@ GOKU_CAPSULE_1 = LocationData(172, "Goku: Starting Capsule", has_goku)
 # Goku: Saiyan Saga: (Gleaming) Money in mountains north of West City (S6)
 # Goku: Saiyan Saga: (Gleaming) Money in northern mountains (S2)
 # Goku: Saiyan Saga: Capsule from Yamcha at North City
+# Goku: Saiyan Saga: Capsule at Gleaming ??? on island north of West City 1 (S6) #Membership cards, ugh
+# Goku: Saiyan Saga: Capsule at Gleaming ??? on island north of West City 2 (S6) #Membership cards, ugh
 ## After Raditz
 # Goku 2: Saiyan Saga: Capsule from Kami at Kami's Lookout after Raditz (S5)
-# Goku 2: Saiyan Saga: Capsule from Chichi at Goku's House (S11)
+# Goku 2: Saiyan Saga: Capsule from Chichi at Goku's House after Raditz (S11)
 ## After Nappa
-# Capsule from Master Roshi at Kame House (S12)
-# Capsule at Gleaming ??? on island north of West City 1 (S6) #Membership cards, ugh
-# Capsule at Gleaming ??? on island north of West City 2 (S6) #Membership cards, ugh
+# Goku: Saiyan Saga: Capsule from Master Roshi at Kame House after Nappa (S12)
 ## Namek Saga Start
-# Dragon Radar at Gleaming ??? near Goku's Spaceship (S8)
-GOKU_CAPSULE_2 = LocationData(173, "Goku: Saiyan Saga: Capsule at Plains Marker", can_goku)
+# Goku: Namek Saga: (Gleaming) Dragon Radar on island near Goku's Spaceship (S8)
+# Goku: Namek Saga: Dragon Ball on island north of northeast continent (S4)
+# Goku: Namek Saga: Dragon Ball in island chain southwest of northwest continent (S5)
+# Goku: Namek Saga: (Gleaming) Capsule at spaceship on southeast continent (S11) # green: wishes category
+# Goku: Android Saga: (Gleaming) Capsule east of West City (S6) # Dragon Fist; is this consistent?
+# Goku: Android Saga: (Gleaming) Capsule near Goku's House (S12) # yellow
+# Goku: Android Saga: Capsule at Kami's Lookout (visit twice) # green: armor (Goku) category
+# Goku: Android Saga: Dragon Radar at West City (S6)
+# Goku: Android Saga: (Gleaming) Money near South City (S14)
+# Goku: Android Saga: (Gleaming) Capsule at houses south of Kami's Lookout (S9) # Viral Heart Disease?
+# Goku: Android Saga: (Gleaming) Money at forest in northern mountains (S3)
+# Goku: Buu Saga: (Gleaming) Money in forest northwest of Kami's Lookout (S5)
+# Goku: Buu Saga: Capsule at Goku's House (S7), # random yellow
+# Goku: Buu Saga: (Gleaming) Money on river near glacier (S4)
+# Goku: Buu Saga: (Gleaming) Capsule in southwest desert (S9) # random red capsule
+# Goku: Buu Saga: (Gleaming) Dragon Radar in northern mountains (S3)
+# Goku: Buu Saga: Dragon Ball in northern mountains (S3)
+# Goku: Buu Saga: Dragon ball on sandy island in southern island chain (S15)
+
+GOKU_CAPSULE_2 = LocationData(173, "Goku: Saiyan Saga: Capsule at Plains Marker", can_goku) # Raditz
 GOKU_CAPSULE_3 = LocationData(174, "Goku: Saiyan Saga: Capsule at Plains", can_goku) # After Nappa
-GOKU_CAPSULE_4 = LocationData(175, "Goku: Saiyan Saga: Vegeta Reward", can_goku)
-GOKU_CAPSULE_5 = LocationData(176, "Goku: Namek Saga: Capsule at Capsule House", can_goku)
+GOKU_CAPSULE_4 = LocationData(175, "Goku: Saiyan Saga: Vegeta Reward", can_goku) # Vegeta
+GOKU_CAPSULE_5 = LocationData(176, "Goku: Namek Saga: Capsule at Capsule House on southwest continent (S12)", can_goku) # Turle Shell; must visit twice
 GOKU_CAPSULE_6 = LocationData(177, "Goku: Namek Saga: Recoome Reward 1", can_goku)
 GOKU_CAPSULE_7 = LocationData(178, "Goku: Namek Saga: Recoome Reward 2", can_goku)
-GOKU_CAPSULE_8 = LocationData(179, "Goku: Namek Saga: Ginyu Reward", can_goku)
-GOKU_CAPSULE_9 = LocationData(180, "Goku: Namek Saga: Capsule given before 100% Full Power Frieza Battle", can_goku)
+GOKU_CAPSULE_8 = LocationData(179, "Goku: Namek Saga: Ginyu Reward", can_goku) # Captain Ginyu
+GOKU_CAPSULE_9 = LocationData(180, "Goku: Namek Saga: Capsule given before 100% Full Power Frieza Battle", can_goku) # Super Saiyan
 GOKU_CAPSULE_10 = LocationData(181, "Goku: Namek Saga: 100% Full Power Frieza Reward", can_goku)
-GOKU_CAPSULE_11 = LocationData(182, "Goku: Android Saga: Capsule at Plains near Cell Ring", can_goku)
+GOKU_CAPSULE_11 = LocationData(182, "Goku: Android Saga: Capsule at Plains near Cell Ring", can_goku) # Warp Kamehameha
 GOKU_CAPSULE_12 = LocationData(183, "Goku: Android Saga: Capsule near Baba's House", can_goku)
-GOKU_CAPSULE_13 = LocationData(184, "Goku: Android Saga: Perfect Form Cell Reward", can_goku)
-GOKU_CAPSULE_14 = LocationData(185, "Goku: Buu Saga: Capsule given in Saga Intro", can_goku)
-GOKU_CAPSULE_15 = LocationData(186, "Goku: Buu Saga: Capsule at Forest near West City", can_goku)
-GOKU_CAPSULE_16 = LocationData(187, "Goku: Buu Saga: Capsule at North City", can_goku)
-GOKU_CAPSULE_17 = LocationData(188, "Goku: Buu Saga: Capsule given before Majin Buu Battle", can_goku)
+GOKU_CAPSULE_13 = LocationData(184, "Goku: Android Saga: Perfect Form Cell Reward", can_goku) # Cell Ring
+GOKU_CAPSULE_14 = LocationData(185, "Goku: Buu Saga: Capsule given in Saga Intro", can_goku) # Super Saiyan 2
+GOKU_CAPSULE_15 = LocationData(186, "Goku: Buu Saga: Capsule at Forest near West City", can_goku) # Angel's Halo
+GOKU_CAPSULE_16 = LocationData(187, "Goku: Buu Saga: Capsule at North City", can_goku) # Yakon
+GOKU_CAPSULE_17 = LocationData(188, "Goku: Buu Saga: Capsule given before Majin Buu Battle", can_goku) # Super Saiyan 3
 GOKU_CAPSULE_18 = LocationData(189, "Goku: Buu Saga: Majin Buu Reward", can_goku)
 GOKU_CAPSULE_19 = LocationData(190, "Goku: Buu Saga: Capsule given before Super Buu (Gohan) Battle at ??? Marker", can_goku)
 GOKU_CAPSULE_20 = LocationData(191, "Goku: Buu Saga: Super Buu (Gohan) Reward", can_goku)
@@ -359,9 +378,9 @@ GOKU_CAPSULE_25 = LocationData(196, "Goku 2: Saiyan Saga: Capsule at Saiyan's Sp
 GOKU_CAPSULE_26 = LocationData(197, "Goku 2: Saiyan Saga: Capsule at Grandpa Gohan's House", can_wish_goku)
 GOKU_CAPSULE_27 = LocationData(198, "Goku 2: Saiyan Saga: Capsule at Korin's Tower", can_wish_goku)
 GOKU_CAPSULE_28 = LocationData(199, "Goku 2: Namek Saga: Capsule at ??? on Lone Central Island", can_wish_goku)
-GOKU_CAPSULE_29 = LocationData(200, "Goku 2: Namek Saga: Capsule at Namek Village in Southwest Continent", can_wish_goku)
+GOKU_CAPSULE_29 = LocationData(200, "Goku 2: Namek Saga: Capsule at Namek Village in Southwest Continent", can_wish_goku) # King-Kai's Wish
 GOKU_CAPSULE_30 = LocationData(201, "Goku 2: Namek Saga: Capsule given at ??? Marker after Cooler Battle", can_wish_goku)
-GOKU_CAPSULE_31 = LocationData(202, "Goku 2: Namek Saga: Cooler Reward (Cooler Battle after Vegeta Battle)", can_wish_goku_vegeta)
+GOKU_CAPSULE_31 = LocationData(202, "Goku 2: Namek Saga: Cooler Reward (Cooler Battle after Vegeta Battle)", can_wish_goku_vegeta) # Cooler
 GOKU_CAPSULE_32 = LocationData(203, "Goku 2: Buu Saga: Broly Reward", can_wish_goku)
 GOKU_CAPSULE_33 = LocationData(204, "Goku 2: Extra Saga: Capsule given before Gotenks Battle at World Tournament", can_super_spirit_bomb)
 GOKU_CAPSULE_34 = LocationData(205, "Goku 2: Extra Saga: Capsule given before Omega Shenron Battle at Central City", can_super_spirit_bomb)
@@ -756,51 +775,25 @@ KID_GOHAN_DB7 = LocationData(606, "Kid Gohan: Namek Saga: Dragon Ball on large w
 
 # Dragon Arena Checks
 GOKU_BREAK_IN = LocationData(600, "Dragon Arena: Defeat Break-In Challenger: Goku", has_dragon_arena)
-KGOKU_BREAK_IN = LocationData(601, "Dragon Arena: Defeat Break-In Challenger: Kid Goku", has_dragon_arena)
-KGOHAN_BREAK_IN = LocationData(602, "Dragon Arena: Defeat Break-In Challenger: Kid Gohan", has_dragon_arena)
-TGOHAN_BREAK_IN = LocationData(603, "Dragon Arena: Defeat Break-In Challenger: Teen Gohan", has_dragon_arena)
-GOHAN_BREAK_IN  = LocationData(604, "Dragon Arena: Defeat Break-In Challenger: Gohan", has_dragon_arena)
-GTS_BREAK_IN = LocationData(605, "Dragon Arena: Defeat Break-In Challenger: Gt Saiyaman", has_dragon_arena)
-GOTEN_BREAK_IN = LocationData(606, "Dragon Arena: Defeat Break-In Challenger: Goten", has_dragon_arena)
-VEGETA_BREAK_IN = LocationData(607, "Dragon Arena: Defeat Break-In Challenger: Vegeta", has_dragon_arena)
-TRUNKS_BREAK_IN = LocationData(608, "Dragon Arena: Defeat Break-In Challenger: Trunks", has_dragon_arena)
-KTRUNKS_BREAK_IN = LocationData(609, "Dragon Arena: Defeat Break-In Challenger: Kid Trunks", has_dragon_arena)
 KRILLIN_BREAK_IN = LocationData(610, "Dragon Arena: Defeat Break-In Challenger: Krillin", has_dragon_arena)
 PICCOLO_BREAK_IN = LocationData(611, "Dragon Arena: Defeat Break-In Challenger: Piccolo", has_dragon_arena)
-TIEN_BREAK_IN = LocationData(612, "Dragon Arena: Defeat Break-In Challenger: Tien", has_dragon_arena)
 YAMCHA_BREAK_IN = LocationData(613, "Dragon Arena: Defeat Break-In Challenger: Yamcha", has_dragon_arena)
-VIDEL_BREAK_IN = LocationData(614, "Dragon Arena: Defeat Break-In Challenger: Videl", has_dragon_arena)
-HERCULE_BREAK_IN = LocationData(615, "Dragon Arena: Defeat Break-In Challenger: Hercule", has_dragon_arena)
-SUPREME_KAI_BREAK_IN = LocationData(616, "Dragon Arena: Defeat Break-In Challenger: Supreme Kai", has_dragon_arena)
-UUB_BREAK_IN = LocationData(617, "Dragon Arena: Defeat Break-In Challenger: Uub", has_dragon_arena)
-RADITZ_BREAK_IN = LocationData(618, "Dragon Arena: Defeat Break-In Challenger: Raditz", has_dragon_arena)
 NAPPA_BREAK_IN = LocationData(619, "Dragon Arena: Defeat Break-In Challenger: Nappa", has_dragon_arena)
-GINYU_BREAK_IN = LocationData(620, "Dragon Arena: Defeat Break-In Challenger: Ginyu", has_dragon_arena)
-RECOOME_BREAK_IN = LocationData(621, "Dragon Arena: Defeat Break-In Challenger: Recoome", has_dragon_arena)
 FRIEZA_BREAK_IN = LocationData(622, "Dragon Arena: Defeat Break-In Challenger: Frieza", has_dragon_arena)
-ANDROID_16_BREAK_IN = LocationData(623, "Dragon Arena: Defeat Break-In Challenger: Android 16", has_dragon_arena)
-ANDROID_17_BREAK_IN = LocationData(624, "Dragon Arena: Defeat Break-In Challenger: Android 17", has_dragon_arena)
-ANDROID_18_BREAK_IN = LocationData(625, "Dragon Arena: Defeat Break-In Challenger: Android 18", has_dragon_arena)
 DR_GERO_BREAK_IN = LocationData(626, "Dragon Arena: Defeat Break-In Challenger: Dr Gero", has_dragon_arena)
 CELL_BREAK_IN = LocationData(627, "Dragon Arena: Defeat Break-In Challenger: Cell", has_dragon_arena)
 MAJIN_BUU_BREAK_IN = LocationData(628, "Dragon Arena: Defeat Break-In Challenger: Majin Buu", has_dragon_arena)
-SUPER_BUU_BREAK_IN = LocationData(629, "Dragon Arena: Defeat Break-In Challenger: Super Buu", has_dragon_arena)
 KID_BUU_BREAK_IN = LocationData(630, "Dragon Arena: Defeat Break-In Challenger: Kid Buu", has_dragon_arena)
 DABURA_BREAK_IN = LocationData(631, "Dragon Arena: Defeat Break-In Challenger: Dabura", has_dragon_arena)
 COOLER_BREAK_IN = LocationData(632, "Dragon Arena: Defeat Break-In Challenger: Cooler", has_dragon_arena)
-BARDOCK_BREAK_IN = LocationData(633, "Dragon Arena: Defeat Break-In Challenger: Bardock", has_dragon_arena)
 BROLY_BREAK_IN = LocationData(634, "Dragon Arena: Defeat Break-In Challenger: Broly", has_dragon_arena)
 OMEGA_BREAK_IN = LocationData(635, "Dragon Arena: Defeat Break-In Challenger: Omega", has_dragon_arena)
 SAIBAMEN_BREAK_IN = LocationData(636, "Dragon Arena: Defeat Break-In Challenger: Saibamen", has_dragon_arena)
-CELL_JR_BREAK_IN = LocationData(637, "Dragon Arena: Defeat Break-In Challenger: Cell Jr", has_dragon_arena)
 
 DRAGON_ARENA_LOCS = [
-    GOKU_BREAK_IN, KGOKU_BREAK_IN, KGOHAN_BREAK_IN, TGOHAN_BREAK_IN, GOHAN_BREAK_IN, GTS_BREAK_IN, GOTEN_BREAK_IN,
-    VEGETA_BREAK_IN, TRUNKS_BREAK_IN, KTRUNKS_BREAK_IN, KRILLIN_BREAK_IN, PICCOLO_BREAK_IN, TIEN_BREAK_IN, YAMCHA_BREAK_IN,
-    VIDEL_BREAK_IN, HERCULE_BREAK_IN, SUPREME_KAI_BREAK_IN, UUB_BREAK_IN, RADITZ_BREAK_IN, NAPPA_BREAK_IN, GINYU_BREAK_IN,
-    RECOOME_BREAK_IN, FRIEZA_BREAK_IN, ANDROID_16_BREAK_IN, ANDROID_17_BREAK_IN, ANDROID_18_BREAK_IN, DR_GERO_BREAK_IN,
-    CELL_BREAK_IN, MAJIN_BUU_BREAK_IN, SUPER_BUU_BREAK_IN, KID_BUU_BREAK_IN, DABURA_BREAK_IN, COOLER_BREAK_IN,
-    BARDOCK_BREAK_IN, BROLY_BREAK_IN, OMEGA_BREAK_IN, SAIBAMEN_BREAK_IN, CELL_JR_BREAK_IN
+    GOKU_BREAK_IN, KRILLIN_BREAK_IN, PICCOLO_BREAK_IN, YAMCHA_BREAK_IN, NAPPA_BREAK_IN,
+    FRIEZA_BREAK_IN, DR_GERO_BREAK_IN, CELL_BREAK_IN, MAJIN_BUU_BREAK_IN, KID_BUU_BREAK_IN, 
+    DABURA_BREAK_IN, COOLER_BREAK_IN, BROLY_BREAK_IN, OMEGA_BREAK_IN, SAIBAMEN_BREAK_IN
 ]
 
 # Training Mode Checks

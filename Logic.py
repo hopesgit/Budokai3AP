@@ -40,16 +40,21 @@ def can_use_moves_for_character(state: CollectionState, player: int, moves: typi
     rsa = _get_options(state, player).require_super_attacks.value
     sas = _get_options(state, player).super_attack_starters.value
     prog = _get_options(state, player).progressive_characters.value
+    prog_type = {
+        1: "prog_normal",
+        2: "prog_attacks",
+        3: "prog_transforms"
+    }
     if rsa == 0:
         return True
     elif rsa in [1, 2, 3]:
         if prog: 
-            return can_use_moves_prog(state, player, moves, progressive_item, prog)
+            return can_use_moves_prog(state, player, moves, progressive_item, prog_type[prog])
         else: 
             return can_use_moves_regular(state, player, moves, breakthrough_item)
     elif rsa == 4 and character in sas:
         if prog: 
-            return can_use_moves_prog(state, player, moves, progressive_item, prog)
+            return can_use_moves_prog(state, player, moves, progressive_item, prog_type[prog])
         else: 
             return can_use_moves_regular(state, player, moves, breakthrough_item)
 

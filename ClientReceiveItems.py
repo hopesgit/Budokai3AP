@@ -58,17 +58,17 @@ async def handle_received_items(ctx: 'Budokai3Context', current_items: dict[str,
         
         if item in Items.GRAY_CAPSULES and current_items[item.name] == 0:
             ctx.game_interface.give_system_capsule_to_player(item)
-            continue
-        if item in [Items.ZENIE_2K, Items.ZENIE_5K, Items.ZENIE_10K, Items.ZENIE_25K, Items.ZENIE_100K]:
+        elif item in [Items.ZENIE_2K, Items.ZENIE_5K, Items.ZENIE_10K, Items.ZENIE_25K, Items.ZENIE_100K]:
             ctx.game_interface.increment_money(item)
-            continue
-        if item in Items.PROGRESSIVE_CAPSULES:
+        elif item in Items.PROGRESSIVE_CAPSULES:
             prog_type = {
                 1: "prog_normal",
                 2: "prog_attacks",
                 3: "prog_transforms"
             }
             item = Items.from_id(ItemPool.progressive_order(item, prog_type[ctx.slot_data["progressive_characters"]], current_items[item.name]))
+        else:
+            ctx.game_interface.give_capsule_to_player(item)
 
         print(f"Item Received: {item.name}")
         ctx.game_interface.give_capsule_to_player(item)

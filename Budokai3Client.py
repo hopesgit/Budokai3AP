@@ -1,12 +1,13 @@
 from typing import Optional
 
+from ClientReceiveItems import handle_received_items
 import Utils
 import asyncio
 import os
 import threading
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
 from . import version
-from .data import ROMAddresses
+from .data import Addresses
 from .data.Items import get_offset_from_name
 from .data.Locations import get_all_active_locations
 from .Budokai3Interface import Budokai3Interface, ConnectionState
@@ -85,7 +86,7 @@ class Budokai3Context(CommonContext):
     is_loading: bool = False
     is_in_menu: bool = False
     is_in_du: bool = False
-    if_in_battle: bool = False
+    is_in_battle: bool = False
     slot_data: dict[str, Utils.Any] | None = None
     last_error_message: Optional[str] = None
     deathlink_queued: bool = False
@@ -136,14 +137,13 @@ def update_connection_status(ctx: Budokai3Context, status: bool):
     if status:
         logger.info("Connected to DBZ Budokai 3")
     else:
-        logger.info("Unable to connect to the PCSX2 instance, attempting to reconnect...")
+        logger.info("Unable to connect to the PCSX2 instance. Attempting to reconnect...")
 
 async def pcsx2_sync_task(ctx: Budokai3Context):
-    logger.info("Starting Budokai 3 Connector, attempting to connect to emulator...")
+    logger.info("Starting Budokai 3 Connector. Attempting to connect to emulator...")
     ctx.game_interface.connect_to_game()
     while not ctx.exit_event.is_set():
         try:
-            await handle_deathlink(ctx)
             # await prevent_idents(ctx)
             is_connected = ctx.game_interface.get_connection_state()
             update_connection_status(ctx, is_connected)
@@ -160,8 +160,8 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
             continue
 
 def party(ctx: Budokai3Context):
-    ctx.game_interface.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x45ff0000)
-    ctx.game_interface.pcsx2_interface.write_int32(ROMAddresses.P2HP.start_offset, 0x45ff0000)
+    ctx.game_interface.pcsx2_interface.write_int32(Addresses.P1HP.start_offset, 0x45ff0000)
+    ctx.game_interface.pcsx2_interface.write_int32(Addresses.P2HP.start_offset, 0x45ff0000)
 
 async def prevent_idents(ctx: Budokai3Context):
     start = 0x01050b0
@@ -236,6 +236,31 @@ async def _handle_game_ready(ctx: Budokai3Context):
         init(ctx)
     update(ctx, connected_to_server)
 
+    if ctx.server:
+        ctx.last_error_message = None
+        if not ctx.slot:
+            await asyncio.sleep(1)
+            return
+        
+        if not ctx.game_interface.in_battle() and ctx.game_interface.save_file_loaded(): 
+            await handle_received_items(ctx)
+        await handle_checked_locations(ctx)
+        await handle_check_goal_complete(ctx)
+
+        if ctx.deathlink_enabled:
+            await handle_deathlink(ctx)
+        await asyncio.sleep(0.1)
+
+    else:
+        message = "Waiting for player to connect to server"
+        if ctx.last_error_message is not message:
+            logger.info(message)
+            ctx.last_error_message = message
+        await asyncio.sleep(1)
+
+async def handle_check_goal_complete(ctx: Budokai3Context):
+    if ctx.
+
 async def _handle_game_not_ready(ctx: Budokai3Context):
     """If the game is not connected, try to reconnect."""
     ctx.game_interface.connect_to_game()
@@ -250,17 +275,17 @@ def init(ctx: 'Budokai3Context'):
     pass
 
 def update(ctx: 'Budokai3Context', ap_connected: bool):
-    button_input = ctx.game_interface.pcsx2_interface.read_int8(ROMAddresses.Controller_Shoulder_Buttons.start_offset)
+    button_input = ctx.game_interface.pcsx2_interface.read_int8(Addresses.Controller_Shoulder_Buttons.start_offset)
     if button_input == 0xFFFFFFFF: # L1 + L2 + R1 + R2
         ctx.game_interface.return_to_main_menu(True)
 
 async def handle_deathlink(ctx: Budokai3Context):
     if ctx.deathlink_enabled:
         if ctx.deathlink_queued:
-            if ctx.game_interface.pcsx2_interface.read_int32(ROMAddresses.P1HP.start_offset) != 0:
+            if ctx.game_interface.pcsx2_interface.read_int32(Addresses.P1HP.start_offset) != 0:
                 logger.info("Battle detected.")
                 ctx.deathlink_queued = False
-                ctx.game_interface.pcsx2_interface.write_int32(ROMAddresses.P1HP.start_offset, 0x00000000)
+                ctx.game_interface.pcsx2_interface.write_int32(Addresses.P1HP.start_offset, 0x00000000)
                 logger.info("P1 HP reduced. Enjoy!")
 
 def launch():

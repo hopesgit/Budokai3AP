@@ -1,4 +1,5 @@
 from BaseClasses import ItemClassification, CollectionState
+from typing import List
 from .Logic import _get_options
 from .data import Items
 from .data.Items import *
@@ -51,8 +52,6 @@ BROLY_ATTACKS = [BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEO
 BROLY_TRANSFORMS = [BROLY.code, LSSJ_BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, BREAK_BROLY.code]
 
 
-
-
 def create_pool(state: CollectionState, player: int):
     prog_chars = _get_options(state, player).progressive_characters != 'off'
     create_greens()
@@ -66,14 +65,11 @@ def create_pool(state: CollectionState, player: int):
         create_grays()
     # create_custom(state, player)
 
-
 def create_greens():
     return GREEN_CAPSULES
 
-
 def create_yellows():
     return YELLOW_CAPSULES
-
 
 def create_grays(progressive_characters: bool = False):
     accum = []
@@ -84,7 +80,6 @@ def create_grays(progressive_characters: bool = False):
 
     return accum
 
-
 def create_reds(progressive_characters: bool = False):
     accum = []
     for item in RED_CAPSULES:
@@ -94,10 +89,61 @@ def create_reds(progressive_characters: bool = False):
 
     return accum
 
-
 def create_prog_characters():
     return PROGRESSIVE_CAPSULES
 
+def get_prog_item_order(
+        progressive_item: Capsule, prog_type: str, item=None
+        ) -> None | List | int:
+    id = progressive_item.code
+    proglist = []
+    match id:
+        case PROGRESSIVE_GOKU.code:
+            if prog_type == 'prog_normal': proglist = GOKU_NORM
+            if prog_type == 'prog_attacks': proglist = GOKU_ATTACKS
+            if prog_type == "prog_transforms": proglist = GOKU_TRANSFORMS
+        case PROGRESSIVE_KID_GOHAN.code:
+            if prog_type == 'prog_normal': proglist = KGOHAN_NORM
+            if prog_type == 'prog_attacks': proglist = KGOHAN_ATTACKS
+            if prog_type == "prog_transforms": proglist = KGOHAN_TRANSFORMS
+        case PROGRESSIVE_TEEN_GOHAN.code:
+            if prog_type == 'prog_normal': proglist = TGOHAN_NORM
+            if prog_type == 'prog_attacks': proglist = TGOHAN_ATTACKS
+            if prog_type == "prog_transforms": proglist = TGOHAN_TRANSFORMS
+        case PROGRESSIVE_GOHAN.code:
+            if prog_type == 'prog_normal': proglist = GOHAN_NORM
+            if prog_type == 'prog_attacks': proglist = GOHAN_ATTACKS
+            if prog_type == "prog_transforms": proglist = GOHAN_TRANSFORMS
+        case PROGRESSIVE_KRILLIN.code:
+            if prog_type == 'prog_normal': proglist = KRILLIN_NORM
+            if prog_type == 'prog_attacks': proglist = KRILLIN_ATTACKS
+            if prog_type == "prog_transforms": proglist = KRILLIN_TRANSFORMS
+        case PROGRESSIVE_PICCOLO.code:
+            if prog_type == 'prog_normal': proglist = PICCOLO_NORM
+            if prog_type == 'prog_attacks': proglist = PICCOLO_ATTACKS
+            if prog_type == "prog_transforms": proglist = PICCOLO_TRANSFORMS
+        case PROGRESSIVE_VEGETA.code:
+            if prog_type == 'prog_normal': proglist = VEGETA_NORM
+            if prog_type == 'prog_attacks': proglist = VEGETA_ATTACKS
+            if prog_type == "prog_transforms": proglist = VEGETA_TRANSFORMS
+        case PROGRESSIVE_TIEN.code:
+            proglist = TIEN_NORM
+        case PROGRESSIVE_YAMCHA.code:
+            proglist = YAMCHA_NORM
+        case PROGRESSIVE_UUB.code:
+            proglist = UUB_NORM
+        case PROGRESSIVE_BROLY.code:
+            if prog_type == 'prog_normal': proglist = BROLY_NORM
+            if prog_type == 'prog_attacks': proglist = BROLY_ATTACKS
+            if prog_type == "prog_transforms": proglist = BROLY_TRANSFORMS
+    if isinstance(item, Capsule):
+        id = item.code
+        try:
+            index = proglist.index(id)
+            return index
+        except ValueError:
+            return None
+    return proglist
 
 def progressive_order(item: Capsule, prog_type: str, count: int):
     id = item.code
@@ -105,47 +151,12 @@ def progressive_order(item: Capsule, prog_type: str, count: int):
     if not id: raise AttributeError
     if not prog_type: raise AttributeError
     # 531 - 541: Goku, Kid Gohan, Teen Gohan, Gohan, Krillin, Piccolo, Vegeta, Tien, Yamcha, Uub, Broly
-    match id:
-        case PROGRESSIVE_GOKU.code:
-            if prog_type == 'prog_normal': return GOKU_NORM[index]
-            if prog_type == 'prog_attacks': return GOKU_ATTACKS[index]
-            if prog_type == "prog_transforms": return GOKU_TRANSFORMS[index]
-        case PROGRESSIVE_KID_GOHAN.code:
-            if prog_type == 'prog_normal': return KGOHAN_NORM[index]
-            if prog_type == 'prog_attacks': return KGOHAN_ATTACKS[index]
-            if prog_type == "prog_transforms": return KGOHAN_TRANSFORMS[index]
-        case PROGRESSIVE_TEEN_GOHAN.code:
-            if prog_type == 'prog_normal': return TGOHAN_NORM[index]
-            if prog_type == 'prog_attacks': return TGOHAN_ATTACKS[index]
-            if prog_type == "prog_transforms": return TGOHAN_TRANSFORMS[index]
-        case PROGRESSIVE_GOHAN.code:
-            if prog_type == 'prog_normal': return GOHAN_NORM[index]
-            if prog_type == 'prog_attacks': return GOHAN_ATTACKS[index]
-            if prog_type == "prog_transforms": return GOHAN_TRANSFORMS[index]
-        case PROGRESSIVE_KRILLIN.code:
-            if prog_type == 'prog_normal': return KRILLIN_NORM[index]
-            if prog_type == 'prog_attacks': return KRILLIN_ATTACKS[index]
-            if prog_type == "prog_transforms": return KRILLIN_TRANSFORMS[index]
-        case PROGRESSIVE_PICCOLO.code:
-            if prog_type == 'prog_normal': return PICCOLO_NORM[index]
-            if prog_type == 'prog_attacks': return PICCOLO_ATTACKS[index]
-            if prog_type == "prog_transforms": return PICCOLO_TRANSFORMS[index]
-        case PROGRESSIVE_VEGETA.code:
-            if prog_type == 'prog_normal': return VEGETA_NORM[index]
-            if prog_type == 'prog_attacks': return VEGETA_ATTACKS[index]
-            if prog_type == "prog_transforms": return VEGETA_TRANSFORMS[index]
-        case PROGRESSIVE_TIEN.code:
-            return TIEN_NORM[index]
-        case PROGRESSIVE_YAMCHA.code:
-            return YAMCHA_NORM[index]
-        case PROGRESSIVE_UUB.code:
-            return UUB_NORM[index]
-        case PROGRESSIVE_BROLY.code:
-            if prog_type == 'prog_normal': return BROLY_NORM[index]
-            if prog_type == 'prog_attacks': return BROLY_ATTACKS[index]
-            if prog_type == "prog_transforms": return BROLY_TRANSFORMS[index]
-    return None
-
+    proglist: List = get_prog_item_order(item, prog_type)
+    try:
+        val = proglist[index]
+        return val
+    except IndexError:
+        return None
 
 def get_classification(item: Capsule):
     if 'Progressive' in item.name: 
@@ -159,8 +170,7 @@ def get_classification(item: Capsule):
         "Piccolo: Special Beam Cannon", "Tien: Ki Blast Cannon", 
         "Kid Gohan: Masenko", "Krillin: Destructo Disc", "Piccolo: Sync With Nail", 
         "Piccolo: Fuse With Kami", "Vegeta: Super Saiyan", "Vegeta: Final Flash", 
-        "Teen Gohan: Super Saiyan", "Teen Gohan: Super Saiyan 2", 
-        "Teen Gohan: Father-Son Kamehameha", "Gohan: Super Saiyan", 
+        "Teen Gohan: Super Saiyan", "Gohan: Super Saiyan", 
         "Gohan: Super Saiyan 2", "Gohan: Elder Kai Unlock Ability", 
         "Vegeta: Super Saiyan 2", "Vegeta: Super Saiyan 4", 
         "Goku: Super Saiyan 3", "Broly: Legendary Super Saiyan", 

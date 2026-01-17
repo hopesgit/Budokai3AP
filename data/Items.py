@@ -598,7 +598,7 @@ KI_CONTROL = GreenCapsule(323, "Ki Control", 0x4DFCB8)
 WARRIOR_CAREER = GreenCapsule(324, "Warrior's Career", 0x4DFCB9)
 POWER_SAVE_SYS = GreenCapsule(325, "Power Save System", 0x4DFCBA)
 BREATH_ROOM_STRONG = GreenCapsule(326, "Breathing Room of the Strongest", 0x4DFCBB)
-PARAGUS_ADMON = GreenCapsule(327, "Paragus' Admonishment", 0x4DFCBB)
+PARAGUS_ADMON = GreenCapsule(327, "Paragus's Admonishment", 0x4DFCBB)
 EVIL_GRIN = GreenCapsule(328, "Evil Grin", 0x4DFCBC)
 
 ## Ki suppression abilities
@@ -778,10 +778,10 @@ GREEN_CARD = GrayCapsule(451, "Green Membership Card", offset=0x4DFD15)
 SILVER_CARD = GrayCapsule(452, "Silver Membership Card", offset=0x4DFD16)
 GOLD_CARD = GrayCapsule(453, "Gold Membership Card", offset=0x4DFD17)
 BLACK_CARD = GrayCapsule(454, "Black Membership Card", offset=0x4DFD18)
-TOURNEY_NOVICE = GrayCapsule(455, "World Tourment - Novice", offset=0x4DFD1C)
+TOURNEY_NOVICE = GrayCapsule(455, "World Tournament - Novice", offset=0x4DFD1C)
 TOURNEY_ADEPT = GrayCapsule(456, "World Tournament - Adept", offset=0x4DFD1A)
 TOURNEY_ADV = GrayCapsule(457, "World Tournament - Advanced", offset=0x4DFD1B)
-TOURNEY_CELL = GrayCapsule(458, "World Tournanament - Cell Games", offset=0x4DFD19)
+TOURNEY_CELL = GrayCapsule(458, "World Tournament - Cell Games", offset=0x4DFD19)
 DRAGON_ARENA = GrayCapsule(459, "Dragon Arena Ticket", offset=0x4DFD1D)
 TOURNEY_STAGE = GrayCapsule(460, "World Tournament Stage", offset=0x4DFD1E)
 TIME_CHAMBER = GrayCapsule(461, "Hyperbolic Time Chamber", offset=0x4DFD1F)
@@ -1026,7 +1026,11 @@ def item_name_groups():
         "Goku": {
             "Goku", "Progressive Goku", "Goku: Kamehameha", "Goku: Kaioken", "Goku: Dragon Fist", "Goku: Super Saiyan",
             "Goku: Super Saiyan 2", "Goku: Super Saiyan 3", "Goku: Super Saiyan 4"
-        }
+        },
+        "Kid Gohan": {
+            "Kid Gohan", "Progressive Kid Gohan", "Kid Gohan: Masenko", "Kid Gohan: Breakthrough"
+        },
+        
 
     }
 
@@ -1044,9 +1048,9 @@ def get_id_pairs() -> Dict[int, Capsule]:
     return collector
 
 
-def get_offset_from_name(name):
+def get_offset_from_name(name: str):
     for item in ALL_ITEMS:
-        if item.name != name:
+        if item.name.lower() != name.lower():
             continue
         if name == item.name:
             return item.offset
@@ -1059,26 +1063,8 @@ ID_PAIRS = get_id_pairs()
 def item_name_to_id(name) -> int | None:
     return NAME_PAIRS[name].code
 
-
 def item_id_to_name(id) -> str | None:
     return ID_PAIRS[id].name
-
-
-def print_items_missing_addresses():
-    items = ALL_ITEMS.copy()
-    items.sort(key=lambda item: item.offset)
-
-    offset_range = range(items[0].offset, items[-1].offset + 0x1)
-    range_list = list(offset_range)
-    for item in items:
-        if item.offset == 0x0: continue
-        if item.offset in range_list:
-            range_list.remove(item.offset)
-
-    print("There are some offsets within the item list which aren't used.", "These could be offsets which can be given a value.", "Please investigate the following values...")
-    for offset in range_list: print(offset)
-
-# print_items_missing_addresses()
 
 def from_id(item) -> Capsule:
     return ID_PAIRS[item.code]

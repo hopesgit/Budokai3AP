@@ -3,21 +3,39 @@ from BaseClasses import CollectionState
 
 from .data import Items
 from . import Logic
+from ItemPool import get_prog_item_order
 import typing
 
 def _get_options(state: CollectionState, player: int):
     return state.multiworld.worlds[player].options
 
 def can_use_moves_for_character(state: CollectionState, player: int, moves: typing.List[Items.Capsule], breakthrough_item: Items.Capsule, progressive_item = None, character = "") -> bool:
-    
     def can_use_moves_regular(state, player, moves, breakthrough_item) -> bool:
         moves_copy = moves.copy()
         moves_copy.append(breakthrough_item)
         names = [item.name for item in moves_copy]
         return state.has_any(names, player)
     
-    def can_use_moves_prog(state, player, moves, progressive_item):
-        return True
+    def can_use_moves_prog(state, player, moves, progressive_item, progtype) -> bool:
+        move_indexes = []
+        for item in moves:
+            progindex = get_prog_item_order(progressive_item, progtype, item)
+            if isinstance(progindex, int):
+                move_indexes.append(progindex)
+            
+        progcount = 20
+        if len(move_indexes) == 0:
+            return False
+        if len(move_indexes) == 1:
+            progcount = move_indexes[0]
+        if len(move_indexes) == 2:
+            first: int = move_indexes[0]
+            second: int = move_indexes[1]
+            if first < second: 
+                progcount = first 
+            else: 
+                progcount = second
+        return state.has(progressive_item.name, player, progcount + 1)
     
     rsa = _get_options(state, player).require_super_attacks.value
     sas = _get_options(state, player).super_attack_starters.value
@@ -26,12 +44,12 @@ def can_use_moves_for_character(state: CollectionState, player: int, moves: typi
         return True
     elif rsa in [1, 2, 3]:
         if prog: 
-            return can_use_moves_prog(state, player, moves, progressive_item)
+            return can_use_moves_prog(state, player, moves, progressive_item, prog)
         else: 
             return can_use_moves_regular(state, player, moves, breakthrough_item)
     elif rsa == 4 and character in sas:
         if prog: 
-            return can_use_moves_prog(state, player, moves, progressive_item)
+            return can_use_moves_prog(state, player, moves, progressive_item, prog)
         else: 
             return can_use_moves_regular(state, player, moves, breakthrough_item)
 
@@ -300,10 +318,12 @@ def can_complete_reenactment_10(state: CollectionState, player: int) -> bool:
     return state.has(Items.TEEN_GOHAN.name, player) and state.has(Items.SSJ_TGOHAN.name, player)
 
 def can_complete_reenactment_11(state: CollectionState, player: int) -> bool:
-    return state.has_all([Items.TEEN_GOHAN.name, Items.SSJ_TGOHAN.name, Items.SSJ2_TGOHAN.name, Items.FS_KAME.name], player)
+    return state.has(Items.TEEN_GOHAN.name, player)
+    # This Gohan is a special Gohan with his own loadout
 
 def can_complete_reenactment_12(state: CollectionState, player: int) -> bool:
-    return state.has_all([Items.VEGETA.name, Items.SSJ_VEGETA.name, Items.BIG_BANG.name], player)
+    return state.has(Items.VEGETA.name, player)
+    # this is a special Vegeta that comes equipped with Final Explosion naturally
 
 def can_complete_reenactment_13(state: CollectionState, player: int) -> bool:
     return state.has(Items.GOKU.name, player) # this is another Goku with a predetermined moveset

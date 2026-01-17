@@ -29,8 +29,16 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, Budokai3Context):
             logger.info(f"Connection status: {'Connected' if self.ctx.is_connected else 'Disconnected'}")
     
-    def _cmd_unlock_capsule(self, name):
-        """Debug option to unlock a capsule. For testing ONLY"""
+    def _cmd_unlock_capsule(self, *args):
+        """Debug option to unlock a capsule. For testing ONLY
+        
+        @param args: Arbitrary-length collection of strings. I join these together to make one long string, 
+        so you should be able to supply a name with multiple words without the use of strings.
+        """
+        if not args: 
+            logger.info('No item name provided.')
+            return
+        name = ' '.join(map(str, args))
         logger.info(f"Attempting to unlock {name}...")
         offset = get_offset_from_name(name)
         logger.debug(f"Offset is {offset}")

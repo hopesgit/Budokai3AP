@@ -23,11 +23,6 @@ If you have any ideas, the best place to let me know would be by creating an [is
 * Implement options:
   * Remove Red Capsule Requirements:
     * This would allow for more variety if I could pull it off. Part QoL. Not sure about logical implications
-  * Add money locations to the pool:
-    * This is sort of a double-edged sword. This makes getting money a lot harder, as the player would be required to get money from either the Archipelago server (as received items or from the `!getitem` command) or the World Tournament.
-    * This has major logical implications in a Shopsanity setting. 
-  * Limit DU characters:
-    * This would allow the game to be more friendly in sync settings or for people who want to do fewer checks
 * Implement various trap ideas:
   * No Ki
     * This could be emptying the ki bar

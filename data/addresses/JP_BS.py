@@ -1,0 +1,1 @@
+VERSION = "SLPS-73235"

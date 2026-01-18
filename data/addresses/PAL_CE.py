@@ -1,0 +1,1 @@
+VERSION = "SLES-53346"

@@ -12,8 +12,9 @@ from .pcsx2_interface.pine import Pine
 
 if TYPE_CHECKING:
     from .data.Addresses import Addresses
+    from .data.addresses import US, US_GH, PAL, PAL_CE, JP, JP_BS
 
-_SUPPORTED_VERSIONS = ["SLUS-20998"]
+_SUPPORTED_VERSIONS = [US.VERSION, US_GH.VERSION]
 
 HUD_MESSAGE_DURATION = 2.0
 HUD_MAX_MESSAGE_WIDTH = 35
@@ -187,7 +188,7 @@ class Budokai3Interface:
         self.pcsx2_interface.write_int32(0x58F718, new_amount)
 
     def get_screen(self) -> int:
-        return self.pcsx2_interface.read_int16(self.addresses.CUR_SCREEN.start_offset)
+        return self.pcsx2_interface.read_int16(self.addresses.current_screen().start_offset)
 
     def in_battle(self) -> bool:
         return self.get_screen() in BATTLE_SCREENS
@@ -196,10 +197,10 @@ class Budokai3Interface:
         return self.get_screen() in SAVE_FILE_LOADED
 
     def read_p1_hp(self) -> int:
-        return self.pcsx2_interface.read_int32(self.addresses.P1HP.start_offset)
+        return self.pcsx2_interface.read_int32(self.addresses.p1_hp().start_offset)
     
     def deathlink_set_p1_hp(self):
-        self.pcsx2_interface.write_int32(self.addresses.P1HP.start_offset, 0x00000000)
+        self.pcsx2_interface.write_int32(self.addresses.p1_hp().start_offset, 0x00000000)
 
     def return_to_main_menu(self, save: bool = False):
         pass
@@ -221,8 +222,8 @@ class Budokai3Interface:
                 self.logger.warning(
                     f"Connected to the wrong game, {game_id}.\n"
                     f"Please connect to DBZ Budokai 3 for the PlayStation 2 system.\n" 
-                    f"Game ID is SLUS-20998(GH) for NTSC-U versions; SLES-52730 or SLES-53346 for PAL; SLPS-25460 or SLPS-73235 for Japan."
-                    f"For now, only SLUS-20998 is supported.")
+                    f"Game ID is {US.VERSION}/{US_GH.VERSION} for NTSC-U versions; {PAL.VERSION}/{PAL_CE.VERSION} for PAL; {JP.VERSION}/{JP_BS.VERSION} for Japan."
+                    f"For now, only {US.VERSION} is supported.")
                 self.game_id_error = game_id
         except RuntimeError:
             pass

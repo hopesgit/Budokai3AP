@@ -167,16 +167,21 @@ class Budokai3World(World):
     
     def get_options_as_dict(self) -> Dict[str, Any]:
         return self.options.as_dict(self,
+            "completionist",
             "start_with_story_characters",
             "require_super_attacks",
             "super_attack_starters",
             "progressive_characters",
-            "start_with_dragon_radar",
-            "ball_rando",
+            "randomize_dragon_radar",
+            "randomize_dragon_balls",
+            "randomize_money_spots",
+            "shop_rando",
             "attack_rando",
             "inspiration",
             "pandemic",
-            "completionist"
+            "colorblind_mode_red",
+            "colorblind_mode_blue",
+            "colorblind_mode_green",
             "death_link",
         )
     

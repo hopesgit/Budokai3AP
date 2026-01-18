@@ -33,8 +33,8 @@ class RequireSuperAttacks(Choice):
     """Turn this on if you want to ensure that you have a special attack for a character before you can use them in Dragon Universe.\n
     For example, if you have Goku, you wouldn't be considered being able to use him until you acquire Kamehameha or Dragon Fist.
 
-    NOTE: The starting capsule(s) in each Dragon Universe route will still be checkable with only the character, so be sure
-    to start a route if you have the character! This does not apply to Kid Gohan, who has no starting items.
+    NOTE: The starting capsule(s) and other first-saga items in each Dragon Universe route will still be checkable with only the character, 
+    so be sure to start a route if you have the character! You may need to view a story event before some/any locations become available. 
 
     Choices:\n
     - **Off** - You don't want for the logic to consider whether you have any super attacks for a route to be playable.\n
@@ -112,7 +112,7 @@ class ProgressiveCharacters(Choice):
 
 class RandomizeDragonRadar(Choice):
     """
-    Adds the Dragon Radar for each story route  to the item pool (and adds its locations in each story to the location pool).\n
+    Adds the Dragon Radar for each story route to the item pool (and adds its locations in each story to the location pool).\n
     Choices:\n
     * **off**: Dragon radars can continue to be picked up where they usually are.
     * **on**: Dragon radar items will be included in the item pool. The locations where they can be found will be randomized.
@@ -123,17 +123,25 @@ class RandomizeDragonRadar(Choice):
     option_off = 0
     option_on = 1
     option_start = 2
-    visibility = False
 
 
-class BallRando(Toggle):
+class RandomizeDragonBalls(Toggle):
     """
     Adds Dragon Balls for each story route to the item pool (and their locations to the location pool). Makes it so that 
     you can't get wish items without having all seven of that character's Dragon Balls.
     """
-    display_name = "Dragon Ball Randomizer"
+    display_name = "Randomize Dragon Balls"
     default = False
-    visibility = False
+
+
+class RandomizeMoneySpots(Toggle):
+    """
+    Adds spots where you would usually gain money in Dragon Universe to the location pool.\n
+    While this adds locations, money will likely be more tight in your seed, as you can only get it from
+    the Archipelago server or World Tournament.
+    """
+    display_name = "Randomize Money Spots"
+    default = False
 
 
 class AttackRando(Toggle):
@@ -246,9 +254,10 @@ class Budokai3Options(PerGameCommonOptions):
     super_attack_starters: SuperAttackStarters
     progressive_characters: ProgressiveCharacters
     randomize_dragon_radar: RandomizeDragonRadar
-    ball_rando: BallRando
-    attack_rando: AttackRando
+    randomize_dragon_balls: RandomizeDragonBalls
+    randomize_money_spots: RandomizeMoneySpots
     shop_rando: ShopRando
+    attack_rando: AttackRando
     inspiration: Inspiration
     pandemic: Pandemic
     colorblind_mode_red: ColorblindModeRed

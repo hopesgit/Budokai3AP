@@ -259,10 +259,10 @@ DU_REENACTMENTS = [
 ]
 
 ## Difficulty-related
-VERY_HARD_CLEAR = LocationData(135, "Clear DU on Very Hard", lambda state, player: True)
-Z1_CLEAR = LocationData(136, "Clear DU on Z1", has_z_hard)
-Z2_CLEAR = LocationData(137, "Clear DU on Z2", has_z_hard)
-Z3_CLEAR = LocationData(138, "Clear DU on Z3", has_z_hard_3)
+VERY_HARD_CLEAR = LocationData(135, "Dragon Universe: Clear any Route on Very Hard", has_very_hard)
+Z1_CLEAR = LocationData(136, "Dragon Universe: Clear any Route on Z1", has_z_hard)
+Z2_CLEAR = LocationData(137, "Dragon Universe: Clear any Route on Z2", has_z_hard_2)
+Z3_CLEAR = LocationData(138, "Dragon Universe: Clear any Route on Z3", has_z_hard_3)
 
 DU_DIFFICULTIES = [VERY_HARD_CLEAR, Z1_CLEAR, Z2_CLEAR, Z3_CLEAR]
 
@@ -350,6 +350,7 @@ GOKU_CAPSULE_1 = LocationData(172, "Goku: Starting Capsule", has_goku)
 # Goku: Buu Saga: (Gleaming) Dragon Radar in northern mountains (S3)
 # Goku: Buu Saga: Dragon Ball in northern mountains (S3)
 # Goku: Buu Saga: Dragon ball on sandy island in southern island chain (S15)
+# Goku: Buu Saga: (Gleaming) Capsule in mountains east of Hercule City (S8) 
 
 GOKU_CAPSULE_2 = LocationData(173, "Goku: Saiyan Saga: Capsule at Plains Marker", can_goku) # Raditz
 GOKU_CAPSULE_3 = LocationData(174, "Goku: Saiyan Saga: Capsule at Plains", can_goku) # After Nappa
@@ -366,8 +367,8 @@ GOKU_CAPSULE_13 = LocationData(184, "Goku: Android Saga: Perfect Form Cell Rewar
 GOKU_CAPSULE_14 = LocationData(185, "Goku: Buu Saga: Capsule given in Saga Intro", can_goku) # Super Saiyan 2
 GOKU_CAPSULE_15 = LocationData(186, "Goku: Buu Saga: Capsule at Forest near West City", can_goku) # Angel's Halo
 GOKU_CAPSULE_16 = LocationData(187, "Goku: Buu Saga: Capsule at North City", can_goku) # Yakon
-GOKU_CAPSULE_17 = LocationData(188, "Goku: Buu Saga: Capsule given before Majin Buu Battle", can_goku) # Super Saiyan 3
-GOKU_CAPSULE_18 = LocationData(189, "Goku: Buu Saga: Majin Buu Reward", can_goku)
+GOKU_CAPSULE_17 = LocationData(188, "Goku: Buu Saga: Capsule given before Majin Buu Battle in Sky", can_goku) # Super Saiyan 3
+GOKU_CAPSULE_18 = LocationData(189, "Goku: Buu Saga: Majin Buu Reward", can_goku) # Majin Buu
 GOKU_CAPSULE_19 = LocationData(190, "Goku: Buu Saga: Capsule given before Super Buu (Gohan) Battle at ??? Marker", can_goku)
 GOKU_CAPSULE_20 = LocationData(191, "Goku: Buu Saga: Super Buu (Gohan) Reward", can_goku)
 GOKU_CAPSULE_21 = LocationData(192, "Goku: Buu Saga: Super Buu Reward", can_goku)
@@ -731,6 +732,10 @@ YAMCHA_CAPSULES = [
     YAMCHA_CAPSULE_1, YAMCHA_CAPSULE_2, YAMCHA_CAPSULE_3, YAMCHA_CAPSULE_4, YAMCHA_CAPSULE_5
 ]
 
+UUB_CAPSULES = [
+    UUB_CAPSULE_1
+]
+
 BROLY_CAPSULES = [
     BROLY_CAPSULE_1, BROLY_CAPSULE_2, BROLY_CAPSULE_3, BROLY_CAPSULE_4, 
     BROLY_CAPSULE_5, BROLY_CAPSULE_6
@@ -790,10 +795,32 @@ BROLY_BREAK_IN = LocationData(634, "Dragon Arena: Defeat Break-In Challenger: Br
 OMEGA_BREAK_IN = LocationData(635, "Dragon Arena: Defeat Break-In Challenger: Omega", has_dragon_arena)
 SAIBAMEN_BREAK_IN = LocationData(636, "Dragon Arena: Defeat Break-In Challenger: Saibamen", has_dragon_arena)
 
-DRAGON_ARENA_LOCS = [
+DA_BREAK_IN_LOCS = [
     GOKU_BREAK_IN, KRILLIN_BREAK_IN, PICCOLO_BREAK_IN, YAMCHA_BREAK_IN, NAPPA_BREAK_IN,
     FRIEZA_BREAK_IN, DR_GERO_BREAK_IN, CELL_BREAK_IN, MAJIN_BUU_BREAK_IN, KID_BUU_BREAK_IN, 
     DABURA_BREAK_IN, COOLER_BREAK_IN, BROLY_BREAK_IN, OMEGA_BREAK_IN, SAIBAMEN_BREAK_IN
+]
+
+DA_TEN_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 10 Challengers", has_dragon_arena)
+DA_TWENTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 20 Challengers", has_dragon_arena)
+DA_THIRTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 30 Challengers", has_dragon_arena)
+DA_FOURTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 40 Challengers", has_dragon_arena)
+DA_FIFTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 50 Challengers", has_dragon_arena)
+DA_SIXTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 60 Challengers", has_dragon_arena)
+DA_SEVENTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 70 Challengers", has_dragon_arena)
+DA_EIGHTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 80 Challengers", has_dragon_arena)
+DA_NINETY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 90 Challengers", has_dragon_arena)
+DA_HUNDRED_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 100 Challengers", has_dragon_arena)
+
+DA_CHALLENGER_LOCS = [
+    DA_TEN_CHALLENGERS, DA_TWENTY_CHALLENGERS, DA_THIRTY_CHALLENGERS, DA_FOURTY_CHALLENGERS,
+    DA_FIFTY_CHALLENGERS, DA_SIXTY_CHALLENGERS, DA_SEVENTY_CHALLENGERS, 
+    DA_EIGHTY_CHALLENGERS, DA_NINETY_CHALLENGERS, DA_HUNDRED_CHALLENGERS
+]
+
+DRAGON_ARENA_LOCS = [
+    *DA_BREAK_IN_LOCS,
+    *DA_CHALLENGER_LOCS
 ]
 
 # Training Mode Checks
@@ -835,20 +862,7 @@ while x <= 99:
 SHOP_LOCS = shop_locs
 
 LOCATIONS = [
-    # splitting the Dragon Universe locs into per-character collections
-    # so that I can add them as development goes on
-    *GOKU_LOCS,
-    *GOKU_WISH_LOCS,
-    # *KGOHAN_LOCS,
-    # *TGOHAN_LOCS,
-    # *GOHAN_LOCS,
-    # *KRILLIN_LOCS,
-    # *PICCOLO_LOCS,
-    # *TIEN_LOCS,
-    # *YAMCHA_LOCS,
-    # *VEGETA_LOCS,
-    # *UUB_LOCS,
-    # *BROLY_LOCS,
+    *DRAGON_UNIVERSE_LOCS,
     *DRAGON_ARENA_LOCS,
     *TRAINING_LOCS,
     *WT_LOCS,

@@ -1,17 +1,18 @@
+# standard imports
 from typing import Optional
-
-from ClientReceiveItems import handle_received_items
 import Utils
 import asyncio
 import os
-import threading
+
+# AP imports
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
+
+# world imports
 from . import version
+from .Budokai3Interface import Budokai3Interface
+from .NotificationManager import NotificationManager
 from .data.Addresses import Addresses
 from .data.Items import get_offset_from_name
-from .data.Locations import get_all_active_locations
-from .Budokai3Interface import Budokai3Interface, ConnectionState
-from .NotificationManager import NotificationManager
 
 HUD_MESSAGE_DURATION = 50
 
@@ -58,21 +59,24 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
         """
         Test function. Doesn't accept any arguments.
         """
-        if not self.ctx.deathlink_enabled:
-            logger.warning('Death link is not enabled. Use the /deathlink command to toggle it on, then retry this command.')
-            return
-        self.ctx.store_deathlink()
+        if isinstance(self.ctx, Budokai3Context):
+            if not self.ctx.deathlink_enabled:
+                logger.warning('Death link is not enabled. Use the /deathlink command to toggle it on, then retry this command.')
+                return
+            self.ctx.store_deathlink()
 
     def _cmd_deathlink(self):
         """Toggle the deathlink setting. """
-        self.ctx.deathlink_enabled = not self.ctx.deathlink_enabled
-        ending = "enabled" if self.ctx.deathlink_enabled else "disabled"
-        dl_text = f"Death link {ending}."
-        logger.info(dl_text)
+        if isinstance(self.ctx, Budokai3Context):
+            self.ctx.deathlink_enabled = not self.ctx.deathlink_enabled
+            ending = "enabled" if self.ctx.deathlink_enabled else "disabled"
+            dl_text = f"Death link {ending}."
+            logger.info(dl_text)
 
     def _cmd_trap_party(self):
         """Rave?"""
-        party(self.ctx)
+        if isinstance(self.ctx, Budokai3Context):
+            party(self.ctx)
 
 
 class Budokai3Context(CommonContext):
@@ -93,6 +97,7 @@ class Budokai3Context(CommonContext):
     last_error_message: Optional[str] = None
     deathlink_queued: bool = False
     deathlink_enabled: bool = False
+    addresses: Addresses = None
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
@@ -162,8 +167,8 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
             continue
 
 def party(ctx: Budokai3Context):
-    ctx.game_interface.pcsx2_interface.write_int32(Addresses.p1_hp().start_offset, 0x45ff0000)
-    ctx.game_interface.pcsx2_interface.write_int32(Addresses.p2_hp().start_offset, 0x45ff0000)
+    ctx.game_interface.pcsx2_interface.write_int32(ctx.addresses.p1_hp().start_offset, 0x45ff0000)
+    ctx.game_interface.pcsx2_interface.write_int32(ctx.addresses.p2_hp().start_offset, 0x45ff0000)
 
 async def prevent_idents(ctx: Budokai3Context):
     start = 0x01050b0
@@ -233,6 +238,9 @@ async def prevent_idents(ctx: Budokai3Context):
         count += 4
 
 async def _handle_game_ready(ctx: Budokai3Context):
+    from .ClientReceiveItems import handle_received_items
+    from .ClientCheckLocations import handle_checked_locations
+    
     connected_to_server = (ctx.server is not None) and (ctx.slot is not None)
     if connected_to_server:
         init(ctx)
@@ -260,8 +268,11 @@ async def _handle_game_ready(ctx: Budokai3Context):
             ctx.last_error_message = message
         await asyncio.sleep(1)
 
-async def handle_check_goal_complete(ctx: Budokai3Context):
-    if ctx.
+# async def handle_check_goal_complete(ctx: Budokai3Context):
+#     for item in ctx.items_received:
+#         if item.item == 0 and item.count == 1:
+#             return True
+
 
 async def _handle_game_not_ready(ctx: Budokai3Context):
     """If the game is not connected, try to reconnect."""
@@ -278,17 +289,17 @@ def init(ctx: 'Budokai3Context'):
     pass
 
 def update(ctx: 'Budokai3Context', ap_connected: bool):
-    button_input = ctx.game_interface.pcsx2_interface.read_int8(Addresses.Controller_Shoulder_Buttons.start_offset)
+    button_input = ctx.game_interface.pcsx2_interface.read_int8(ctx.addresses.controller_shoulder_buttons().start_offset)
     if button_input == 0xFFFFFFFF: # L1 + L2 + R1 + R2
         ctx.game_interface.return_to_main_menu(True)
 
 async def handle_deathlink(ctx: Budokai3Context):
     if ctx.deathlink_enabled:
         if ctx.deathlink_queued:
-            if ctx.game_interface.pcsx2_interface.read_int32(Addresses.P1HP.start_offset) != 0:
+            if ctx.game_interface.pcsx2_interface.read_int32(ctx.addresses.p1_hp().start_offset) != 0:
                 logger.info("Battle detected.")
                 ctx.deathlink_queued = False
-                ctx.game_interface.pcsx2_interface.write_int32(Addresses.P1HP.start_offset, 0x00000000)
+                ctx.game_interface.pcsx2_interface.write_int32(ctx.addresses.p1_hp().start_offset, 0x00000000)
                 logger.info("P1 HP reduced. Enjoy!")
 
 def launch():

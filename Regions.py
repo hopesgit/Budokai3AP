@@ -1,7 +1,5 @@
 import typing
-
-from BaseClasses import Region, MultiWorld, Location
-from .Logic import *
+from BaseClasses import Region
 from .data.Locations import GOKU_LOCS, GOKU_WISH_LOCS, DRAGON_ARENA_LOCS, WT_LOCS, SHOP_LOCS, TRAINING_LOCS, MENU_CAPSULE_1
 
 

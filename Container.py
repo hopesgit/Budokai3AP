@@ -18,4 +18,3 @@ class Budokai3ProcedurePatch(APProcedurePatch, APTokenMixin):
         ("apply_tokens", ["token_data.bin"])
     ]
     md5 = "225b94da75fa16da774e4fcf18f82d0f"
-

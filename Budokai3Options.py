@@ -5,6 +5,7 @@ from Options import (
     Choice,
     Toggle,
     ItemSet,
+    OptionDict
 )
 from .data.Items import DU_CHARACTERS_AS_DICT, DU_CHARACTER_NAMES
 
@@ -19,10 +20,31 @@ class Completionist(Toggle):
     visibility = False
 
 
+class ChooseDUCharacters(OptionDict):
+    """
+    By default, all Dragon Universe stories are included in the location pool.\n
+    If you want, you can reduce the pool of locations to only include certain stories.\n
+    This is a more "sync-friendly" option.
+    """
+    option_goku = 0
+    option_kid_gohan = 1
+    option_teen_gohan = 2
+    option_gohan = 3
+    option_krillin = 4
+    option_piccolo = 5
+    option_vegeta = 6
+    option_tien = 7
+    option_yamcha = 8
+    option_uub = 9
+    option_broly = 10
+    default = [0] # delete this later after more characters are added
+    display_name = "Choose DU Characters"
+
+
 class StartWithStoryCharacters(Toggle):
     """
-    Start with all story characters. Makes it easier to jump into your favorite Dragon Universe story.\n
-    Adds Goku, Kid Gohan, Teen Gohan, Gohan, Piccolo, Vegeta, Krillin, Tien, Yamcha, Uub, and Broly to the starting items.\n
+    Start with all relevant story characters. Makes it easier to jump into your favorite Dragon Universe story.\n
+    Adds all characters selected in "Choose DU Characters" to the starting items.\n
     If Progressive Characters is on, then the items given will be progressive items for those characters.
     """
     default = False
@@ -249,6 +271,7 @@ class ColorblindModeBlue(Choice):
 @dataclass
 class Budokai3Options(PerGameCommonOptions):
     completionist: Completionist
+    choose_du_characters: ChooseDUCharacters
     start_with_story_characters: StartWithStoryCharacters
     require_super_attacks: RequireSuperAttacks
     super_attack_starters: SuperAttackStarters

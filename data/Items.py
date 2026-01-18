@@ -1,6 +1,5 @@
-from abc import ABC
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, Set
+from typing import TYPE_CHECKING, Dict
 from BaseClasses import Item, ItemClassification
 
 if TYPE_CHECKING:

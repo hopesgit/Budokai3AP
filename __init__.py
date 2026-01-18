@@ -168,6 +168,7 @@ class Budokai3World(World):
     def get_options_as_dict(self) -> Dict[str, Any]:
         return self.options.as_dict(self,
             "completionist",
+            "choose_du_characters",
             "start_with_story_characters",
             "require_super_attacks",
             "super_attack_starters",

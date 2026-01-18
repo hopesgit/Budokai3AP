@@ -1,6 +1,6 @@
 from ..Addresses import RAMAddress, Function, ROMAddress, Address
 
-VERSION = "20998"
+VERSION = "SLUS-20998"
 
 P1HP = RAMAddress(0x497B60, 4, name="P1 HP")
 P1Ki = RAMAddress(0x497B70, 4, name="P1 Ki")

@@ -1,6 +1,5 @@
 from abc import ABC
 from typing import List
-from .addresses import US, US_GH, PAL, PAL_CE, JP, JP_BS 
 
 
 class Instruction(ABC):
@@ -56,6 +55,7 @@ class Addresses:
     child = None
     
     def __init__(self, game_version: str):
+        from .addresses import US, US_GH, PAL, PAL_CE, JP, JP_BS
         match game_version:
             case US.VERSION:
                 self.child = US

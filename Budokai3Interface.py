@@ -1,20 +1,20 @@
-import array
-import dataclasses
-import struct
-from dataclasses import dataclass, field
+# from dataclasses import dataclass, field
 from enum import Enum, IntEnum
 from logging import Logger
-from typing import Optional, List, Dict, NamedTuple, TYPE_CHECKING
+from typing import Optional, Dict
 
 from .data import Items
 
 from .pcsx2_interface.pine import Pine
+from .data.Addresses import Addresses
+from .data.addresses.US import VERSION as USVER
+from .data.addresses.US_GH import VERSION as USGHVER
+from .data.addresses.PAL import VERSION as PALVER
+from .data.addresses.PAL_CE import VERSION as PALCEVER
+from .data.addresses.JP import VERSION as JPVER
+from .data.addresses.JP_BS import VERSION as JPBSVER
 
-if TYPE_CHECKING:
-    from .data.Addresses import Addresses
-    from .data.addresses import US, US_GH, PAL, PAL_CE, JP, JP_BS
-
-_SUPPORTED_VERSIONS = [US.VERSION, US_GH.VERSION]
+_SUPPORTED_VERSIONS = [USVER, USGHVER]
 
 HUD_MESSAGE_DURATION = 2.0
 HUD_MAX_MESSAGE_WIDTH = 35
@@ -221,9 +221,9 @@ class Budokai3Interface:
             if self.current_game is None and self.game_id_error != game_id and game_id != b'\x00\x00\x00\x00\x00\x00':
                 self.logger.warning(
                     f"Connected to the wrong game, {game_id}.\n"
-                    f"Please connect to DBZ Budokai 3 for the PlayStation 2 system.\n" 
-                    f"Game ID is {US.VERSION}/{US_GH.VERSION} for NTSC-U versions; {PAL.VERSION}/{PAL_CE.VERSION} for PAL; {JP.VERSION}/{JP_BS.VERSION} for Japan."
-                    f"For now, only {US.VERSION} is supported.")
+                    f"Please open Dragon Ball Z: Budokai 3 for the PlayStation 2 system.\n"
+                    f"Game ID is {USVER}/{USGHVER} for NTSC-U versions; {PALVER}/{PALCEVER} for PAL; {JPVER}/{JPBSVER} for NTSC-J.\n"
+                    f"For now, only {USVER} is supported.")
                 self.game_id_error = game_id
         except RuntimeError:
             pass

@@ -1,10 +1,7 @@
-# noinspection PyUnresolvedReferences
+import typing
 from BaseClasses import CollectionState
 
 from .data import Items
-from . import Logic
-from ItemPool import get_prog_item_order
-import typing
 
 def _get_options(state: CollectionState, player: int):
     return state.multiworld.worlds[player].options
@@ -17,6 +14,8 @@ def can_use_moves_for_character(state: CollectionState, player: int, moves: typi
         return state.has_any(names, player)
     
     def can_use_moves_prog(state, player, moves, progressive_item, progtype) -> bool:
+        from .ItemPool import get_prog_item_order
+
         move_indexes = []
         for item in moves:
             progindex = get_prog_item_order(progressive_item, progtype, item)
@@ -353,6 +352,9 @@ def can_complete_reenactment_19(state: CollectionState, player: int) -> bool:
 
 def can_complete_reenactment_20(state: CollectionState, player: int) -> bool:
     return state.has(Items.UUB.name, player) and state.has(Items.KI_CANNON.name, player)
+
+def has_very_hard(state: CollectionState, player: int) -> bool:
+    return True
 
 def has_z_hard(state: CollectionState, player: int) -> bool:
     return state.has(Items.GOKUS_WISH.name, player)

@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from NetUtils import NetworkItem
-from . import Budokai3World, ItemPool
+from . import ItemPool
 from .TextManager import colorize_item_name
 from .data import Items
 
@@ -56,7 +56,7 @@ async def handle_received_items(ctx: 'Budokai3Context', current_items: dict[str,
     for network_item in ctx.items_received:
         item = Items.from_id(network_item.item)
         
-        if item in Items.GRAY_CAPSULES and current_items[item.name] == 0:
+        if item in Items.GRAY_CAPSULES:
             ctx.game_interface.give_system_capsule_to_player(item)
         elif item in [Items.ZENIE_2K, Items.ZENIE_5K, Items.ZENIE_10K, Items.ZENIE_25K, Items.ZENIE_100K]:
             ctx.game_interface.increment_money(item)

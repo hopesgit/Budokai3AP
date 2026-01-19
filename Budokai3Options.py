@@ -4,10 +4,8 @@ from Options import (
     PerGameCommonOptions,
     Choice,
     Toggle,
-    ItemSet,
-    OptionDict
+    OptionList
 )
-from .data.Items import DU_CHARACTERS_AS_DICT, DU_CHARACTER_NAMES
 
 
 class Completionist(Toggle):
@@ -17,28 +15,28 @@ class Completionist(Toggle):
     """
     default = False
     display_name = "Completionist"
-    visibility = False
 
 
-class ChooseDUCharacters(OptionDict):
+class Minimalist(Toggle):
+    """
+    This limits the locations in each available story route to only bosses and story capsules.\n
+    This also removes other pools, such as WT, Practice, and Dragon Arena, so that you can focus completely on the story.
+    You can use "Choose DU Characters" to refine which characters will have any checks at all. This is a more "sync-friendly" setting.\n
+    If this and Completionist are on, both will be ignored.
+    """
+    default = False
+    display_name = "Minimalist"
+
+
+class ChooseDUCharacters(OptionList):
     """
     By default, all Dragon Universe stories are included in the location pool.\n
     If you want, you can reduce the pool of locations to only include certain stories.\n
     This is a more "sync-friendly" option.
     """
-    option_goku = 0
-    option_kid_gohan = 1
-    option_teen_gohan = 2
-    option_gohan = 3
-    option_krillin = 4
-    option_piccolo = 5
-    option_vegeta = 6
-    option_tien = 7
-    option_yamcha = 8
-    option_uub = 9
-    option_broly = 10
-    default = [0] # delete this later after more characters are added
     display_name = "Choose DU Characters"
+    default = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
+    valid_keys = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
 
 
 class StartWithStoryCharacters(Toggle):
@@ -81,13 +79,13 @@ class RequireSuperAttacks(Choice):
     display_name = "Require Super Attacks"
 
 
-class SuperAttackStarters(ItemSet):
-    """List of character names whom you want to start with one of their super attacks (red capsules). Only has an effect
-    if 'Start with Super Attacks' is 'choose'.\n
-    Valid Choices: Goku, Kid Gohan, Teen Gohan, Gohan, Krillin, Piccolo, Tien, Yamcha, Vegeta, Uub, Broly"""
-    options = DU_CHARACTERS_AS_DICT
+class SuperAttackStarters(OptionList):
+    """
+    List of character names whom you want to start with one of their Death-Moves. Only has an effect if 'Require Super Attacks' is 'choose'.
+    """
     display_name = "Super Attack Starters"
-    valid_keys = DU_CHARACTER_NAMES
+    valid_keys = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
+    default = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
 
 
 class ProgressiveCharacters(Choice):
@@ -114,7 +112,7 @@ class ProgressiveCharacters(Choice):
     NOTE: This ONLY applies to Dragon Universe characters. The rest work as normal. Tien, Yamcha, and Uub also only have
     one progressive items path because of a lack of transformations.
 
-    Choices:\n
+    Choices:
     - **off** - No progressive items for me, thanks.\n
     - **prog_normal** - Your progressive item progression is as described above.\n
     - **prog_attacks** - Your item progression will put attacks after the character.\n
@@ -135,10 +133,10 @@ class ProgressiveCharacters(Choice):
 class RandomizeDragonRadar(Choice):
     """
     Adds the Dragon Radar for each story route to the item pool (and adds its locations in each story to the location pool).\n
-    Choices:\n
-    * **off**: Dragon radars can continue to be picked up where they usually are.
-    * **on**: Dragon radar items will be included in the item pool. The locations where they can be found will be randomized.
-    * **start**: Dragon radars will always be available at the beginning of each story. The locations where they can be found will be randomized.
+    Choices:
+    - **off**: Dragon radars can continue to be picked up where they usually are.
+    - **on**: Dragon radar items will be included in the item pool. The locations where they can be found will be randomized.
+    - **start**: Dragon radars will always be available at the beginning of each story. The locations where they can be found will be randomized.
     """
     default = 0
     display_name = "Randomize Dragon Radar"
@@ -170,16 +168,17 @@ class AttackRando(Toggle):
     """
     Randomize red capsule attacks (->E or <-E) between characters.\n
     DOES NOT INCLUDE: Ultimates, Dragon Rushes, transformations\n
-    NOTE: This is an experimental option and may be removed.
+    NOTE: NOT YET IMPLEMENTED
     """
     display_name = "Attack Randomizer"
     default = False
-    visibility=False
 
 
 class ShopRando(Toggle):
     """
-    Randomize shop slots into the location pool. Would otherwise be called "Shopsanity".
+    Randomize shop slots into the location pool.
+
+    NOTE: NOT YET IMPLEMENTED
     """
     default = False
     display_name = "Shop Randomizer"
@@ -188,9 +187,10 @@ class ShopRando(Toggle):
 class Inspiration(Toggle):
     """
     Everyone's suddenly had a "breakthrough"...
+
+    NOTE: NOT YET IMPLEMENTED
     """
     default = False
-    visibility=False
     display_name = "Inspiration"
 
 
@@ -201,9 +201,10 @@ class Pandemic(Toggle):
 
     Viral Heart Disease causes a health drain to both fighters. It can be negated with the Vaccine item capsule,
     but you will need to use that capsule in every battle.
+
+    NOTE: NOT YET IMPLEMENTED
     """
     default = False
-    visibility = False
     display_name = "Pandemic"
 
 
@@ -216,6 +217,8 @@ class ColorblindModeRed(Choice):
     * the scouter display of drained energy during hyper mode
     * the glow of the character who's in hyper mode
     * red capsules (they aren't visually distinct from green capsules)
+
+    NOTE: NOT YET IMPLEMENTED
     """
     default = 0
     option_red = 0
@@ -224,7 +227,6 @@ class ColorblindModeRed(Choice):
     option_orange = 3
     option_pink = 4
     option_brown = 5
-    visibility = False
     
 
 class ColorblindModeGreen(Choice):
@@ -234,9 +236,11 @@ class ColorblindModeGreen(Choice):
     This option only impacts what green can be turned into. Green is most prominently used in the following places: 
     * health bars in battle
     * many ground textures are green
-    * the save menu background color
+    * the save menu background color + other information boxes
     * green capsules (they aren't visually distinct from red capsules)
     * green overlay while using Vegeta's scouter in DU
+
+    NOTE: NOT YET IMPLEMENTED
     """
     default = 0
     option_green = 0
@@ -245,7 +249,6 @@ class ColorblindModeGreen(Choice):
     option_orange = 3
     option_pink = 4
     option_brown = 5
-    visibility = False
 
 
 class ColorblindModeBlue(Choice):
@@ -257,6 +260,8 @@ class ColorblindModeBlue(Choice):
     - Battle results screen
     - level-up screen
     - in-battle scouter background color
+
+    NOTE: NOT YET IMPLEMENTED
     """
     default = 0
     option_blue = 0
@@ -265,12 +270,12 @@ class ColorblindModeBlue(Choice):
     option_orange = 3
     option_pink = 4
     option_brown = 5
-    visibility = False
 
 
 @dataclass
 class Budokai3Options(PerGameCommonOptions):
     completionist: Completionist
+    minimalist: Minimalist
     choose_du_characters: ChooseDUCharacters
     start_with_story_characters: StartWithStoryCharacters
     require_super_attacks: RequireSuperAttacks

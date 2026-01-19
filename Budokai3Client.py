@@ -89,6 +89,7 @@ class Budokai3Context(CommonContext):
     pcsx2_sync_task = None
     is_connected: bool = False
     current_screen: int = None
+    current_item: int = 0
     is_loading: bool = False
     is_in_menu: bool = False
     is_in_du: bool = False
@@ -142,12 +143,12 @@ def update_connection_status(ctx: Budokai3Context, status: bool):
 
     ctx.is_connected = status
     if status:
-        logger.info("Connected to DBZ Budokai 3")
+        logger.info("Connected to DBZ: Budokai 3.")
     else:
-        logger.info("Unable to connect to the PCSX2 instance. Attempting to reconnect...")
+        logger.info("Unable to connect to PCSX2. Attempting to reconnect...")
 
 async def pcsx2_sync_task(ctx: Budokai3Context):
-    logger.info("Starting Budokai 3 Connector. Attempting to connect to emulator...")
+    logger.info("Starting Budokai 3 Connector. Attempting to connect to PCSX2...")
     ctx.game_interface.connect_to_game()
     while not ctx.exit_event.is_set():
         try:
@@ -244,16 +245,16 @@ async def _handle_game_ready(ctx: Budokai3Context):
     connected_to_server = (ctx.server is not None) and (ctx.slot is not None)
     if connected_to_server:
         init(ctx)
-    update(ctx, connected_to_server)
+    # update(ctx, connected_to_server)
 
     if ctx.server:
         ctx.last_error_message = None
         if not ctx.slot:
             await asyncio.sleep(1)
             return
-        
-        if not ctx.game_interface.in_battle() and ctx.game_interface.save_file_loaded(): 
-            await handle_received_items(ctx)
+        if not ctx.game_interface.in_battle() and ctx.game_interface.save_file_loaded():
+            current_inventory = ctx.game_interface.get_current_inventory()
+            await handle_received_items(ctx, current_inventory)
         await handle_checked_locations(ctx)
         await handle_check_goal_complete(ctx)
 
@@ -262,16 +263,16 @@ async def _handle_game_ready(ctx: Budokai3Context):
         await asyncio.sleep(0.1)
 
     else:
-        message = "Waiting for player to connect to server"
+        message = "Waiting for player to connect to server..."
         if ctx.last_error_message is not message:
             logger.info(message)
             ctx.last_error_message = message
         await asyncio.sleep(1)
 
-# async def handle_check_goal_complete(ctx: Budokai3Context):
-#     for item in ctx.items_received:
-#         if item.item == 0 and item.count == 1:
-#             return True
+async def handle_check_goal_complete(ctx: Budokai3Context):
+    from NetUtils import NetworkItem
+    item = NetworkItem(0, 0, ctx.slot_data["player"])
+    return ctx.items_received.count(item) == 1
 
 
 async def _handle_game_not_ready(ctx: Budokai3Context):

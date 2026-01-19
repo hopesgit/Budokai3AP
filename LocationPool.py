@@ -29,38 +29,38 @@ def shop_randomized(slot_data: dict[str, int]) -> bool:
     val = bool(slot_data["shop_rando"])
     return val
 
-def goku_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 0 in slot_data["choose_du_characters"]
+def goku_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Goku" in slot_data["choose_du_characters"]
 
-def kid_gohan_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 1 in slot_data["choose_du_characters"]
+def kid_gohan_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Kid Gohan" in slot_data["choose_du_characters"]
 
-def teen_gohan_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 2 in slot_data["choose_du_characters"]
+def teen_gohan_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Teen Gohan" in slot_data["choose_du_characters"]
 
-def gohan_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 3 in slot_data["choose_du_characters"]
+def gohan_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Gohan" in slot_data["choose_du_characters"]
 
-def krillin_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 4 in slot_data["choose_du_characters"]
+def krillin_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Krillin" in slot_data["choose_du_characters"]
 
-def piccolo_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 5 in slot_data["choose_du_characters"]
+def piccolo_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Piccolo" in slot_data["choose_du_characters"]
 
-def vegeta_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 6 in slot_data["choose_du_characters"]
+def vegeta_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Vegeta" in slot_data["choose_du_characters"]
 
-def tien_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 7 in slot_data["choose_du_characters"]
+def tien_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Tien" in slot_data["choose_du_characters"]
 
-def yamcha_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 8 in slot_data["choose_du_characters"]
+def yamcha_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Yamcha" in slot_data["choose_du_characters"]
 
-def uub_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 9 in slot_data["choose_du_characters"]
+def uub_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Uub" in slot_data["choose_du_characters"]
 
-def broly_enabled(slot_data: dict[str, list[int]]) -> bool:
-    return 10 in slot_data["choose_du_characters"]
+def broly_enabled(slot_data: dict[str, list[str]]) -> bool:
+    return "Broly" in slot_data["choose_du_characters"]
 
 
 class LocationGroup(NamedTuple):
@@ -76,10 +76,12 @@ LOCATION_GROUPS: Sequence[LocationGroup] = [
     LocationGroup("DU: Goku: Money", 2, [], lambda slot_data: goku_enabled(slot_data) and money_spots_randomized(slot_data)),
     LocationGroup("DU: Goku: Dragon Balls", 3, [], lambda slot_data: goku_enabled(slot_data) and dragon_balls_randomized(slot_data)),
     LocationGroup("DU: Goku: Dragon Radars", 4, [], lambda slot_data: goku_enabled(slot_data) and dragon_radar_randomized(slot_data)),
+    LocationGroup("DU: Goku: Reenactments", 5, Locations.GOKU_REENACTMENTS, goku_enabled),
     LocationGroup("DU: Kid Gohan: Bosses", 5, Locations.KID_GOHAN_BOSSES, kid_gohan_enabled),
     LocationGroup("DU: Kid Gohan: Capsules", 6, Locations.KGOHAN_CAPSULES, kid_gohan_enabled),
     LocationGroup("DU: Kid Gohan: Money", 7, [], lambda slot_data: kid_gohan_enabled(slot_data) and money_spots_randomized(slot_data)),
     LocationGroup("DU: Kid Gohan: Dragon Balls", 8, [], lambda slot_data: kid_gohan_enabled(slot_data) and dragon_balls_randomized(slot_data)),
+    LocationGroup("DU: Kid Gohan: Reenactments", 9, Locations.KID_GOHAN_REENACTMENTS, kid_gohan_enabled),
     LocationGroup("DU: Kid Gohan: Dragon Radars", 9, [], lambda slot_data: kid_gohan_enabled(slot_data) and dragon_radar_randomized(slot_data)),
     LocationGroup("DU: Teen Gohan: Bosses", 10, Locations.TEEN_GOHAN_BOSSES),
     LocationGroup("DU: Teen Gohan: Capsules", 11, Locations.TGOHAN_CAPSULES),

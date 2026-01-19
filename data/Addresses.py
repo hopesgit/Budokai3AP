@@ -80,3 +80,6 @@ class Addresses:
     
     def p2_hp(self):
         return self.child.P2HP
+    
+    def controller_shoulder_buttons(self):
+        return self.child.Controller_Shoulder_Buttons

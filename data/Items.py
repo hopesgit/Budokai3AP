@@ -758,9 +758,8 @@ BROLY = GrayCapsule(435, "Broly", offset=0x4DFD04)
 OMEGA_SHENRON = GrayCapsule(436, "Omega Shenron", offset=0x4DFD05)
 SAIBAMAN = GrayCapsule(437, "Saibamen", offset=0x4DFD06)
 CELL_JR = GrayCapsule(438, "Cell Jr", offset=0x4DFD07)
-# Bulma is also listed as a character that can be enabled by writing 1 to 0x4DFD08. Since this is the character used in
-# the last training, I doubt she works at all. Still, enabling her is an interesting prospect...
-# Further note: she is not selectable normally, even when enabled. Must be hacked...
+# Bulma is also listed as a character that can be enabled by writing 1 to 0x4DFD08. 
+# She doesn't function and can't be selected as a character.
 TRAINING_1 = GrayCapsule(439, "Training 1 Scouter", offset=0x4DFD09)
 TRAINING_2 = GrayCapsule(440, "Training 2 Fighting Basics", offset=0x4DFD0A)
 TRAINING_3 = GrayCapsule(441, "Training 3 Ki Control", offset=0x4DFD0B)
@@ -1065,8 +1064,8 @@ def item_name_to_id(name) -> int | None:
 def item_id_to_name(id) -> str | None:
     return ID_PAIRS[id].name
 
-def from_id(item) -> Capsule:
-    return ID_PAIRS[item.code]
+def from_id(code) -> Capsule:
+    return ID_PAIRS[code]
 
 def get_max_copies(code):
     ID_PAIRS[code].max_copies

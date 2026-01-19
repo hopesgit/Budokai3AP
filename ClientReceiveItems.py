@@ -55,21 +55,22 @@ def show_item_reception_message(ctx: 'Budokai3Context', item: NetworkItem, item_
 async def handle_received_items(ctx: 'Budokai3Context', current_items: dict[str, int]):
     for network_item in ctx.items_received:
         item = Items.from_id(network_item.item)
-        
-        if item in Items.GRAY_CAPSULES:
-            ctx.game_interface.give_system_capsule_to_player(item)
-        elif item in [Items.ZENIE_2K, Items.ZENIE_5K, Items.ZENIE_10K, Items.ZENIE_25K, Items.ZENIE_100K]:
-            ctx.game_interface.increment_money(item)
-        elif item in Items.PROGRESSIVE_CAPSULES:
+        print(f"Item received: {item.name}")
+        if item in Items.PROGRESSIVE_CAPSULES:
             prog_type = {
                 1: "prog_normal",
                 2: "prog_attacks",
                 3: "prog_transforms"
             }
-            item = Items.from_id(ItemPool.progressive_order(item, prog_type[ctx.slot_data["progressive_characters"]], current_items[item.name]))
+            prog_type_str: str = str(prog_type[ctx.slot_data["progressive_characters"]])
+            item_id: int = ItemPool.progressive_order(item, prog_type_str, ctx.items_received.count(network_item))
+            item = Items.from_id(item_id)
+            print(f"Progressive item resolved to: {item.name}")
+
+        if item in Items.GRAY_CAPSULES:
+            ctx.game_interface.give_system_capsule_to_player(item)
+        elif item in [Items.ZENIE_2K, Items.ZENIE_5K, Items.ZENIE_10K, Items.ZENIE_25K, Items.ZENIE_100K]:
+            ctx.game_interface.increment_money(item)
         else:
             ctx.game_interface.give_capsule_to_player(item)
-
-        print(f"Item Received: {item.name}")
-        ctx.game_interface.give_capsule_to_player(item)
-        
+        ctx.current_item += 1

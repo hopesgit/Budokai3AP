@@ -11,7 +11,7 @@ from .data.Items import item_name_groups
 from .Regions import regions, RegionName
 # from .Container import Budokai3ProcedurePatch, generate_patch
 from .Budokai3Options import Budokai3Options
-from . import ItemPool
+from . import ItemPool, LocationPool
 from .data import Items, Locations
 from .data.Items import Capsule
 from .import Logic
@@ -85,7 +85,7 @@ class Budokai3World(World):
     item_name_to_id = {item.name: item.code for item in Items.ALL_ITEMS}
     location_name_to_id = {location.name: location.location_id for location in Locations.LOCATIONS}
     item_name_groups = item_name_groups()
-    # location_name_groups = Planets.get_location_groups()
+    ocation_name_groups = LocationPool.get_active_locations
     settings: Budokai3Settings
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
     ut_can_gen_without_yaml = True

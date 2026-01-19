@@ -1,4 +1,3 @@
-# from dataclasses import dataclass, field
 from enum import Enum, IntEnum
 from logging import Logger
 from typing import Optional, Dict
@@ -167,8 +166,7 @@ class Budokai3Interface:
 
 
     def give_capsule_to_player(self, item):
-        item_data = Items.from_id(item.item)
-        offset = item_data.offset
+        offset = item.offset
         current_count = self.pcsx2_interface.read_int8(offset)
         if current_count < 9:
             new_count = current_count + 1

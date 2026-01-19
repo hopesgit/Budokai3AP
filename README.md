@@ -17,12 +17,15 @@ If you have any ideas, the best place to let me know would be by creating an [is
   * This could be just granting all 3 when one is selected
   * This could be making the screen wait until all options are chosen
 * Fix typos in the original game as well as any mistakes I make:
-  * "Namekains": Typo in script in Bulma's speech on Planet Namek in either Kid Gohan or Krillin's DU
+  * "Namekains": Typo in Bulma's speech on Planet Namek in either Kid Gohan or Krillin's DU
   * "Paragas' Admonsihment": Typo in capsule name
   * "Guage": Common misspelling of "gauge". Very common in item descriptions and that one training
+  * "Concnetration" Misspelling of "Concentration", spotted in skill shop (US non-GH)
 * Implement options:
   * Remove Red Capsule Requirements:
     * This would allow for more variety if I could pull it off. Part QoL. Not sure about logical implications
+  * Level up rando:
+    * *screams*
 * Implement various trap ideas:
   * No Ki
     * This could be emptying the ki bar

@@ -7,7 +7,7 @@ This repo is a randomizer for Dragon Ball Z: Budokai 3 for the PS2. It will like
 Budokai 3 is the third game in a series of 3D fighting games for the Sony Playstation 2 (and until Budokai 3, the Nintendo Gamecube) that are defined by their Dragon Ball Z association. You can expect to be slinging energy blasts, clashing with energy beams, flying around the stage, and beating up baddies. In the story mode, you can fly all over the world, finding various items, events, and money to buy even more items with in the shop. 
 
 
-## Goals and fixes to implement:
+## Goals and fixes/features to implement:
 If you have any ideas, the best place to let me know would be by creating an [issue](/issues) if you don't see your suggestion here. The second best place would be the Archipelago Discord's Budokai 3 thread.
 * Randomize item locations
 * Allow for receiving items from the Archipelago server
@@ -26,6 +26,12 @@ If you have any ideas, the best place to let me know would be by creating an [is
     * This would allow for more variety if I could pull it off. Part QoL. Not sure about logical implications
   * Level up rando:
     * *screams*
+  * Turn off teleport dodging
+    * as yaml option
+  * Turn off Hyper Mode
+    * as yaml option
+    * adjust logic to include whether hyper mode is included
+    * allow using ultimates instead of triggering hyper mode?
 * Implement various trap ideas:
   * No Ki
     * This could be emptying the ki bar

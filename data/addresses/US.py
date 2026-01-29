@@ -45,5 +45,5 @@ Controller_LStick = RAMAddress(0x492EC6, 2, name="Left Stick") # value is 7F7F;
 # Up-down movement is stored in 0x492EC7; upward moves toward 00 and downwards moves toward FF
 
 
-CURRENT_SCREEN = RAMAddress(0x4B4B40, 16, name="Current Screen")
+CURRENT_SCREEN = RAMAddress(0x4B4B40, 2, name="Current Screen")
 Function(0x1003e0, 16) # runs at all times

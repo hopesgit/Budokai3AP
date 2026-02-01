@@ -5,7 +5,7 @@ import asyncio
 import os
 
 # AP imports
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
+from CommonClient import get_base_parser, logger, server_loop, gui_enabled
 
 # world imports
 from . import version
@@ -13,6 +13,19 @@ from .Budokai3Interface import Budokai3Interface
 from .NotificationManager import NotificationManager
 from .data.Addresses import Addresses
 from .data.Items import get_offset_from_name
+
+tracker_loaded: bool = False
+try:
+    from worlds.tracker.TrackerClient import (TrackerCommandProcessor as ClientCommandProcessor,
+                                              TrackerGameContext as CommonContext, UT_VERSION)
+    
+    tracker_loaded = True
+except ImportError:
+    from CommonClient import ClientCommandProcessor, CommonContext
+# except SyntaxError:
+#     from CommonClient import ClientCommandProcessor, CommonContext
+
+    print("ERROR: Universal Tracker could not load.")
 
 HUD_MESSAGE_DURATION = 50
 
@@ -120,6 +133,8 @@ class Budokai3Context(CommonContext):
             ]
             base_title = "Archipelago DBZ Budokai 3 Client"
             base_title += f' v{version} |'
+            if tracker_loaded: 
+                base_title += f' UT version {UT_VERSION} |'
 
         self.ui = Budokai3Manager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -152,10 +167,11 @@ async def pcsx2_sync_task(ctx: Budokai3Context):
     ctx.game_interface.connect_to_game()
     while not ctx.exit_event.is_set():
         try:
-            # await prevent_idents(ctx)
             is_connected = ctx.game_interface.get_connection_state()
             update_connection_status(ctx, is_connected)
             if is_connected:
+                # logger.info(ctx.game_interface.read_gokus_xpos())
+                # logger.info(ctx.game_interface.read_gokus_ypos())
                 await _handle_game_ready(ctx)
             else:
                 await _handle_game_not_ready(ctx)
@@ -317,6 +333,12 @@ def launch():
         args = parser.parse_args()
 
         ctx = Budokai3Context(args.connect, args.password)
+
+        if tracker_loaded:
+            ctx.run_generator()
+            ctx.tags.remove("Tracker")
+        else:
+            logger.warning("Could not find Universal Tracker")
 
         if os.path.isfile(args.apdbzb3_file):
             logger.info("apdbzb3 file supplied, beginning patching process...")

@@ -1,9 +1,5 @@
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict
+from typing import Dict
 from BaseClasses import Item, ItemClassification
-
-if TYPE_CHECKING:
-    pass
 
 
 ## vanilla starting items:
@@ -12,7 +8,6 @@ if TYPE_CHECKING:
 ## I'd like to find out what happens if those are removed
 
 
-@dataclass
 class Capsule(Item):
     offset: int
     capsule_color: int
@@ -1069,3 +1064,4 @@ def from_id(code) -> Capsule:
 
 def get_max_copies(code):
     ID_PAIRS[code].max_copies
+    

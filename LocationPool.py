@@ -112,8 +112,8 @@ LOCATION_GROUPS: Sequence[LocationGroup] = [
     # Goku
     LocationGroup("DU: Goku: Story Bosses", Locations.GOKU_STORY_BOSSES, goku_enabled),
     LocationGroup("DU: Goku: Optional Bosses", Locations.GOKU_OPT_BOSSES, goku_non_minimal),
-    LocationGroup("DU: Goku: Story Capsules", Locations.GOKU_CAPSULES, goku_enabled),
-    LocationGroup("DU: Goku: Optional Capsules", [], goku_non_minimal),
+    LocationGroup("DU: Goku: Story Capsules", Locations.GOKU_STORY_CAPSULES, goku_enabled),
+    LocationGroup("DU: Goku: Optional Capsules", Locations.GOKU_OPT_CAPSULES, goku_non_minimal),
     LocationGroup("DU: Goku: Wishes", Locations.GOKU_WISH_LOCS, goku_non_minimal),
     LocationGroup("DU: Goku: Reenactments", Locations.GOKU_REENACTMENTS, goku_non_minimal),
     LocationGroup("DU: Goku: Money", Locations.GOKU_MONEY_SPOTS, 
@@ -128,7 +128,7 @@ LOCATION_GROUPS: Sequence[LocationGroup] = [
     LocationGroup("DU: Kid Gohan: Optional Bosses", Locations.KID_GOHAN_OPT_BOSSES, kid_gohan_non_minimal),
     LocationGroup("DU: Kid Gohan: Story Capsules", Locations.KID_GOHAN_STORY_CAPSULES, kid_gohan_enabled),
     LocationGroup("DU: Kid Gohan: Optional Capsules", Locations.KID_GOHAN_OPT_CAPSULES, kid_gohan_non_minimal),
-    LocationGroup("DU: Kid Gohan: Wish", Locations.KID_GOHAN_WISH_LOCS, kid_gohan_non_minimal),
+    LocationGroup("DU: Kid Gohan: Wishes", Locations.KID_GOHAN_WISH_LOCS, kid_gohan_non_minimal),
     LocationGroup("DU: Kid Gohan: Reenactments", Locations.KID_GOHAN_REENACTMENTS, kid_gohan_non_minimal),
     LocationGroup("DU: Kid Gohan: Money", Locations.KID_GOHAN_MONEY_SPOTS, 
                   lambda slot_data: kid_gohan_enabled(slot_data) and money_spots_randomized(slot_data)),
@@ -142,10 +142,14 @@ LOCATION_GROUPS: Sequence[LocationGroup] = [
     # LocationGroup("DU: Teen Gohan: Optional Bosses", Locations.TEEN_GOHAN_OPT_BOSSES, teen_gohan_non_minimal),
     # LocationGroup("DU: Teen Gohan: Story Capsules", Locations.TEEN_GOHAN_STORY_CAPSULES, teen_gohan_enabled),
     # LocationGroup("DU: Teen Gohan: Optional Capsules", Locations.TEEN_GOHAN_OPT_CAPSULES, teen_gohan_non_minimal),
-    # LocationGroup("DU: Teen Gohan: Reenactments", Locations.TEEN_GOHAN_REENACTMENTS, teen_gohan_enabled),
-    # LocationGroup("DU: Teen Gohan: Money", []),
-    # LocationGroup("DU: Teen Gohan: Dragon Balls", [], dragon_balls_randomized),
-    # LocationGroup("DU: Teen Gohan: Dragon Radars", [], dragon_radar_randomized),
+    # LocationGroup("DU: Teen Gohan: Wishes", Locations.TEEN_GOHAN_WISH_LOCS, teen_gohan_non_minimal)
+    # LocationGroup("DU: Teen Gohan: Reenactments", Locations.TEEN_GOHAN_REENACTMENTS, teen_gohan_non_minimal),
+    # LocationGroup("DU: Teen Gohan: Money", Locations.TEEN_GOHAN_MONEY_SPOTS, 
+    #               lambda slot_data: teen_gohan_enabled(slot_data) and money_spots_randomized(slot_data)),
+    # LocationGroup("DU: Teen Gohan: Dragon Balls", Locations.TEEN_GOHAN_DRAGON_BALLS, 
+    #               lambda slot_data: teen_gohan_enabled(slot_data) and dragon_balls_randomized(slot_data)),
+    # LocationGroup("DU: Teen Gohan: Dragon Radars", Locations.TEEN_GOHAN_DRAGON_RADARS, 
+    #               lambda slot_data: teen_gohan_enabled(slot_data) and dragon_radar_randomized(slot_data)),
 
     # # Gohan
     # LocationGroup("DU: Gohan: Bosses", Locations.GOHAN_BOSSES),

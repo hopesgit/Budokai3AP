@@ -126,8 +126,7 @@ class Pine:
     
     def read_float(self, address: int) -> float:
         request = Pine._create_request(Pine.IPCCommand.READ32, address, 9)
-        request += struct.pack("<f", request)
-        return Pine.from_bytes(self._send_request(request)[-4:])
+        return Pine.float_from_bytes(self._send_request(request)[-4:])
 
     def read_bytes(self, address: int, length: int) -> bytes:
         """Careful! This can be quite slow for large reads"""
@@ -252,3 +251,8 @@ class Pine:
     @staticmethod
     def from_bytes(arr: bytes) -> int:
         return int.from_bytes(arr, byteorder="little")
+    
+    @staticmethod
+    def float_from_bytes(arr: bytes) -> float:
+        ftuple = struct.unpack('<f', arr)
+        return ftuple[0]

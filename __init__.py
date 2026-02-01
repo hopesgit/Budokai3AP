@@ -1,12 +1,12 @@
 import os
 import typing
-from typing import Any, Dict, Mapping, Optional, List
+from typing import Any, Dict, Mapping, Optional, List, TYPE_CHECKING
 
 import settings
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess, icon_paths
 
-from BaseClasses import Tutorial, Region, Location, ItemClassification, Item
+from BaseClasses import MultiWorld, Tutorial, Region, Location, ItemClassification, Item
 from .data.Items import item_name_groups
 from .Regions import regions, RegionName
 # from .Container import Budokai3ProcedurePatch, generate_patch
@@ -16,7 +16,7 @@ from .data import Items, Locations
 from .data.Items import Capsule
 from .import Logic
 
-version = "0.0.1"
+version = "0.1.0"
 
 
 def run_client(_url: Optional[str] = None):
@@ -34,6 +34,9 @@ components.append(
     )
 )
 icon_paths["Budokai 3"] = "ap:worlds.dbz_budokai_3.data/img/budokai3logo.png"
+
+class OptionError(ValueError):
+    pass
 
 class Budokai3Settings(settings.Group):
     class IsoFile(settings.UserFilePath):
@@ -85,11 +88,19 @@ class Budokai3World(World):
     item_name_to_id = {item.name: item.code for item in Items.ALL_ITEMS}
     location_name_to_id = {location.name: location.location_id for location in Locations.LOCATIONS}
     item_name_groups = item_name_groups()
-    ocation_name_groups = LocationPool.get_active_locations
     settings: Budokai3Settings
-    prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
-    ut_can_gen_without_yaml = True
     starting_items: List[Capsule] = []
+    ut_loaded: bool
+    passthrough: dict[str, Any]
+    ut_can_gen_without_yaml = True
+    disable_ut: bool = False
+
+
+    def __init__(self, multiworld: 'MultiWorld', player: int):
+        super().__init__(multiworld, player)
+        sd = self.fill_slot_data()
+        self.slot_data = sd
+        self.location_name_groups = LocationPool.get_active_locations(sd)
 
 
     def create_item(self, name: str) -> Capsule:
@@ -186,7 +197,7 @@ class Budokai3World(World):
             "death_link",
         )
     
-    def fill_slot_data(self) -> Mapping[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return self.get_options_as_dict()
 
 
@@ -196,3 +207,20 @@ class Budokai3World(World):
                   filleritempool: List["Item"],
                   fill_locations: List["Location"]) -> None:
         pass
+
+    def generate_early(self):
+        self.handle_option_issues()
+        self.location_name_groups = LocationPool.get_active_locations(self.fill_slot_data())
+        self.create_regions()
+
+    def handle_option_issues(self):
+        opts = self.options
+        if bool(opts.completionist.value) and bool(opts.minimalist.value):
+            raise OptionError("Minimalist and Completionist are opposites. You cannot combine these.")
+        if not opts.choose_du_characters.value:
+            raise OptionError("Choosing 0 DU characters results in too few locations to generate. Please choose at least 1 character.")
+        
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        return slot_data

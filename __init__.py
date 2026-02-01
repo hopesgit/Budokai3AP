@@ -139,16 +139,11 @@ class Budokai3World(World):
     def create_event(self, name: str) -> "Item":
         return Item(name, ItemClassification.progression, None, self.player)
 
-    # def pre_fill(self) -> None:
-    #     for location_name, item_name in self.prefilled_item_map.items():
-    #         location = self.get_location(location_name)
-    #         item = self.create_item(item_name, ItemClassification.progression)
-    #         location.place_locked_item(item)
-    #
+
     def create_items(self) -> None:
         items_to_add: List[Capsule] = []
         items_to_add += ItemPool.create_grays(False)
-        # # items_to_add += ItemPool.create_greens()
+        # items_to_add += ItemPool.create_greens()
         # items_to_add += ItemPool.create_yellows()
         items_to_add += ItemPool.create_reds(False)
 
@@ -197,7 +192,7 @@ class Budokai3World(World):
             "death_link",
         )
     
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Mapping[str, Any]:
         return self.get_options_as_dict()
 
 
@@ -216,11 +211,8 @@ class Budokai3World(World):
     def handle_option_issues(self):
         opts = self.options
         if bool(opts.completionist.value) and bool(opts.minimalist.value):
-            raise OptionError("Minimalist and Completionist are opposites. You cannot combine these.")
+            raise OptionError("Budokai 3: Minimalist and Completionist are opposites. You cannot combine these.")
         if not opts.choose_du_characters.value:
-            raise OptionError("Choosing 0 DU characters results in too few locations to generate. Please choose at least 1 character.")
-        
-
-    @staticmethod
-    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
-        return slot_data
+            raise OptionError("Budokai 3: Choosing 0 DU characters results in too few locations to generate. Please choose at least 1 character.")
+        if len(self.multiworld.players) > 1 and len(opts.non_local_items.value) > 0:
+            raise OptionError("Budokai 3: Non-local items cannot be placed in a single-player multiworld.")

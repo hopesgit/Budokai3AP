@@ -143,7 +143,7 @@ SAVE_FILE_LOADED = [x.value for x in Budokai3Screen if x.value != Budokai3Screen
 
 
 class Budokai3Interface:
-    """Interface sitting in front of the pcsx2_interface to provide higher level functions for interacting with Budokai3"""
+    """Interface sitting in front of the pcsx2_interface to provide higher level functions for interacting with Budokai 3"""
     pcsx2_interface: Pine = Pine()
     addresses: Addresses = None
     # shop: Shop = None

@@ -29,16 +29,15 @@ top = [Controller_L1, Controller_R1, Controller_L2, Controller_R2]
 Controller_Shoulder_Buttons = RAMAddress.from_address_list(top, name="Shoulder Buttons")
 
 Controller_Select = RAMAddress(0x492EC2, 1, name="Select") # When Sel is pressed, val changes from FF to FE
-Controller_Start = RAMAddress(0x492EC2, 1, name="Start") # When Sta is presser, value changes from FF to F7
+Controller_Start = RAMAddress(0x492EC2, 1, name="Start") # When Sta is pressed, value changes from FF to F7
 Controller_L3 = RAMAddress(0x492EC2, 1, name="L3") # value is normally FF; while pressed, it becomes FD
 Controller_R3 = RAMAddress(0x492EC2, 1, name="R3") # value is normally FF; while pressed, it becomes FB
-# Sel + Start is a reset hotkey in PCSX2. Don't press that without intent.
 # L3 plus R3? 0x492EC2 is F9
 # L3 plus R3 plus Select? F8
 # L3 plus R3 plus Start? F1
 
 Controller_RStick = RAMAddress(0x492EC4, 2, name="Right Stick") # value is 7F7F;
-# Left-right movment is stored in 0x492EC4; leftward moves toward 00 while rightward moves toward FF
+# Left-right movement is stored in 0x492EC4; leftward moves toward 00 while rightward moves toward FF
 # Up-down movement is stored in 0x492EC5; upward moves toward 00 and downwards moves toward FF
 Controller_LStick = RAMAddress(0x492EC6, 2, name="Left Stick") # value is 7F7F; 
 # Left-right movement is stored in 0x492EC6; leftward moves toward 00 while rightward moves toward FF
@@ -46,4 +45,7 @@ Controller_LStick = RAMAddress(0x492EC6, 2, name="Left Stick") # value is 7F7F;
 
 
 CURRENT_SCREEN = RAMAddress(0x4B4B40, 2, name="Current Screen")
+
+DU_GOKU_X_COORD = RAMAddress(0x5AA724, 4)
+DU_GOKU_Y_COORD = RAMAddress(0x5AA728, 4)
 Function(0x1003e0, 16) # runs at all times

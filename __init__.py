@@ -1,20 +1,19 @@
 import os
 import typing
-from typing import Any, Dict, Mapping, Optional, List, TYPE_CHECKING
+from typing import Any, Dict, Mapping, Optional, List, TYPE_CHECKING, Set
 
 import settings
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess, icon_paths
 
 from BaseClasses import MultiWorld, Tutorial, Region, Location, ItemClassification, Item
-from .data.Items import item_name_groups
+from . import ItemPool, LocationPool, Logic
+from .Budokai3Options import Budokai3Options
+from .LocationPool import LOCATION_GROUPS
 from .Regions import regions, RegionName
 # from .Container import Budokai3ProcedurePatch, generate_patch
-from .Budokai3Options import Budokai3Options
-from . import ItemPool, LocationPool
 from .data import Items, Locations
-from .data.Items import Capsule
-from .import Logic
+from .data.Items import item_name_groups, Capsule
 
 version = "0.1.0"
 
@@ -83,7 +82,8 @@ class Budokai3World(World):
     game = "Dragon Ball Z Budokai 3"
     web = Budokai3Web()
     options_dataclass = Budokai3Options
-    options = Budokai3Options
+    options: Budokai3Options
+    # options and options_dataclass NEED to stay the way they are so that options.as_dict can be used
     topology_present = True
     item_name_to_id = {item.name: item.code for item in Items.ALL_ITEMS}
     location_name_to_id = {location.name: location.location_id for location in Locations.LOCATIONS}
@@ -96,32 +96,36 @@ class Budokai3World(World):
     disable_ut: bool = False
 
 
-    def __init__(self, multiworld: 'MultiWorld', player: int):
-        super().__init__(multiworld, player)
-        sd = self.fill_slot_data()
-        self.slot_data = sd
-        self.location_name_groups = LocationPool.get_active_locations(sd)
-
-
     def create_item(self, name: str) -> Capsule:
         return Items.get_name_pairs()[name]
 
 
     def get_filler_item_name(self) -> str:
-        return Items.ZENIE_2K.name
+        return Items.ZENIE_5K.name
 
 
     def create_regions(self) -> None:
         player = self.player
         name_to_region = {}
         for region_info in regions:
-            region = Region(region_info.name, player, self.multiworld)
+            try:
+                region = self.multiworld.get_region(region_info.name, player)
+            except KeyError:
+                region = Region(region_info.name, player, self.multiworld)
             name_to_region[region_info.name] = region
             for location in region_info.locations:
                 loc = Location(player, location, self.location_name_to_id.get(location), region)
-                region.locations.append(loc)
-            self.multiworld.regions.append(region)
-    
+
+                try:
+                    region.locations.append(loc)
+                except AttributeError:
+                    print(f'Region {region.name} errored; it has the following locations {region.locations}')
+                    return
+            try:
+                self.multiworld.regions.append(region)
+            except AssertionError:
+                self.multiworld.get_region()
+
         for region_info in regions:
             region = name_to_region[region_info.name]
             for connection in region_info.connections:
@@ -131,7 +135,7 @@ class Budokai3World(World):
                 if connection == RegionName.DU_Goku:
                     entrance.access_rule = lambda state: Logic.has_goku(state, self.player)
                 if connection == RegionName.Dragon_Arena:
-                    entrance.access_rule = lambda state: Logic.has_dragon_arena(state, self.player)
+                    entrance.access_rule = lambda state: state.has("Dragon Arena Ticket", self.player)
                 if connection in [RegionName.Menu, RegionName.Shop, RegionName.Credits]:
                     entrance.access_rule = lambda state: True
 
@@ -142,14 +146,17 @@ class Budokai3World(World):
 
     def create_items(self) -> None:
         items_to_add: List[Capsule] = []
-        items_to_add += ItemPool.create_grays(False)
+        items_to_add += ItemPool.create_required_items(self.slot_data)
+        # items_to_add += ItemPool.create_grays(False)
         # items_to_add += ItemPool.create_greens()
         # items_to_add += ItemPool.create_yellows()
-        items_to_add += ItemPool.create_reds(False)
+        # items_to_add += ItemPool.create_reds(False)
 
         unfilled_locs = [item for item in self.multiworld.get_unfilled_locations(self.player) if not item.is_event]
         remaining = len(unfilled_locs) - len(items_to_add)
-        assert remaining >= 0, "There are more items than locations."
+        if remaining == 0: return
+
+        items_to_add.clear()
         print(f"[Budokai 3]: Trying to fill {remaining} remaining locations...")
         for _ in range(remaining):
             item = Capsule(531, self.get_filler_item_name())
@@ -172,8 +179,9 @@ class Budokai3World(World):
     #     apdbzb3.write(rom_path)
     
     def get_options_as_dict(self) -> Dict[str, Any]:
-        return self.options.as_dict(self,
+        return self.options.as_dict(
             "completionist",
+            "minimalist",
             "choose_du_characters",
             "start_with_story_characters",
             "require_super_attacks",
@@ -189,24 +197,25 @@ class Budokai3World(World):
             "colorblind_mode_red",
             "colorblind_mode_blue",
             "colorblind_mode_green",
-            "death_link",
         )
     
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.get_options_as_dict()
 
 
-    def fill_hook(self,
-                  progitempool: List["Item"],
-                  usefulitempool: List["Item"],
-                  filleritempool: List["Item"],
-                  fill_locations: List["Location"]) -> None:
-        pass
+    # def fill_hook(self,
+    #               progitempool: List["Item"],
+    #               usefulitempool: List["Item"],
+    #               filleritempool: List["Item"],
+    #               fill_locations: List["Location"]) -> None:
+    #     pass
 
     def generate_early(self):
         self.handle_option_issues()
-        self.location_name_groups = LocationPool.get_active_locations(self.fill_slot_data())
-        self.create_regions()
+        self.slot_data = self.fill_slot_data()
+        self.location_name_groups = self.get_active_locations()
+        # self.create_regions()
+
 
     def handle_option_issues(self):
         opts = self.options
@@ -214,5 +223,18 @@ class Budokai3World(World):
             raise OptionError("Budokai 3: Minimalist and Completionist are opposites. You cannot combine these.")
         if not opts.choose_du_characters.value:
             raise OptionError("Budokai 3: Choosing 0 DU characters results in too few locations to generate. Please choose at least 1 character.")
-        if len(self.multiworld.players) > 1 and len(opts.non_local_items.value) > 0:
+        if self.multiworld.players == 1 and len(opts.non_local_items.value) > 0:
             raise OptionError("Budokai 3: Non-local items cannot be placed in a single-player multiworld.")
+
+
+    def get_active_locations(self) -> dict[str, Set[str]]:
+        options_as_dict = self.slot_data
+        active_groups = [group for group in LOCATION_GROUPS if group.enable_if(options_as_dict)]
+        grdict = dict()
+        for group in active_groups:
+            grdict[group.name] = None
+            grset = set()
+            for location in group.locations:
+                grset.add(location.name)
+            grdict[group.name] = grset
+        return grdict

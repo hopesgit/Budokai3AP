@@ -56,9 +56,9 @@ regions = [
     RegionInfo(RegionName.Tournament, [RegionName.Menu], [location.name for location in WT_LOCS]),
     RegionInfo(RegionName.Shop, [RegionName.Menu], [location.name for location in SHOP_LOCS]),
     RegionInfo(RegionName.Dragon_Arena, [RegionName.Menu], [location.name for location in DRAGON_ARENA_LOCS]),
-    RegionInfo(RegionName.DU_Goku, [RegionName.Menu, RegionName.Shenron_Goku, RegionName.Credits], 
+    RegionInfo(RegionName.DU_Goku, [RegionName.Shenron_Goku, RegionName.Credits],
                [location.name for location in GOKU_LOCS]),
     RegionInfo(RegionName.Shenron_Goku, [RegionName.Credits], [location.name for location in GOKU_WISH_LOCS]),
-    RegionInfo(RegionName.Credits, [RegionName.Menu, RegionName.Congrats], []),
+    RegionInfo(RegionName.Credits, [RegionName.Congrats], []),
     RegionInfo(RegionName.Congrats, [RegionName.Menu], [MENU_CAPSULE_1.name])
 ]

@@ -1,6 +1,4 @@
-from BaseClasses import ItemClassification, CollectionState
-from typing import List
-from .Logic import _get_options
+from typing import List, Any
 from .data import Items
 from .data.Items import *
 
@@ -52,8 +50,47 @@ BROLY_ATTACKS = [BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEO
 BROLY_TRANSFORMS = [BROLY.code, LSSJ_BROLY.code, BLASTER_SHELL.code, GIGANT_PRESS.code, GIGANT_METEOR.code, BREAK_BROLY.code]
 
 
-def create_pool(state: CollectionState, player: int):
-    prog_chars = _get_options(state, player).progressive_characters != 'off'
+def create_required_items(slot_data) -> List[Capsule]:
+    """Important for the original fill; these NEED to be in the pool,
+    or else it will fail the accessibility check."""
+    prog_chars = int(slot_data['progressive_characters'])
+    minimal = bool(slot_data['minimalist'])
+
+    items = [Items.DRAGON_ARENA, *Items.TRAINING, Items.TOURNEY_NOVICE, Items.TOURNEY_ADEPT, Items.TOURNEY_ADV,
+             Items.TOURNEY_CELL, Items.GOKUS_WISH, Items.PATH_POWER, Items.ENDLESS_PATH]
+
+    if prog_chars:
+        goku = Items.GOKU.code
+        kid_gohan = Items.KID_GOHAN.code
+        teen_gohan = Items.TEEN_GOHAN.code
+        gohan = Items.GOHAN.code
+        vegeta = Items.VEGETA.code
+        krillin = Items.KRILLIN.code
+        piccolo = Items.PICCOLO.code
+        tien = Items.TIEN.code
+        yamcha = Items.YAMCHA.code
+        uub = Items.UUB.code
+        broly = Items.BROLY.code
+    else:
+        goku = Items.PROGRESSIVE_GOKU.code
+        kid_gohan = Items.PROGRESSIVE_KID_GOHAN.code
+        teen_gohan = Items.PROGRESSIVE_TEEN_GOHAN.code
+        gohan = Items.PROGRESSIVE_GOHAN.code
+        vegeta = Items.PROGRESSIVE_VEGETA.code
+        krillin = Items.PROGRESSIVE_KRILLIN.code
+        piccolo = Items.PROGRESSIVE_PICCOLO.code
+        tien = Items.PROGRESSIVE_TIEN.code
+        yamcha = Items.PROGRESSIVE_YAMCHA.code
+        uub = Items.PROGRESSIVE_UUB.code
+        broly = Items.PROGRESSIVE_BROLY.code
+    chars = [goku, kid_gohan, teen_gohan, gohan, vegeta, krillin, piccolo, tien, yamcha, uub, broly]
+    for c in chars:
+        items.append(c)
+    return items
+
+
+def create_pool(slot_data: dict[str, Any]):
+    prog_chars = int(slot_data['progressive_characters']) > 0
     create_greens()
     create_yellows()
     if prog_chars:
@@ -159,6 +196,8 @@ def progressive_order(item: Capsule, prog_type: str, count: int):
         return None
 
 def get_classification(item: Capsule):
+    from BaseClasses import ItemClassification
+
     if 'Progressive' in item.name: 
         return ItemClassification.progression
     if (item.name in Items.item_name_groups()["Fighters"] or item.name in Items.item_name_groups()["Tournament"]

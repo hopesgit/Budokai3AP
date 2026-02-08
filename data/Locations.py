@@ -47,7 +47,7 @@ GOKU_STORY_BOSSES = [
 ]
 
 GOKU_OPT_BOSSES = [
-    GOKU_TIEN_CLEAR, GOKU_COOLER_CLEAR, GOKU_METAL_COOLER_CLEAR, GOKU_UUB_CLEAR, GOKU_COOLER_2_CLEAR, GOKU_METAL_COOLER_CLEAR,
+    GOKU_TIEN_CLEAR, GOKU_COOLER_CLEAR, GOKU_METAL_COOLER_CLEAR, GOKU_UUB_CLEAR, GOKU_COOLER_2_CLEAR,
     GOKU_VEGETA_2_CLEAR, GOKU_COOLER_3_CLEAR, GOKU_BROLY_CLEAR, GOKU_GOTENKS_CLEAR, GOKU_OMEGA_CLEAR
 ]
 
@@ -198,7 +198,7 @@ KID_GOHAN_MONEY_1 = LocationData(120, "Kid Gohan: Saiyan Saga: (Gleaming) Money 
 KID_GOHAN_MONEY_2 = LocationData(121, "Kid Gohan: Saiyan Saga: (Gleaming) Money on plains past bridge near Central City (S7)", has_kid_gohan)
 KID_GOHAN_MONEY_3 = LocationData(122, "Kid Gohan: Saiyan Saga: (Gleaming) Money on large island near World Tournament Stage (S15)", has_kid_gohan)
 KID_GOHAN_MONEY_4 = LocationData(123, "Kid Gohan 2: Saiyan Saga: (Gleaming) Money south of longer southwestern peninsula, in middle of ocean (S13)", can_wish_kid_gohan)
-KID_GOHAN_MONEY_5 = LocationData(124, "Kid Gohan 2: Saiyan Saga: (Gleaming) Money on southeastmost island (S16)", can_wish_kid_gohan) 
+KID_GOHAN_MONEY_5 = LocationData(124, "Kid Gohan 2: Saiyan Saga: (Gleaming) Money on southeast-most island (S16)", can_wish_kid_gohan)
 
 KID_GOHAN_RADAR_1 = LocationData(125, "Kid Gohan: Saiyan Saga: (Gleaming) Dragon Radar on plains northeast of West City (S6)", has_kid_gohan)
 KID_GOHAN_RADAR_2 = LocationData(126, "Kid Gohan: Namek Saga: (Gleaming) Dragon radar on southeast continent (S15)", can_kid_gohan)

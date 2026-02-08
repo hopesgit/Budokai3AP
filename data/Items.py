@@ -733,7 +733,7 @@ HERCULE = GrayCapsule(415, "Hercule", offset=0x4DFCF0)
 VIDEL = GrayCapsule(416, "Videl", offset=0x4DFCF1)
 SUPREME_KAI = GrayCapsule(417, "Supreme Kai", offset=0x4DFCF2)
 UUB = GrayCapsule(418, "Uub", offset=0x4DFCF3)
-RADITZ = GrayCapsule(419, "Raditz", offset=0x4DFCF5)
+RADITZ = GrayCapsule(419, "Raditz", offset=0x4DFCF4)
 NAPPA = GrayCapsule(420, "Nappa", offset=0x4DFCF5)
 GINYU = GrayCapsule(421, "Captain Ginyu", offset=0x4DFCF6)
 RECOOME = GrayCapsule(422, "Recoome", offset=0x4DFCF8)
@@ -1064,4 +1064,3 @@ def from_id(code) -> Capsule:
 
 def get_max_copies(code):
     ID_PAIRS[code].max_copies
-    

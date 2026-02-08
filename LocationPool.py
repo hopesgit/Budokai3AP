@@ -1,4 +1,4 @@
-from typing import Any, Callable, NamedTuple, Sequence
+from typing import Callable, NamedTuple, Sequence
 
 from .data import Locations
 from .data.Locations import LocationData
@@ -216,14 +216,9 @@ LOCATION_GROUPS: Sequence[LocationGroup] = [
     LocationGroup("Skill Shop", Locations.SHOP_LOCS, shop_randomized)
 ]
 
+
 ALL_LOCATIONS: Sequence[LocationData] = [
     location
     for locations in [group.locations for group in LOCATION_GROUPS]
     for location in locations
 ]
-
-
-def get_active_locations(options_as_dict: dict[str, Any]):
-    active_groups = [group for group in LOCATION_GROUPS if group.enable_if(options_as_dict)]
-    group_locations = [group.locations for group in active_groups]
-    return [location for location in group_locations]

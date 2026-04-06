@@ -45,7 +45,18 @@ Controller_LStick = RAMAddress(0x492EC6, 2, name="Left Stick") # value is 7F7F;
 
 
 CURRENT_SCREEN = RAMAddress(0x4B4B40, 2, name="Current Screen")
+UNLOCKED_REENACTMENTS  = RAMAddress(0x4DFAED, 3, name="Unlocked Reenactments")
+CURRENT_ZENIE = RAMAddress(0x58F718, name="Current Zenie")
 
 DU_GOKU_X_COORD = RAMAddress(0x5AA724, 4)
 DU_GOKU_Y_COORD = RAMAddress(0x5AA728, 4)
 Function(0x1003e0, 16) # runs at all times
+
+# I may be able to use 414890 - 41867f as addressable space. It's roughly 15.8k addresses.
+CURRENT_AP_ITEM = RAMAddress(0x4dfd60, 2) # this gets overwritten. This is good! That means it's getting overwritten by something on the memory card, just need to find what.
+DRAGON_ARENA_BATTLE_TABLE_START = RAMAddress(0x4DFF96, 1)
+DRAGON_ARENA_BATTLE_TABLE_END = RAMAddress(0x4E0111, 1)
+DRAGON_ARENA_BREAK_IN_BITFLAGS_1 = RAMAddress(0x4E0112, 1)
+DRAGON_ARENA_BREAK_IN_BITFLAGS_2 = RAMAddress(0x4E0113, 1)
+DU_LIVE_CAPSULE_COLLECTION_START = RAMAddress(0x51147A, 1)
+LIVE_ZENIE = RAMAddress(0x511449, 4)

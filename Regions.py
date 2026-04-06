@@ -1,7 +1,7 @@
-import typing
+from typing import List
 from BaseClasses import Region
-from .data.Locations import GOKU_LOCS, GOKU_WISH_LOCS, DRAGON_ARENA_LOCS, WT_LOCS, SHOP_LOCS, TRAINING_LOCS, MENU_CAPSULE_1
-
+from .LocationPool import LocationGroup, get_active_location_groups
+from .data.Locations import GOKU_LOCS, GOKU_WISH_LOCS, MENU_CAPSULE_1
 
 class Budokai3Region(Region):
     game = "Dragon Ball Z Budokai 3"
@@ -40,25 +40,40 @@ class RegionName:
 
 class RegionInfo:
     name: str
-    connections: typing.List[str]
-    locations: typing.List[str]
+    connections: list[str]
+    groups: list[LocationGroup]
+    locations: list[str]
 
-    def __init__(self, name, connections, locations):
+    def __init__(self, name, connections, groups):
         self.name = name
         self.connections = connections
+        self.groups = groups
+        locations = []
+        for group in self.groups:
+            if not group: continue
+            for location in group.locations:
+                locations.append(location.name)
         self.locations = locations
 
-
-regions = [
-    RegionInfo(RegionName.Menu, 
-               [RegionName.DU_Goku, RegionName.Dragon_Arena, RegionName.Tournament, RegionName.Shop, RegionName.Training], []),
-    RegionInfo(RegionName.Training, [RegionName.Menu], [location.name for location in TRAINING_LOCS]),
-    RegionInfo(RegionName.Tournament, [RegionName.Menu], [location.name for location in WT_LOCS]),
-    RegionInfo(RegionName.Shop, [RegionName.Menu], [location.name for location in SHOP_LOCS]),
-    RegionInfo(RegionName.Dragon_Arena, [RegionName.Menu], [location.name for location in DRAGON_ARENA_LOCS]),
-    RegionInfo(RegionName.DU_Goku, [RegionName.Shenron_Goku, RegionName.Credits],
-               [location.name for location in GOKU_LOCS]),
-    RegionInfo(RegionName.Shenron_Goku, [RegionName.Credits], [location.name for location in GOKU_WISH_LOCS]),
-    RegionInfo(RegionName.Credits, [RegionName.Congrats], []),
-    RegionInfo(RegionName.Congrats, [RegionName.Menu], [MENU_CAPSULE_1.name])
-]
+def create_regions(slot_data):
+    locgroups = get_active_location_groups(slot_data)
+    regions = [
+        RegionInfo(
+            name=RegionName.Menu,
+            connections=[RegionName.DU_Goku, RegionName.Dragon_Arena, RegionName.Tournament, RegionName.Shop, RegionName.Training],
+            groups=[]
+        ),
+        RegionInfo(RegionName.Training, [RegionName.Menu], [locgroups[-3]]),
+        RegionInfo(RegionName.Tournament, [RegionName.Menu], [locgroups[-4]]),
+        RegionInfo(RegionName.Shop, [RegionName.Menu], [locgroups[-2]]),
+        RegionInfo(RegionName.Dragon_Arena, [RegionName.Menu], [*locgroups[-5:-4]]),
+        RegionInfo(
+            name=RegionName.DU_Goku,
+            connections=[RegionName.Shenron_Goku, RegionName.Credits],
+            groups=[*locgroups[0:3], *locgroups[5:8]]
+        ),
+        RegionInfo(RegionName.Shenron_Goku, [RegionName.Credits], [locgroups[4]]),
+        RegionInfo(RegionName.Credits, [RegionName.Congrats], []),
+        RegionInfo(RegionName.Congrats, [RegionName.Menu], [locgroups[-1]]),
+    ]
+    return regions

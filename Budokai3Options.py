@@ -4,14 +4,17 @@ from Options import (
     PerGameCommonOptions,
     Choice,
     Toggle,
-    OptionList
+    OptionList,
+    NamedRange
 )
 
 
 class Completionist(Toggle):
     """
-    Set this to true to change your goal to 100% capsules. If there are more capsules than checks,
-    then the remainder will be granted to you at the start of the game.
+    Set this to true to change your goal to getting 100% capsules. If there are more capsules than checks,
+    then the remainder will be granted to you at the start of the game.\n
+    This is a more 'async-friendly' setting.\n
+    If this and Minimalist are on, the world will prevent generation.
     """
     default = False
     display_name = "Completionist"
@@ -22,7 +25,7 @@ class Minimalist(Toggle):
     This limits the locations in each available story route to only bosses and story capsules.\n
     This also removes other pools, such as WT, Practice, and Dragon Arena, so that you can focus completely on the story.
     You can use "Choose DU Characters" to refine which characters will have any checks at all. This is a more "sync-friendly" setting.\n
-    If this and Completionist are on, both will be ignored.
+    If this and Completionist are on, the world will prevent generation.
     """
     default = False
     display_name = "Minimalist"
@@ -130,10 +133,24 @@ class ProgressiveCharacters(Choice):
     display_name = "Progressive Characters"
 
 
+class RedCapsuleCopies(NamedRange):
+    """
+    The number of copies that receiving a red capsule provides.\n
+    The unmodified game provides 1 copy of a capsule when you receive the capsule.\n
+    The maximum amount of an item that can be stored in the save file is 9.\n
+    The maximum amount of an item that can be equipped to a custom character is 3.
+    """
+    default = 1
+    range_start = 1
+    range_end = 9
+
+
+
 class RandomizeDragonRadar(Choice):
     """
     Adds the Dragon Radar for each story route to the item pool (and adds its locations in each story to the location pool).\n
-    Choices:
+    There are 3-4 Dragon Radars for each Dragon Universe story.\n\n
+    Choices:\n
     - **off**: Dragon radars can continue to be picked up where they usually are.
     - **on**: Dragon radar items will be included in the item pool. The locations where they can be found will be randomized.
     - **start**: Dragon radars will always be available at the beginning of each story. The locations where they can be found will be randomized.
@@ -145,10 +162,19 @@ class RandomizeDragonRadar(Choice):
     option_start = 2
 
 
+class RequireDragonRadar(Toggle):
+    """
+    Require a character's Dragon Radar to be considered able to find Dragon Balls in the logic. Ignored if "Randomize Dragon Radar" is off.
+    """
+    default = True
+
+
 class RandomizeDragonBalls(Toggle):
     """
     Adds Dragon Balls for each story route to the item pool (and their locations to the location pool). Makes it so that 
     you can't get wish items without having all seven of that character's Dragon Balls.
+
+    This is worth 77 locations.
     """
     display_name = "Randomize Dragon Balls"
     default = False
@@ -182,6 +208,19 @@ class ShopRando(Toggle):
     """
     default = False
     display_name = "Shop Randomizer"
+
+
+class Challengersanity(Toggle):
+    """
+    Randomize Dragon Arena battles into the location pool. This is separate from the Break-in Challengers and Challenger Milestones.
+    This is only the list of battles that you can see in Dragon Arena after selecting your fighter.
+
+    This option is worth 377 locations.
+
+    This is a more "async-friendly" option.
+    """
+    default=False
+    display_name = "Challengersanity"
 
 
 class Inspiration(Toggle):
@@ -281,10 +320,13 @@ class Budokai3Options(PerGameCommonOptions):
     require_super_attacks: RequireSuperAttacks
     super_attack_starters: SuperAttackStarters
     progressive_characters: ProgressiveCharacters
+    red_capsule_copies: RedCapsuleCopies
     randomize_dragon_radar: RandomizeDragonRadar
+    require_dragon_radar: RequireDragonRadar
     randomize_dragon_balls: RandomizeDragonBalls
     randomize_money_spots: RandomizeMoneySpots
     shop_rando: ShopRando
+    challengersanity: Challengersanity
     attack_rando: AttackRando
     inspiration: Inspiration
     pandemic: Pandemic

@@ -54,12 +54,11 @@ def create_required_items(slot_data) -> List[Capsule]:
     """Important for the original fill; these NEED to be in the pool,
     or else it will fail the accessibility check."""
     prog_chars = int(slot_data['progressive_characters'])
-    minimal = bool(slot_data['minimalist'])
 
     items = [Items.DRAGON_ARENA, *Items.TRAINING, Items.TOURNEY_NOVICE, Items.TOURNEY_ADEPT, Items.TOURNEY_ADV,
              Items.TOURNEY_CELL, Items.GOKUS_WISH, Items.PATH_POWER, Items.ENDLESS_PATH]
 
-    if prog_chars:
+    if prog_chars == 0:
         goku = Items.GOKU.code
         kid_gohan = Items.KID_GOHAN.code
         teen_gohan = Items.TEEN_GOHAN.code
@@ -195,10 +194,12 @@ def progressive_order(item: Capsule, prog_type: str, count: int):
     except IndexError:
         return None
 
-def get_classification(item: Capsule):
+def get_classification(item: Capsule, highest_count=0, list_index=0):
     from BaseClasses import ItemClassification
 
-    if 'Progressive' in item.name: 
+    if 'Progressive' in item.name:
+        if list_index == highest_count and list_index != 0:
+            return ItemClassification.useful
         return ItemClassification.progression
     if (item.name in Items.item_name_groups()["Fighters"] or item.name in Items.item_name_groups()["Tournament"]
     or item.name in Items.item_name_groups()["Training"] or item.name in Items.item_name_groups()["Cards"]

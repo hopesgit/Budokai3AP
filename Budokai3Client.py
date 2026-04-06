@@ -143,6 +143,11 @@ class Budokai3Context(CommonContext):
         self.deathlink_queued = True
         logger.info("Deathlink received. Awaiting battle...")
 
+    def check_bitflag_loc(self, location, bit):
+        val = self.game_interface.pcsx2_interface.read_bytes(location, 1)
+        logger.info(f'Checking bitflag {location}: value is {val}')
+
+
 
 def on_package(self, cmd: str, args: dict):
     if cmd == 'Connected':

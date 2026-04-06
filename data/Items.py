@@ -11,12 +11,15 @@ from BaseClasses import Item, ItemClassification
 class Capsule(Item):
     offset: int
     capsule_color: int
-    max_copies: int
+    max_copies: int = 9
+    internal_id: int
 
-    def __init__(self, id: int, name: str, offset=0x0, max_copies = 9, classification = ItemClassification.filler):
+    def __init__(self, id: int, name: str, offset: int = 0x0, internal_id: int = 0x0,
+                 classification = ItemClassification.filler, max_copies = 9):
         super().__init__(name=name, code = id, classification = classification, player=1)
         self.offset = offset
-        self.max_copies =  max_copies
+        self.internal_id = internal_id
+        self.max_copies = max_copies
 
 class RedCapsule(Capsule):
     capsule_color = 1
@@ -203,9 +206,9 @@ FIERCE_FLURRY = RedCapsule(100, "Uub: Fierce Flurry", 0x4DFB69)
 BREAK_UUB = RedCapsule(101, "Uub: Breakthrough", 0x4DFBF9, classification = ItemClassification.progression)
 
 ## Raditz
-SUNDAY = RedCapsule(102, "Raditz: Double Sunday")
-SATURDAY = RedCapsule(103, "Raditz: Saturday Crush")
-BREAK_RADITZ = RedCapsule(104, "Raditz: Breakthrough")
+SUNDAY = RedCapsule(102, "Raditz: Double Sunday", 0x4DFB6A)
+SATURDAY = RedCapsule(103, "Raditz: Saturday Crush", 0x4DFB6B)
+BREAK_RADITZ = RedCapsule(104, "Raditz: Breakthrough", 0x4DFBFA)
 
 ## Nappa
 BOMBER_DX = RedCapsule(105, "Nappa: Bomber DX", 0x4DFB6C)
@@ -720,7 +723,7 @@ KID_GOKU = GrayCapsule(402, "Kid Goku", offset=0x4DFCE3)
 KID_GOHAN = GrayCapsule(403, "Kid Gohan", offset=0x4DFCE5)
 TEEN_GOHAN = GrayCapsule(404, "Teen Gohan", offset=0x4DFCE5)
 GOHAN = GrayCapsule(405, "Gohan", offset=0x4DFCE6)
-GT_SAIYAMAN = GrayCapsule(406, "Great Saiyaman") # my guess is 0x4DFCE7
+GT_SAIYAMAN = GrayCapsule(406, "Great Saiyaman", 0x4DFCE7)
 GOTEN = GrayCapsule(407, "Goten", offset=0x4DFCE8)
 VEGETA = GrayCapsule(408, "Vegeta", offset=0x4DFCE9)
 TRUNKS = GrayCapsule(409, "Trunks", offset=0x4DFCEA)
@@ -736,8 +739,8 @@ UUB = GrayCapsule(418, "Uub", offset=0x4DFCF3)
 RADITZ = GrayCapsule(419, "Raditz", offset=0x4DFCF4)
 NAPPA = GrayCapsule(420, "Nappa", offset=0x4DFCF5)
 GINYU = GrayCapsule(421, "Captain Ginyu", offset=0x4DFCF6)
-RECOOME = GrayCapsule(422, "Recoome", offset=0x4DFCF8)
-FRIEZA = GrayCapsule(423, "Frieza") # you'll have to find the location yourself, Hope
+RECOOME = GrayCapsule(422, "Recoome", offset=0x4DFCF7)
+FRIEZA = GrayCapsule(423, "Frieza", offset=0x4DFCF8)
 ANDROID_16 = GrayCapsule(424, "Android 16", offset=0x4DFCF9)
 ANDROID_17 = GrayCapsule(425, "Android 17", offset=0x4DFCFA)
 ANDROID_18 = GrayCapsule(426, "Android 18", offset=0x4DFCFB)
@@ -820,13 +823,13 @@ MEMORIES_SUPREME_KAI = GrayCapsule(493, "Memories of Supreme Kai", offset=0x4DFD
 MEMORIES_KID_GOKU = GrayCapsule(494, "Memories of Kid Goku", offset=0x4DFD42)
 MEMORIES_BARDOCK = GrayCapsule(495, "Memories of Bardock", offset=0x4DFD42)
 MEMORIES_UUB = GrayCapsule(496, "Memories of Uub", offset=0x4DFD43)
-MEMORIES_RADITZ = GrayCapsule(497, "Memories of Raditz", offset=0x4DFD45)
+MEMORIES_RADITZ = GrayCapsule(497, "Memories of Raditz", offset=0x4DFD44)
 MEMORIES_NAPPA = GrayCapsule(498, "Memories of Nappa", offset=0x4DFD45)
 MEMORIES_RECOOME = GrayCapsule(499, "Memories of Recoome", offset=0x4DFD46)
-MEMORIES_GINYU = GrayCapsule(500, "Memories of Captain Ginyu", offset=0x4DFD48)
+MEMORIES_GINYU = GrayCapsule(500, "Memories of Captain Ginyu", offset=0x4DFD47)
 MEMORIES_FRIEZA = GrayCapsule(501, "Memories of Frieza", offset=0x4DFD48)
 MEMORIES_DR_GERO = GrayCapsule(502, "Memories of Dr Gero", offset=0x4DFD49)
-MEMORIES_CELL = GrayCapsule(503, "Memories of Cell" ) # offset not provided
+MEMORIES_CELL = GrayCapsule(503, "Memories of Cell", offset=0x4DFD4A)
 MEMORIES_DABURA = GrayCapsule(504, "Memories of Dabura", offset=0x4DFD4B)
 MEMORIES_MAJIN_BUU = GrayCapsule(505, "Memories of Majin Buu", offset=0x4DFD4C)
 MEMORIES_SUPER_BUU = GrayCapsule(506, "Memories of Super Buu", offset=0x4DFD4D)
@@ -898,22 +901,22 @@ GRAY_CAPSULES = [
 ## todo: figure out Story Reenactment later
 
 # Custom items
-DRAGON_RADAR_GOKU = Capsule(520, "Dragon Radar - Goku")
-DRAGON_RADAR_KGOHAN = Capsule(521, "Dragon Radar - Kid Gohan")
-DRAGON_RADAR_TGOHAN = Capsule(522, "Dragon Radar - Teen Gohan")
-DRAGON_RADAR_GOHAN = Capsule(523, "Dragon Radar - Gohan")
-DRAGON_RADAR_PICCOLO = Capsule(524, "Dragon Radar - Piccolo")
-DRAGON_RADAR_KRILLIN = Capsule(525, "Dragon Radar - Krillin")
-DRAGON_RADAR_TIEN = Capsule(526, "Dragon Radar - Tien")
-DRAGON_RADAR_VEGETA = Capsule(527, "Dragon Radar - Vegeta")
-DRAGON_RADAR_YAMCHA = Capsule(528, "Dragon Radar - Yamcha")
-DRAGON_RADAR_UUB = Capsule(529, "Dragon Radar - Uub")
-DRAGON_RADAR_BROLY = Capsule(530, "Dragon Radar - Broly")
-ZENIE_2K = Capsule(542, "2500 Zenie")
-ZENIE_5K = Capsule(543, "5000 Zenie")
-ZENIE_10K= Capsule(544, "10000 Zenie")
-ZENIE_25K = Capsule(545, "25000 Zenie")
-ZENIE_100K = Capsule(546, "100000 Zenie")
+DRAGON_RADAR_GOKU = Capsule(520, "Dragon Radar - Goku", 0x0)
+DRAGON_RADAR_KGOHAN = Capsule(521, "Dragon Radar - Kid Gohan", 0x0)
+DRAGON_RADAR_TGOHAN = Capsule(522, "Dragon Radar - Teen Gohan", 0x0)
+DRAGON_RADAR_GOHAN = Capsule(523, "Dragon Radar - Gohan", 0x0)
+DRAGON_RADAR_PICCOLO = Capsule(524, "Dragon Radar - Piccolo", 0x0)
+DRAGON_RADAR_KRILLIN = Capsule(525, "Dragon Radar - Krillin", 0x0)
+DRAGON_RADAR_TIEN = Capsule(526, "Dragon Radar - Tien", 0x0)
+DRAGON_RADAR_VEGETA = Capsule(527, "Dragon Radar - Vegeta", 0x0)
+DRAGON_RADAR_YAMCHA = Capsule(528, "Dragon Radar - Yamcha", 0x0)
+DRAGON_RADAR_UUB = Capsule(529, "Dragon Radar - Uub", 0x0)
+DRAGON_RADAR_BROLY = Capsule(530, "Dragon Radar - Broly", 0x0)
+ZENIE_2K = Capsule(542, "2500 Zenie", 0x58F718)
+ZENIE_5K = Capsule(543, "5000 Zenie", 0x58F718)
+ZENIE_10K= Capsule(544, "10000 Zenie", 0x58F718)
+ZENIE_25K = Capsule(545, "25000 Zenie", 0x58F718)
+ZENIE_100K = Capsule(546, "100000 Zenie", 0x58F718)
 
 CUSTOM_ITEMS = [
     DRAGON_RADAR_GOKU, DRAGON_RADAR_KGOHAN, DRAGON_RADAR_TGOHAN, DRAGON_RADAR_GOHAN, DRAGON_RADAR_PICCOLO,
@@ -1063,4 +1066,4 @@ def from_id(code) -> Capsule:
     return ID_PAIRS[code]
 
 def get_max_copies(code):
-    ID_PAIRS[code].max_copies
+    return ID_PAIRS[code].max_copies

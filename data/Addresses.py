@@ -16,7 +16,9 @@ class Address(ABC):
     is_function: bool = False
     length: int
 
-    def __init__(self, start_offset, length = 0, name='', is_function=False, instructions: List[Instruction] = []):
+    def __init__(self, start_offset, length = 1, name='', is_function=False, instructions=None):
+        if instructions is None:
+            instructions = []
         self.start_offset = start_offset
         self.end_offset = start_offset + length 
         self.name = name

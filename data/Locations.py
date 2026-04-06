@@ -1,14 +1,23 @@
 from typing import NamedTuple, Optional, Callable, Dict
+import csv
 from ..Logic import *
-from .Addresses import Address
 
 
-class LocationData(NamedTuple):
+class LocationData:
     location_id: int
     name: str
     access_rule: Callable[[CollectionState, int], bool]
     is_shop: bool = False
-    address: Optional[Address] = None
+    address: Optional[int] = None
+    bit_flag_location: Optional[int] = None
+
+    def __init__(self, location_id: int, name: str, access_rule, is_shop: bool = False, address: Optional[int] = None, bit_flag_location: Optional[int] = None):
+        self.location_id = location_id
+        self.name = name
+        self.access_rule = access_rule
+        self.is_shop = is_shop
+        self.address = address
+        self.bit_flag_location = bit_flag_location
 
 
 # Dragon Universe Checks
@@ -849,21 +858,21 @@ TGOHAN_LOCS = [
 ]
 
 # Dragon Arena Checks
-GOKU_BREAK_IN = LocationData(600, "Dragon Arena: Defeat Break-In Challenger: Goku", has_dragon_arena)
-KRILLIN_BREAK_IN = LocationData(610, "Dragon Arena: Defeat Break-In Challenger: Krillin", has_dragon_arena)
-PICCOLO_BREAK_IN = LocationData(611, "Dragon Arena: Defeat Break-In Challenger: Piccolo", has_dragon_arena)
-YAMCHA_BREAK_IN = LocationData(613, "Dragon Arena: Defeat Break-In Challenger: Yamcha", has_dragon_arena)
-NAPPA_BREAK_IN = LocationData(619, "Dragon Arena: Defeat Break-In Challenger: Nappa", has_dragon_arena)
-FRIEZA_BREAK_IN = LocationData(622, "Dragon Arena: Defeat Break-In Challenger: Frieza", has_dragon_arena)
-DR_GERO_BREAK_IN = LocationData(626, "Dragon Arena: Defeat Break-In Challenger: Dr Gero", has_dragon_arena)
-CELL_BREAK_IN = LocationData(627, "Dragon Arena: Defeat Break-In Challenger: Cell", has_dragon_arena)
-MAJIN_BUU_BREAK_IN = LocationData(628, "Dragon Arena: Defeat Break-In Challenger: Majin Buu", has_dragon_arena)
-KID_BUU_BREAK_IN = LocationData(630, "Dragon Arena: Defeat Break-In Challenger: Kid Buu", has_dragon_arena)
-DABURA_BREAK_IN = LocationData(631, "Dragon Arena: Defeat Break-In Challenger: Dabura", has_dragon_arena)
-COOLER_BREAK_IN = LocationData(632, "Dragon Arena: Defeat Break-In Challenger: Cooler", has_dragon_arena)
-BROLY_BREAK_IN = LocationData(634, "Dragon Arena: Defeat Break-In Challenger: Broly", has_dragon_arena)
-OMEGA_BREAK_IN = LocationData(635, "Dragon Arena: Defeat Break-In Challenger: Omega", has_dragon_arena)
-SAIBAMEN_BREAK_IN = LocationData(636, "Dragon Arena: Defeat Break-In Challenger: Saibamen", has_dragon_arena)
+GOKU_BREAK_IN = LocationData(600, "Dragon Arena: Defeat Break-In Challenger: Goku", has_dragon_arena, address=0x4E0113, bit_flag_location=6)
+KRILLIN_BREAK_IN = LocationData(610, "Dragon Arena: Defeat Break-In Challenger: Krillin", has_dragon_arena, address=0x4E0112, bit_flag_location=2)
+PICCOLO_BREAK_IN = LocationData(611, "Dragon Arena: Defeat Break-In Challenger: Piccolo", has_dragon_arena, address=0x4E0113, bit_flag_location=0)
+YAMCHA_BREAK_IN = LocationData(613, "Dragon Arena: Defeat Break-In Challenger: Yamcha", has_dragon_arena, address=0x4E0112, bit_flag_location=0)
+NAPPA_BREAK_IN = LocationData(619, "Dragon Arena: Defeat Break-In Challenger: Nappa", has_dragon_arena, address=0x4E0112, bit_flag_location=1)
+FRIEZA_BREAK_IN = LocationData(622, "Dragon Arena: Defeat Break-In Challenger: Frieza", has_dragon_arena, address=0x4E0112, bit_flag_location=4)
+DR_GERO_BREAK_IN = LocationData(626, "Dragon Arena: Defeat Break-In Challenger: Dr Gero", has_dragon_arena, address=0x4E0112, bit_flag_location=3)
+CELL_BREAK_IN = LocationData(627, "Dragon Arena: Defeat Break-In Challenger: Cell", has_dragon_arena, address=0x4E0112, bit_flag_location=5)
+MAJIN_BUU_BREAK_IN = LocationData(628, "Dragon Arena: Defeat Break-In Challenger: Majin Buu", has_dragon_arena, address=0x4E0112, bit_flag_location=7)
+KID_BUU_BREAK_IN = LocationData(630, "Dragon Arena: Defeat Break-In Challenger: Kid Buu", has_dragon_arena, address=0x4E0113, bit_flag_location=2)
+DABURA_BREAK_IN = LocationData(631, "Dragon Arena: Defeat Break-In Challenger: Dabura", has_dragon_arena, address=0x4E0112, bit_flag_location=6)
+COOLER_BREAK_IN = LocationData(632, "Dragon Arena: Defeat Break-In Challenger: Cooler", has_dragon_arena, address=0x4E0113, bit_flag_location=1)
+BROLY_BREAK_IN = LocationData(634, "Dragon Arena: Defeat Break-In Challenger: Broly", has_dragon_arena, address=0x4E0113, bit_flag_location=3)
+OMEGA_BREAK_IN = LocationData(635, "Dragon Arena: Defeat Break-In Challenger: Omega", has_dragon_arena, address=0x4E0113, bit_flag_location=4)
+SAIBAMEN_BREAK_IN = LocationData(636, "Dragon Arena: Defeat Break-In Challenger: Saibamen", has_dragon_arena, address=0x4E0113, bit_flag_location=5)
 
 DA_BREAK_IN_LOCS = [
     GOKU_BREAK_IN, KRILLIN_BREAK_IN, PICCOLO_BREAK_IN, YAMCHA_BREAK_IN, NAPPA_BREAK_IN,
@@ -871,30 +880,47 @@ DA_BREAK_IN_LOCS = [
     DABURA_BREAK_IN, COOLER_BREAK_IN, BROLY_BREAK_IN, OMEGA_BREAK_IN, SAIBAMEN_BREAK_IN
 ]
 
-DA_TEN_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 10 Challengers", has_dragon_arena)
-DA_TWENTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 20 Challengers", has_dragon_arena)
-DA_THIRTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 30 Challengers", has_dragon_arena)
-DA_FOURTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 40 Challengers", has_dragon_arena)
-DA_FIFTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 50 Challengers", has_dragon_arena)
-DA_SIXTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 60 Challengers", has_dragon_arena)
-DA_SEVENTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 70 Challengers", has_dragon_arena)
-DA_EIGHTY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 80 Challengers", has_dragon_arena)
-DA_NINETY_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 90 Challengers", has_dragon_arena)
-DA_HUNDRED_CHALLENGERS = LocationData(999, "Dragon Arena: Defeat 100 Challengers", has_dragon_arena)
+DA_TEN_CHALLENGERS = LocationData(654, "Dragon Arena: Defeat 10 Challengers", has_dragon_arena)
+DA_TWENTY_CHALLENGERS = LocationData(655, "Dragon Arena: Defeat 20 Challengers", has_dragon_arena)
+DA_THIRTY_CHALLENGERS = LocationData(656, "Dragon Arena: Defeat 30 Challengers", has_dragon_arena)
+DA_FORTY_CHALLENGERS = LocationData(657, "Dragon Arena: Defeat 40 Challengers", has_dragon_arena)
+DA_FIFTY_CHALLENGERS = LocationData(658, "Dragon Arena: Defeat 50 Challengers", has_dragon_arena)
+DA_SIXTY_CHALLENGERS = LocationData(659, "Dragon Arena: Defeat 60 Challengers", has_dragon_arena)
+DA_SEVENTY_CHALLENGERS = LocationData(660, "Dragon Arena: Defeat 70 Challengers", has_dragon_arena)
+DA_EIGHTY_CHALLENGERS = LocationData(661, "Dragon Arena: Defeat 80 Challengers", has_dragon_arena)
+DA_NINETY_CHALLENGERS = LocationData(662, "Dragon Arena: Defeat 90 Challengers", has_dragon_arena)
+DA_HUNDRED_CHALLENGERS = LocationData(663, "Dragon Arena: Defeat 100 Challengers", has_dragon_arena)
+DA_HUNDREDTEN_CHALLENGERS = LocationData(664, "Dragon Arena: Defeat 110 Challengers", has_dragon_arena)
+DA_HUNDREDTWENTY_CHALLENGERS = LocationData(665, "Dragon Arena: Defeat 120 Challengers", has_dragon_arena)
 
 DA_CHALLENGER_LOCS = [
-    DA_TEN_CHALLENGERS, DA_TWENTY_CHALLENGERS, DA_THIRTY_CHALLENGERS, DA_FOURTY_CHALLENGERS,
+    DA_TEN_CHALLENGERS, DA_TWENTY_CHALLENGERS, DA_THIRTY_CHALLENGERS, DA_FORTY_CHALLENGERS,
     DA_FIFTY_CHALLENGERS, DA_SIXTY_CHALLENGERS, DA_SEVENTY_CHALLENGERS, 
-    DA_EIGHTY_CHALLENGERS, DA_NINETY_CHALLENGERS, DA_HUNDRED_CHALLENGERS
+    DA_EIGHTY_CHALLENGERS, DA_NINETY_CHALLENGERS, DA_HUNDRED_CHALLENGERS,
+    DA_HUNDREDTEN_CHALLENGERS, DA_HUNDREDTWENTY_CHALLENGERS
 ]
+
+CHALLENGERSANITY_BASE_LOCID = 1000
+challengersanity_locs = []
+with open('./data/tables/dragon_arena_challengers.csv') as challengersfile:
+    slotreader = csv.DictReader(challengersfile)
+    for row in slotreader:
+        level = int(row['Level'])
+        name = f'Dragon Arena: Defeat Level {level} {row['Character']}'
+        id = CHALLENGERSANITY_BASE_LOCID + int(row['Order'])
+        loc = LocationData(id, name, has_dragon_arena)
+        challengersanity_locs.append(loc)
+
+DA_CHALLENGERSANITY_LOCS = challengersanity_locs
 
 DRAGON_ARENA_LOCS = [
     *DA_BREAK_IN_LOCS,
-    *DA_CHALLENGER_LOCS
+    *DA_CHALLENGER_LOCS,
+    *DA_CHALLENGERSANITY_LOCS
 ]
 
 # Training Mode Checks
-TRAINING_1_COMPLETED = LocationData(638, "Training: Complete Training 1", has_training_1)
+TRAINING_1_COMPLETED = LocationData(638, "Training: Complete Training 1", has_training_1, )
 TRAINING_2_COMPLETED = LocationData(639, "Training: Complete Training 2", has_training_2)
 TRAINING_3_COMPLETED = LocationData(640, "Training: Complete Training 3", has_training_3)
 TRAINING_4_COMPLETED = LocationData(641, "Training: Complete Training 4", has_training_4)
@@ -926,8 +952,9 @@ WT_LOCS = [
 SHOP_ITEM_ID_BASE = 700
 shop_locs = []
 x = 0
-while x <= 99:
-    shop_locs.append(LocationData(SHOP_ITEM_ID_BASE + x, f"Shop Item {x}", lambda state, player: True))
+while x < 100:
+    shop_loc = LocationData(SHOP_ITEM_ID_BASE + x, f"Shop Item {x}", is_shop=True, access_rule=lambda state, player: True)
+    shop_locs.append(shop_loc)
     x += 1
 SHOP_LOCS = shop_locs
 
@@ -968,3 +995,5 @@ def location_id_to_name(id: int) -> str:
 
 def get_all_active_locations():
     return LOC_ID_PAIRS.keys()
+
+print(len(location_name_pairs().keys()))

@@ -1,4 +1,3 @@
-import os
 import typing
 from typing import Any, Dict, Mapping, Optional, List, TYPE_CHECKING, Set
 
@@ -7,10 +6,10 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess, icon_paths
 
 from BaseClasses import MultiWorld, Tutorial, Region, Location, ItemClassification, Item
-from . import ItemPool, LocationPool, Logic
+from . import ItemPool, Logic
 from .Budokai3Options import Budokai3Options
-from .LocationPool import LOCATION_GROUPS
-from .Regions import regions, RegionName
+from .LocationPool import get_active_location_groups
+from .Regions import create_regions, RegionName
 # from .Container import Budokai3ProcedurePatch, generate_patch
 from .data import Items, Locations
 from .data.Items import item_name_groups, Capsule
@@ -107,6 +106,7 @@ class Budokai3World(World):
     def create_regions(self) -> None:
         player = self.player
         name_to_region = {}
+        regions = create_regions(self.slot_data)
         for region_info in regions:
             try:
                 region = self.multiworld.get_region(region_info.name, player)
@@ -119,7 +119,7 @@ class Budokai3World(World):
                 try:
                     region.locations.append(loc)
                 except AttributeError:
-                    print(f'Region {region.name} errored; it has the following locations {region.locations}')
+                    print(f'[Budokai 3]: Region {region.name} errored; it has the following locations {region.locations}')
                     return
             try:
                 self.multiworld.regions.append(region)
@@ -147,10 +147,6 @@ class Budokai3World(World):
     def create_items(self) -> None:
         items_to_add: List[Capsule] = []
         items_to_add += ItemPool.create_required_items(self.slot_data)
-        # items_to_add += ItemPool.create_grays(False)
-        # items_to_add += ItemPool.create_greens()
-        # items_to_add += ItemPool.create_yellows()
-        # items_to_add += ItemPool.create_reds(False)
 
         unfilled_locs = [item for item in self.multiworld.get_unfilled_locations(self.player) if not item.is_event]
         remaining = len(unfilled_locs) - len(items_to_add)
@@ -162,7 +158,7 @@ class Budokai3World(World):
             item = Capsule(531, self.get_filler_item_name())
             items_to_add.append(item)
 
-        self.multiworld.itempool = items_to_add
+        self.multiworld.itempool += items_to_add
 
 
     def set_rules(self) -> None:
@@ -186,11 +182,14 @@ class Budokai3World(World):
             "start_with_story_characters",
             "require_super_attacks",
             "super_attack_starters",
+            "red_capsule_copies",
             "progressive_characters",
             "randomize_dragon_radar",
+            "require_dragon_radar",
             "randomize_dragon_balls",
             "randomize_money_spots",
             "shop_rando",
+            "challengersanity",
             "attack_rando",
             "inspiration",
             "pandemic",
@@ -220,21 +219,17 @@ class Budokai3World(World):
     def handle_option_issues(self):
         opts = self.options
         if bool(opts.completionist.value) and bool(opts.minimalist.value):
-            raise OptionError("Budokai 3: Minimalist and Completionist are opposites. You cannot combine these.")
+            raise OptionError("[Budokai 3]: Minimalist and Completionist are opposites. You cannot combine these.")
         if not opts.choose_du_characters.value:
-            raise OptionError("Budokai 3: Choosing 0 DU characters results in too few locations to generate. Please choose at least 1 character.")
+            raise OptionError("[Budokai 3]: Choosing 0 DU characters results in too few locations to generate. Please choose at least 1 character.")
         if self.multiworld.players == 1 and len(opts.non_local_items.value) > 0:
-            raise OptionError("Budokai 3: Non-local items cannot be placed in a single-player multiworld.")
+            raise OptionError("[Budokai 3]: Non-local items cannot be placed in a single-player multiworld.")
 
 
     def get_active_locations(self) -> dict[str, Set[str]]:
-        options_as_dict = self.slot_data
-        active_groups = [group for group in LOCATION_GROUPS if group.enable_if(options_as_dict)]
-        grdict = dict()
-        for group in active_groups:
-            grdict[group.name] = None
-            grset = set()
-            for location in group.locations:
-                grset.add(location.name)
-            grdict[group.name] = grset
-        return grdict
+        groups = get_active_location_groups(self.slot_data)
+        groups = list(filter(lambda g: g is not None, groups))
+        data = dict()
+        for group in groups:
+            data[group.name] = set(group.locations)
+        return data

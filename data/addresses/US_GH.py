@@ -3,6 +3,7 @@ from ..Addresses import RAMAddress, Function, ROMAddress, Address
 VERSION = "SLUS-20998GH"
 
 CURRENT_SCREEN = RAMAddress(0x46a5b0, 2, "Current Screen")
+CURRENT_ZENIE = RAMAddress(0x495568, 4)
 DU_GOKU_X_COORD = RAMAddress(0x49d260, 4) # read as float
 DU_GOKU_Y_COORD = RAMAddress(0x49d268, 4) # read as float
 DU_GOKU_SAGA = RAMAddress(0x49d27c, 1, "DU: Goku's Saga")

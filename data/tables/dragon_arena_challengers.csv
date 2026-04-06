@@ -1,0 +1,379 @@
+Order,Character,Level
+0,Goku,1
+1,Kid Goku,1
+2,Kid Gohan,1
+3,Teen Gohan,1
+4,Gohan,1
+5,Gt Saiyaman,1
+6,Goten,1
+7,Vegeta,1
+8,Trunks,1
+9,Kid Trunks,1
+10,Krillin,1
+11,Piccolo,1
+12,Tien,1
+13,Yamcha,1
+14,Hercule,1
+15,Videl,1
+16,Supreme Kai,1
+17,Uub,1
+18,Raditz,1
+19,Nappa,1
+20,Capt Ginyu,1
+21,Recoome,1
+22,Frieza,1
+23,Android 16,1
+24,Android 17,1
+25,Android 18,1
+26,Dr Gero,1
+27,Cell,1
+28,Majin Buu,1
+29,Super Buu,1
+30,Kid Buu,1
+31,Dabura,1
+32,Cooler,1
+33,Bardock,1
+34,Broly,1
+35,Omega Shenron,1
+36,Saibamen,1
+37,Cell Jr,1
+38,Goten,2
+39,Kid Trunks,2
+40,Kid Gohan,2
+41,Krillin,2
+42,Kid Goku,3
+43,Yamcha,3
+44,Saibamen,3
+45,Hercule,3
+46,Nappa,4
+47,Trunks,4
+48,Gt Saiyaman,4
+49,Android 16,4
+50,Tien,5
+51,Teen Gohan,5
+52,Majin Buu,5
+53,Dabura,5
+54,Cell Jr,6
+55,Bardock,6
+56,Supreme Kai,6
+57,Raditz,7
+58,Recoome,7
+59,Gohan,7
+60,Videl,8
+61,Dr Gero,8
+62,Super Buu,8
+63,Cooler,9
+64,Capt Ginyu,9
+65,Android 17,9
+66,Android 18,9
+67,Cell,10
+68,Uub,10
+69,Frieza,10
+70,Kid Buu,11
+71,Omega Shenron,11
+72,Broly,11
+73,Goku,12
+74,Piccolo,12
+75,Vegeta,12
+76,Goten,13
+77,Kid Trunks,13
+78,Kid Gohan,13
+79,Krillin,14
+80,Kid Goku,14
+81,Yamcha,14
+82,Saibamen,15
+83,Hercule,15
+84,Nappa,15
+85,Trunks,16
+86,Gt Saiyaman,16
+87,Android 16,16
+88,Tien,17
+89,Teen Gohan,17
+90,Majin Buu,17
+91,Dabura,18
+92,Cell Jr,18
+93,Bardock,18
+94,Supreme Kai,19
+95,Raditz,19
+96,Recoome,19
+97,Gohan,20
+98,Videl,20
+99,Dr Gero,20
+100,Super Buu,20
+101,Cooler,21
+102,Capt Ginyu,21
+103,Android 17,21
+104,Android 18,22
+105,Cell,22
+106,Uub,22
+107,Frieza,23
+108,Kid Buu,23
+109,Omega Shenron,23
+110,Broly,24
+111,Piccolo,24
+112,Vegeta,24
+113,Goten,25
+114,Kid Trunks,25
+115,Kid Gohan,26
+116,Krillin,26
+117,Kid Goku,26
+118,Yamcha,27
+119,Saibamen,27
+120,Hercule,27
+121,Nappa,28
+122,Trunks,28
+123,Gt Saiyaman,28
+124,Android 16,29
+125,Tien,29
+126,Teen Gohan,29
+127,Majin Buu,30
+128,Dabura,30
+129,Cell Jr,30
+130,Bardock,30
+131,Supreme Kai,31
+132,Raditz,31
+133,Recoome,31
+134,Gohan,32
+135,Videl,32
+136,Dr Gero,32
+137,Super Buu,33
+138,Cooler,33
+139,Capt Ginyu,33
+140,Android 17,34
+141,Android 18,34
+142,Cell,34
+143,Uub,35
+144,Frieza,35
+145,Kid Buu,35
+146,Omega Shenron,36
+147,Broly,36
+148,Goku,36
+149,Piccolo,37
+150,Vegeta,37
+151,Goten,37
+152,Kid Trunks,38
+153,Kid Gohan,38
+154,Krillin,38
+155,Kid Goku,39
+156,Yamcha,39
+157,Saibamen,39
+158,Hercule,40
+159,Nappa,40
+160,Trunks,40
+161,Gt Saiyaman,40
+162,Android 16,41
+163,Tien,41
+164,Teen Gohan,41
+165,Majin Buu,42
+166,Dabura,42
+167,Cell Jr,42
+168,Bardock,43
+169,Supreme Kai,43
+170,Raditz,43
+171,Recoome,44
+172,Gohan,44
+173,Videl,44
+174,Dr Gero,45
+175,Super Buu,45
+176,Cooler,45
+177,Capt Ginyu,46
+178,Android 17,46
+179,Android 18,46
+180,Cell,47
+181,Uub,47
+182,Frieza,47
+183,Kid Buu,48
+184,Omega Shenron,48
+185,Broly,48
+186,Goku,49
+187,Piccolo,49
+188,Vegeta,49
+189,Goten,50
+190,Kid Trunks,50
+191,Kid Gohan,50
+192,Krillin,50
+193,Kid Goku,51
+194,Yamcha,51
+195,Saibamen,51
+196,Hercule,52
+197,Nappa,52
+198,Trunks,52
+199,Gt Saiyaman,53
+200,Android 16,53
+201,Tien,53
+202,Teen Gohan,54
+203,Majin Buu,54
+204,Dabura,54
+205,Cell Jr,55
+206,Bardock,55
+207,Supreme Kai,55
+208,Raditz,56
+209,Recoome,56
+210,Gohan,56
+211,Videl,57
+212,Dr Gero,57
+213,Super Buu,57
+214,Cooler,58
+215,Capt Ginyu,58
+216,Android 17,58
+217,Android 18,59
+218,Cell,59
+219,Uub,59
+220,Frieza,60
+221,Kid Buu,60
+222,Omega Shenron,60
+223,Broly,60
+224,Goku,61
+225,Piccolo,61
+226,Vegeta,61
+227,Goten,62
+228,Kid Trunks,62
+229,Kid Gohan,62
+230,Krillin,63
+231,Kid Goku,63
+232,Yamcha,63
+233,Saibamen,64
+234,Hercule,64
+235,Nappa,64
+236,Trunks,65
+237,Gt Saiyaman,65
+238,Android 16,65
+239,Tien,66
+240,Teen Gohan,66
+241,Majin Buu,66
+242,Dabura,67
+243,Cell Jr,67
+244,Bardock,67
+245,Supreme Kai,68
+246,Raditz,68
+247,Recoome,68
+248,Gohan,69
+249,Videl,69
+250,Dr Gero,69
+251,Super Buu,70
+252,Cooler,70
+253,Capt Ginyu,70
+254,Android 17,70
+255,Android 18,71
+256,Cell,71
+257,Uub,71
+258,Frieza,72
+259,Kid Buu,72
+260,Omega Shenron,72
+261,Broly,73
+262,Goku,73
+263,Piccolo,73
+264,Vegeta,74
+265,Goten,74
+266,Kid Trunks,74
+267,Kid Gohan,75
+268,Krillin,75
+269,Kid Goku,75
+270,Yamcha,76
+271,Saibamen,76
+272,Hercule,76
+273,Nappa,77
+274,Trunks,77
+275,Gt Saiyaman,77
+276,Android 16,78
+277,Tien,78
+278,Teen Gohan,78
+279,Majin Buu,79
+280,Dabura,79
+281,Cell Jr,79
+282,Bardock,80
+283,Supreme Kai,80
+284,Raditz,80
+285,Recoome,80
+286,Gohan,81
+287,Videl,81
+288,Dr Gero,81
+289,Super Buu,82
+290,Cooler,82
+291,Capt Ginyu,82
+292,Android 17,83
+293,Android 18,83
+294,Cell,83
+295,Uub,84
+296,Frieza,84
+297,Kid Buu,84
+298,Omega Shenron,85
+299,Broly,85
+300,Goku,85
+301,Piccolo,86
+302,Vegeta,86
+303,Goten,86
+304,Kid Trunks,87
+305,Kid Gohan,87
+306,Krillin,87
+307,Kid Goku,88
+308,Yamcha,88
+309,Saibamen,88
+310,Hercule,89
+311,Nappa,89
+312,Trunks,89
+313,Gt Saiyaman,90
+314,Android 16,90
+315,Tien,90
+316,Teen Gohan,90
+317,Majin Buu,91
+318,Dabura,91
+319,Cell Jr,91
+320,Bardock,92
+321,Supreme Kai,92
+322,Raditz,92
+323,Recoome,93
+324,Gohan,93
+325,Videl,93
+326,Dr Gero,94
+327,Super Buu,94
+328,Cooler,94
+329,Capt Ginyu,95
+330,Android 17,95
+331,Android 18,95
+332,Cell,96
+333,Uub,96
+334,Frieza,96
+335,Kid Buu,97
+336,Omega Shenron,97
+337,Broly,97
+338,Goku,98
+339,Piccolo,98
+340,Vegeta,98
+341,Goku,99
+342,Kid Goku,99
+343,Kid Gohan,99
+344,Gohan,99
+345,Goten,99
+346,Gt Saiyaman,99
+347,Vegeta,99
+348,Trunks,99
+349,Kid Trunks,99
+350,Krillin,99
+351,Piccolo,99
+352,Tien,99
+353,Yamcha,99
+354,Hercule,99
+355,Videl,99
+356,Supreme Kai,99
+357,Uub,99
+358,Raditz,99
+359,Nappa,99
+360,Capt Ginyu,99
+361,Recoome,99
+362,Frieza,99
+363,Android 16,99
+364,Android 17,99
+365,Android 18,99
+366,Dr Gero,99
+367,Cell,99
+368,Majin Buu,99
+369,Super Buu,99
+370,Kid Buu,99
+371,Dabura,99
+372,Cooler,99
+373,Bardock,99
+374,Broly,99
+375,Omega Shenron,99
+376,Saibamen,99
+377,Cell Jr,99

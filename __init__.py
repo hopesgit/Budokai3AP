@@ -99,8 +99,8 @@ class Budokai3World(World):
         return Items.get_name_pairs()[name]
 
 
-    def get_filler_item_name(self) -> str:
-        return Items.ZENIE_5K.name
+    def get_filler_item(self) -> Capsule:
+        return Items.ZENIE_5K
 
 
     def create_regions(self) -> None:
@@ -140,22 +140,24 @@ class Budokai3World(World):
                     entrance.access_rule = lambda state: True
 
 
-    def create_event(self, name: str) -> "Item":
-        return Item(name, ItemClassification.progression, None, self.player)
+    def create_event(self, name: str) -> Item:
+        item = Item(name, ItemClassification.progression, None, self.player)
+        return item
 
 
     def create_items(self) -> None:
         items_to_add: List[Capsule] = []
         items_to_add += ItemPool.create_required_items(self.slot_data)
+        self.multiworld.itempool += items_to_add
 
-        unfilled_locs = [item for item in self.multiworld.get_unfilled_locations(self.player) if not item.is_event]
+        unfilled_locs = self.multiworld.get_unfilled_locations(self.player)
         remaining = len(unfilled_locs) - len(items_to_add)
-        if remaining == 0: return
+        if remaining <= 0: return
 
         items_to_add.clear()
         print(f"[Budokai 3]: Trying to fill {remaining} remaining locations...")
         for _ in range(remaining):
-            item = Capsule(531, self.get_filler_item_name())
+            item = self.get_filler_item()
             items_to_add.append(item)
 
         self.multiworld.itempool += items_to_add
@@ -163,6 +165,7 @@ class Budokai3World(World):
 
     def set_rules(self) -> None:
         congrats = self.multiworld.get_location(Locations.MENU_CAPSULE_1.name, self.player)
+        congrats.address = None
         congrats.place_locked_item(self.create_event("Victory"))
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
     
@@ -213,7 +216,29 @@ class Budokai3World(World):
         self.handle_option_issues()
         self.slot_data = self.fill_slot_data()
         self.location_name_groups = self.get_active_locations()
-        # self.create_regions()
+        self.start_with_vanilla_starting_items()
+
+
+    def start_with_vanilla_starting_items(self):
+        items = Items.get_name_pairs()
+        self.multiworld.push_precollected(items["Goku"])
+        self.multiworld.push_precollected(items["Piccolo"])
+        self.multiworld.push_precollected(items["Kid Gohan"])
+        self.multiworld.push_precollected(items["Krillin"])
+        self.multiworld.push_precollected(items["Tien"])
+        self.multiworld.push_precollected(items["Yamcha"])
+        self.multiworld.push_precollected(items["Raditz"])
+        self.multiworld.push_precollected(items["Nappa"])
+        self.multiworld.push_precollected(items["Archipelago"])
+        self.multiworld.push_precollected(items["Mountains"])
+        self.multiworld.push_precollected(items["Plains"])
+        self.multiworld.push_precollected(items["Hyperbolic Time Chamber"])
+        self.multiworld.push_precollected(items["World Tournament Stage"])
+        self.multiworld.push_precollected(items["Training 1 Scouter"])
+        self.multiworld.push_precollected(items["World Tournament - Novice"])
+        self.multiworld.push_precollected(items["Green Membership Card"])
+        # todo: remove this after 0.1.0
+        self.multiworld.push_precollected(items["Dragon Arena Ticket"])
 
 
     def handle_option_issues(self):

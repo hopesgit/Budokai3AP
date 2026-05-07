@@ -18,6 +18,7 @@ class Completionist(Toggle):
     """
     default = False
     display_name = "Completionist"
+    visibility = False
 
 
 class Minimalist(Toggle):
@@ -29,6 +30,7 @@ class Minimalist(Toggle):
     """
     default = False
     display_name = "Minimalist"
+    visibility = False
 
 
 class ChooseDUCharacters(OptionList):
@@ -40,6 +42,7 @@ class ChooseDUCharacters(OptionList):
     display_name = "Choose DU Characters"
     default = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
     valid_keys = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
+    visibility = False
 
 
 class StartWithStoryCharacters(Toggle):
@@ -50,6 +53,7 @@ class StartWithStoryCharacters(Toggle):
     """
     default = False
     display_name = "Start with Story Characters"
+    visibility = False
 
 
 class RequireSuperAttacks(Choice):
@@ -80,6 +84,7 @@ class RequireSuperAttacks(Choice):
     #     - **Expand** - Same as random, but include Ultimate and Dragon Rush moves.
     # I want to add the above option but it's not worth doing before reaching v0.1
     display_name = "Require Super Attacks"
+    visibility = False
 
 
 class SuperAttackStarters(OptionList):
@@ -89,6 +94,7 @@ class SuperAttackStarters(OptionList):
     display_name = "Super Attack Starters"
     valid_keys = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
     default = ["Goku", "Kid Gohan", "Teen Gohan", "Gohan", "Krillin", "Piccolo", "Vegeta", "Tien", "Yamcha", "Uub", "Broly"]
+    visibility = False
 
 
 class ProgressiveCharacters(Choice):
@@ -131,6 +137,7 @@ class ProgressiveCharacters(Choice):
     option_prog_transforms = 3
     rich_text_doc = True
     display_name = "Progressive Characters"
+    visibility = False
 
 
 class RedCapsuleCopies(NamedRange):
@@ -143,7 +150,7 @@ class RedCapsuleCopies(NamedRange):
     default = 1
     range_start = 1
     range_end = 9
-
+    visibility = False
 
 
 class RandomizeDragonRadar(Choice):
@@ -160,6 +167,7 @@ class RandomizeDragonRadar(Choice):
     option_off = 0
     option_on = 1
     option_start = 2
+    visibility = False
 
 
 class RequireDragonRadar(Toggle):
@@ -167,6 +175,7 @@ class RequireDragonRadar(Toggle):
     Require a character's Dragon Radar to be considered able to find Dragon Balls in the logic. Ignored if "Randomize Dragon Radar" is off.
     """
     default = True
+    visibility = False
 
 
 class RandomizeDragonBalls(Toggle):
@@ -178,6 +187,7 @@ class RandomizeDragonBalls(Toggle):
     """
     display_name = "Randomize Dragon Balls"
     default = False
+    visibility = False
 
 
 class RandomizeMoneySpots(Toggle):
@@ -188,6 +198,7 @@ class RandomizeMoneySpots(Toggle):
     """
     display_name = "Randomize Money Spots"
     default = False
+    visibility = False
 
 
 class AttackRando(Toggle):
@@ -198,6 +209,7 @@ class AttackRando(Toggle):
     """
     display_name = "Attack Randomizer"
     default = False
+    visibility = False
 
 
 class ShopRando(Toggle):
@@ -208,6 +220,7 @@ class ShopRando(Toggle):
     """
     default = False
     display_name = "Shop Randomizer"
+    visibility = False
 
 
 class Challengersanity(Toggle):
@@ -221,6 +234,7 @@ class Challengersanity(Toggle):
     """
     default=False
     display_name = "Challengersanity"
+    visibility = False
 
 
 class Inspiration(Toggle):
@@ -231,6 +245,7 @@ class Inspiration(Toggle):
     """
     default = False
     display_name = "Inspiration"
+    visibility = False
 
 
 class Pandemic(Toggle):
@@ -245,6 +260,7 @@ class Pandemic(Toggle):
     """
     default = False
     display_name = "Pandemic"
+    visibility = False
 
 
 class ColorblindModeRed(Choice):
@@ -266,6 +282,7 @@ class ColorblindModeRed(Choice):
     option_orange = 3
     option_pink = 4
     option_brown = 5
+    visibility = False
     
 
 class ColorblindModeGreen(Choice):
@@ -288,6 +305,7 @@ class ColorblindModeGreen(Choice):
     option_orange = 3
     option_pink = 4
     option_brown = 5
+    visibility = False
 
 
 class ColorblindModeBlue(Choice):
@@ -309,6 +327,7 @@ class ColorblindModeBlue(Choice):
     option_orange = 3
     option_pink = 4
     option_brown = 5
+    visibility = False
 
 
 @dataclass

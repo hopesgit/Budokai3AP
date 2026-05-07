@@ -22,6 +22,7 @@ try:
     tracker_loaded = True
 except ImportError:
     from CommonClient import ClientCommandProcessor, CommonContext
+    UT_VERSION = None
 # except SyntaxError:
 #     from CommonClient import ClientCommandProcessor, CommonContext
 
@@ -61,7 +62,7 @@ class Budokai3CommandProcessor(ClientCommandProcessor):
             logger.info("Item couldn't be found. You may have provided a bad name.")
             return
         if offset == 0x0:
-            logger.info("The item was found, but it doesn't have a listed memory location.")
+            logger.info("Failed: The item exists, but it doesn't have a listed memory location.")
             return
         if isinstance(self.ctx, Budokai3Context):
             logger.debug(f"Writing to {hex(offset)}...")
@@ -144,18 +145,21 @@ class Budokai3Context(CommonContext):
         logger.info("Deathlink received. Awaiting battle...")
 
     def check_bitflag_loc(self, location, bit):
-        val = self.game_interface.pcsx2_interface.read_bytes(location, 1)
-        logger.info(f'Checking bitflag {location}: value is {val}')
+        val = int(self.game_interface.pcsx2_interface.read_bytes(location, 1))
+        if val == 0: return False
+        bytestring = bin(val).lstrip("0b")
+        try: check = bytestring[bit]
+        except IndexError: return False
+        else: return check == 1
 
-
-
-def on_package(self, cmd: str, args: dict):
-    if cmd == 'Connected':
-        self.slot_data = args["slot_data"]
-        if "death_link" in args["slot_data"]:
-            deathlink = args["slot_data"]["death_link"]
-            self.deathlink_enabled = deathlink
-            Utils.async_start(self.update_death_link(deathlink))
+    def on_package(self, cmd: str, args: dict):
+        if cmd == 'Connected':
+            self.slot_data = args["slot_data"]
+            if "death_link" in args["slot_data"]:
+                deathlink = args["slot_data"]["death_link"]
+                if tracker_loaded: self.tags.add('Tracker')
+                self.deathlink_enabled = deathlink
+                Utils.async_start(self.update_death_link(deathlink))
     
 def update_connection_status(ctx: Budokai3Context, status: bool):
     if ctx.is_connected == status:
@@ -292,8 +296,8 @@ async def _handle_game_ready(ctx: Budokai3Context):
 
 async def handle_check_goal_complete(ctx: Budokai3Context):
     from NetUtils import NetworkItem
-    item = NetworkItem(0, 0, ctx.slot_data["player"])
-    return ctx.items_received.count(item) == 1
+    vict = NetworkItem(0, 0, ctx.slot_data.get("player"))
+    return ctx.items_received.count(vict) == 1
 
 
 async def _handle_game_not_ready(ctx: Budokai3Context):
@@ -309,6 +313,7 @@ def init(ctx: 'Budokai3Context'):
     Game fixes go here.
     """
     pass
+
 
 def update(ctx: 'Budokai3Context', ap_connected: bool):
     button_input = ctx.game_interface.pcsx2_interface.read_int8(ctx.addresses.controller_shoulder_buttons().start_offset)

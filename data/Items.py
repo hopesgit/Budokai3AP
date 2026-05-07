@@ -11,15 +11,17 @@ from BaseClasses import Item, ItemClassification
 class Capsule(Item):
     offset: int
     capsule_color: int
-    max_copies: int = 9
+    max_copies: int
     internal_id: int
 
     def __init__(self, id: int, name: str, offset: int = 0x0, internal_id: int = 0x0,
-                 classification = ItemClassification.filler, max_copies = 9):
+                 classification = ItemClassification.filler, max_copies = 1):
         super().__init__(name=name, code = id, classification = classification, player=1)
         self.offset = offset
         self.internal_id = internal_id
-        self.max_copies = max_copies
+        self.max_copies = 1
+        if type(self) == RedCapsule: self.max_copies = 9
+        if type(self) == Capsule and max_copies > 1: self.max_copies = max_copies
 
 class RedCapsule(Capsule):
     capsule_color = 1
@@ -31,7 +33,6 @@ class YellowCapsule(Capsule):
     capsule_color = 3
 
 class GrayCapsule(Capsule):
-    max_copies = 1
     capsule_color = 4
 
 # Ability Capsules (Red)

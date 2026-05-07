@@ -177,14 +177,16 @@ class Budokai3Interface:
     def increment_money(self, item):
         name: str = item.name.rsplit(' Zenie', 1)[0]
         amount: int = int(name)
-        current_zenie = self.pcsx2_interface.read_int32(0x58F718)
-        max = 0xFFFF
+        current_zenie = self.pcsx2_interface.read_int32(self.addresses.child.LIVE_ZENIE.start_offset)
+        max = 0xFFFFFFFF
+        if current_zenie == max:
+            self.logger.info(f"Zenie amount is maxed out. ")
         if current_zenie + amount > max:
             new_amount = max
         else:
             new_amount = current_zenie + amount
         self.logger.info(f"Adding {new_amount} Zenie.")
-        self.pcsx2_interface.write_int32(0x58F718, new_amount)
+        self.pcsx2_interface.write_int32(self.addresses.child.LIVE_ZENIE.start_offset, new_amount)
 
     def get_screen(self) -> int:
         return self.pcsx2_interface.read_int16(self.addresses.current_screen().start_offset)
@@ -203,6 +205,32 @@ class Budokai3Interface:
 
     def return_to_main_menu(self, save: bool = False):
         pass
+
+    def count_inventory_item(self, item: Items.Capsule) -> int:
+        # if isinstance(item, Items.RedCapsule or Items.GreenCapsule or Items.YellowCapsule or Items.GrayCapsule):
+        return int(self.pcsx2_interface.read_int8(item.offset))
+
+
+    def read_gokus_xpos(self) -> float:
+        val = self.pcsx2_interface.read_float(self.addresses.child.DU_GOKU_X_COORD.start_offset)
+        print(f'GOKUS XPOS IS {val}')
+        return val
+    
+    def read_gokus_ypos(self) -> float:
+        val = self.pcsx2_interface.read_float(self.addresses.child.DU_GOKU_Y_COORD.start_offset)
+        print(f'GOKUS YPOS: {val}')
+        return val
+        
+
+    def get_current_inventory(self) -> dict[str, int]:
+        # this is broken
+        self.logger.info('in get_current_inventory')
+        inventory: dict[str, int] = {}
+        for item in Items.ALL_ITEMS:
+            inventory[item.name] = self.count_inventory_item(item)
+        self.logger.info(f'Inventory is {inventory}')
+        return inventory
+
 
     def connect_to_game(self):
         """Initializes the connection to PCSX2 and verifies it is connected to Budokai 3"""
@@ -243,6 +271,23 @@ class Budokai3Interface:
                 return True
         except RuntimeError:
             return False
+
+    def activate_location(self, address, bit_flag_location):
+        if not address: return
+        value: int = 1
+        # if it's not a bitflag address, don't worry about checking the value
+        if bit_flag_location:
+            # read contents at address
+            curval: int = self.pcsx2_interface.read_int32(address)
+            # convert to binary string, cut off preceding '0b'
+            bytestring: str = bin(curval).lstrip("0b")
+            bitval: int = int(bytestring[bit_flag_location]) # this should be 0 or 1
+            if bitval == 0:
+                bytestring[bit_flag_location] = '1' # convert the 0 in that spot to a 1
+            value = int(bytestring) # then int-cast it and save the new value
+            # then insert the new value
+            # otherwise it should just be 1
+        self.pcsx2_interface.write_int8(address, value)
 
     def read_instruction(self, address: int) -> int:
         return self.pcsx2_interface.read_int32(address)

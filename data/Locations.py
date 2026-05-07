@@ -908,7 +908,7 @@ with open('./data/tables/dragon_arena_challengers.csv') as challengersfile:
         level = int(row['Level'])
         name = f'Dragon Arena: Defeat Level {level} {row['Character']}'
         id = CHALLENGERSANITY_BASE_LOCID + int(row['Order'])
-        loc = LocationData(id, name, has_dragon_arena)
+        loc = LocationData(id, name, has_dragon_arena, address=0x4DFF96 + int(row['Order']))
         challengersanity_locs.append(loc)
 
 DA_CHALLENGERSANITY_LOCS = challengersanity_locs
@@ -920,7 +920,7 @@ DRAGON_ARENA_LOCS = [
 ]
 
 # Training Mode Checks
-TRAINING_1_COMPLETED = LocationData(638, "Training: Complete Training 1", has_training_1, )
+TRAINING_1_COMPLETED = LocationData(638, "Training: Complete Training 1", has_training_1)
 TRAINING_2_COMPLETED = LocationData(639, "Training: Complete Training 2", has_training_2)
 TRAINING_3_COMPLETED = LocationData(640, "Training: Complete Training 3", has_training_3)
 TRAINING_4_COMPLETED = LocationData(641, "Training: Complete Training 4", has_training_4)
@@ -995,5 +995,3 @@ def location_id_to_name(id: int) -> str:
 
 def get_all_active_locations():
     return LOC_ID_PAIRS.keys()
-
-print(len(location_name_pairs().keys()))

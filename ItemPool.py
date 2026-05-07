@@ -56,34 +56,40 @@ def create_required_items(slot_data) -> List[Capsule]:
     prog_chars = int(slot_data['progressive_characters'])
 
     items = [Items.DRAGON_ARENA, *Items.TRAINING, Items.TOURNEY_NOVICE, Items.TOURNEY_ADEPT, Items.TOURNEY_ADV,
-             Items.TOURNEY_CELL, Items.GOKUS_WISH, Items.PATH_POWER, Items.ENDLESS_PATH]
+             Items.TOURNEY_CELL, *Items.DIFFICULTIES]
 
     if prog_chars == 0:
-        goku = Items.GOKU.code
-        kid_gohan = Items.KID_GOHAN.code
-        teen_gohan = Items.TEEN_GOHAN.code
-        gohan = Items.GOHAN.code
-        vegeta = Items.VEGETA.code
-        krillin = Items.KRILLIN.code
-        piccolo = Items.PICCOLO.code
-        tien = Items.TIEN.code
-        yamcha = Items.YAMCHA.code
-        uub = Items.UUB.code
-        broly = Items.BROLY.code
+        goku = Items.GOKU
+        kid_gohan = Items.KID_GOHAN
+        teen_gohan = Items.TEEN_GOHAN
+        gohan = Items.GOHAN
+        vegeta = Items.VEGETA
+        krillin = Items.KRILLIN
+        piccolo = Items.PICCOLO
+        tien = Items.TIEN
+        yamcha = Items.YAMCHA
+        uub = Items.UUB
+        broly = Items.BROLY
     else:
-        goku = Items.PROGRESSIVE_GOKU.code
-        kid_gohan = Items.PROGRESSIVE_KID_GOHAN.code
-        teen_gohan = Items.PROGRESSIVE_TEEN_GOHAN.code
-        gohan = Items.PROGRESSIVE_GOHAN.code
-        vegeta = Items.PROGRESSIVE_VEGETA.code
-        krillin = Items.PROGRESSIVE_KRILLIN.code
-        piccolo = Items.PROGRESSIVE_PICCOLO.code
-        tien = Items.PROGRESSIVE_TIEN.code
-        yamcha = Items.PROGRESSIVE_YAMCHA.code
-        uub = Items.PROGRESSIVE_UUB.code
-        broly = Items.PROGRESSIVE_BROLY.code
+        goku = Items.PROGRESSIVE_GOKU
+        kid_gohan = Items.PROGRESSIVE_KID_GOHAN
+        teen_gohan = Items.PROGRESSIVE_TEEN_GOHAN
+        gohan = Items.PROGRESSIVE_GOHAN
+        vegeta = Items.PROGRESSIVE_VEGETA
+        krillin = Items.PROGRESSIVE_KRILLIN
+        piccolo = Items.PROGRESSIVE_PICCOLO
+        tien = Items.PROGRESSIVE_TIEN
+        yamcha = Items.PROGRESSIVE_YAMCHA
+        uub = Items.PROGRESSIVE_UUB
+        broly = Items.PROGRESSIVE_BROLY
     chars = [goku, kid_gohan, teen_gohan, gohan, vegeta, krillin, piccolo, tien, yamcha, uub, broly]
-    for c in chars:
+    new_charlist = []
+    for char in chars:
+        x = 1
+        while x <= char.max_copies:
+            new_charlist.append(char)
+            x += 1
+    for c in new_charlist:
         items.append(c)
     return items
 
@@ -214,8 +220,9 @@ def get_classification(item: Capsule, highest_count=0, list_index=0):
         "Gohan: Super Saiyan 2", "Gohan: Elder Kai Unlock Ability", 
         "Vegeta: Super Saiyan 2", "Vegeta: Super Saiyan 4", 
         "Goku: Super Saiyan 3", "Broly: Legendary Super Saiyan", 
-        "Broly: Gigantic Meteor", "Uub: Ki Cannon", "Senzu Bean"]
+        "Broly: Gigantic Meteor", "Uub: Ki Cannon", "Senzu Bean"
+    ]
     if item.name in items_useful_for_story_reenactments:
         return ItemClassification.progression
     
-    return ItemClassification.filler
+    return item.classification

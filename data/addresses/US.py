@@ -51,6 +51,7 @@ CURRENT_ZENIE = RAMAddress(0x58F718, name="Current Zenie")
 DU_GOKU_X_COORD = RAMAddress(0x5AA724, 4)
 DU_GOKU_Y_COORD = RAMAddress(0x5AA728, 4)
 Function(0x1003e0, 16) # runs at all times
+Function(0x26dc80, 16) # sets the real-time capsule
 
 # I may be able to use 414890 - 41867f as addressable space. It's roughly 15.8k addresses.
 CURRENT_AP_ITEM = RAMAddress(0x4dfd60, 2) # this gets overwritten. This is good! That means it's getting overwritten by something on the memory card, just need to find what.
@@ -60,3 +61,20 @@ DRAGON_ARENA_BREAK_IN_BITFLAGS_1 = RAMAddress(0x4E0112, 1)
 DRAGON_ARENA_BREAK_IN_BITFLAGS_2 = RAMAddress(0x4E0113, 1)
 DU_LIVE_CAPSULE_COLLECTION_START = RAMAddress(0x51147A, 1)
 LIVE_ZENIE = RAMAddress(0x511449, 4)
+DU_LIVE_REENACTMENT_BITFLAG_1 = RAMAddress(0x51144C, 1)
+DU_LIVE_REENACTMENT_BITFLAG_2 = RAMAddress(0x51144D, 1)
+DU_LIVE_REENACTMENT_BITFLAG_3 = RAMAddress(0x51144E, 1)
+DU_CURRENT_CHAR = RAMAddress(0x511450, 1)
+CURCHAR = {
+    0x00: "Goku",
+    0x02: "Kid Gohan",
+    0X03: "Teen Gohan",
+    0x04: "Gohan",
+    0x07: "Vegeta",
+    0x0A: "Krillin",
+    0x0B: "Piccolo",
+    0x0C: "Tien",
+    0x0D: "Yamcha",
+    0x11: "Uub",
+    0x22: "Broly"
+}

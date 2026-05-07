@@ -10,6 +10,7 @@ def return_true(slot_data: dict[str, int]) -> bool:
 
 def dragon_radar_randomized(slot_data: dict[str, int]) -> bool:
     val = int(slot_data["randomize_dragon_radar"])
+    val = None
     match val:
         case 0:
             return False
@@ -20,55 +21,67 @@ def dragon_radar_randomized(slot_data: dict[str, int]) -> bool:
         
 def dragon_balls_randomized(slot_data: dict[str, int]) -> bool:
     val = bool(slot_data["randomize_dragon_balls"])
-    return val
+    return False
 
 def money_spots_randomized(slot_data: dict[str, int]) -> bool:
     val = bool(slot_data["randomize_money_spots"])
-    return val
+    return False
 
 def shop_randomized(slot_data: dict[str, int]) -> bool:
     val = bool(slot_data["shop_rando"])
-    return val
+    return False
 
 def challengersanity(slot_data: dict[str, int]) -> bool:
     val = bool(slot_data["challengersanity"])
-    return val
+    return True
 
 def goku_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Goku" in slot_data["choose_du_characters"]
+    return False
+    # "Goku" in slot_data["choose_du_characters"]
 
 def kid_gohan_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Kid Gohan" in slot_data["choose_du_characters"]
+    return False
+    # "Kid Gohan" in slot_data["choose_du_characters"]
 
 def teen_gohan_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Teen Gohan" in slot_data["choose_du_characters"]
+    return False
+    # "Teen Gohan" in slot_data["choose_du_characters"]
 
 def gohan_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Gohan" in slot_data["choose_du_characters"]
+    return False
+    # "Gohan" in slot_data["choose_du_characters"]
 
 def krillin_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Krillin" in slot_data["choose_du_characters"]
+    return False
+    # "Krillin" in slot_data["choose_du_characters"]
 
 def piccolo_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Piccolo" in slot_data["choose_du_characters"]
+    return False
+    # "Piccolo" in slot_data["choose_du_characters"]
 
 def vegeta_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Vegeta" in slot_data["choose_du_characters"]
+    return False
+    # "Vegeta" in slot_data["choose_du_characters"]
 
 def tien_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Tien" in slot_data["choose_du_characters"]
+    return False
+    # "Tien" in slot_data["choose_du_characters"]
 
 def yamcha_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Yamcha" in slot_data["choose_du_characters"]
+    return False
+    # "Yamcha" in slot_data["choose_du_characters"]
 
 def uub_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Uub" in slot_data["choose_du_characters"]
+    return False
+    # "Uub" in slot_data["choose_du_characters"]
 
 def broly_enabled(slot_data: dict[str, list[str]]) -> bool:
-    return "Broly" in slot_data["choose_du_characters"]
+    return False
+    # "Broly" in slot_data["choose_du_characters"]
 
 def minimalist_enabled(slot_data: dict[str, int]) -> bool:
-    return bool(slot_data["minimalist"])
+    return True
+    # bool(slot_data["minimalist"])
 
 def non_minimalist(slot_data: dict[str, int]) -> bool:
     return not minimalist_enabled(slot_data)
@@ -223,9 +236,9 @@ location_groups: list[LocationGroup] = [
 
     # Others
     LocationGroup("DU: Difficulty", Locations.DU_DIFFICULTIES, non_minimalist),
-    LocationGroup("Dragon Arena: Break-Ins", Locations.DA_BREAK_IN_LOCS, non_minimalist),
-    LocationGroup("Dragon Arena: Challenger Milestones", Locations.DA_CHALLENGER_LOCS, non_minimalist),
-    LocationGroup("Dragon Arena: Challengersanity Locations", Locations.DA_CHALLENGER_LOCS, challengersanity),
+    LocationGroup("Dragon Arena: Break-Ins", Locations.DA_BREAK_IN_LOCS, challengersanity),
+    LocationGroup("Dragon Arena: Challenger Milestones", Locations.DA_CHALLENGER_LOCS, challengersanity),
+    LocationGroup("Dragon Arena: Challengersanity Locations", Locations.DA_CHALLENGERSANITY_LOCS, challengersanity),
     LocationGroup("World Tournament", Locations.WT_LOCS, non_minimalist),
     LocationGroup("Training", Locations.TRAINING_LOCS, non_minimalist),
     LocationGroup("Skill Shop", Locations.SHOP_LOCS, shop_randomized),
@@ -255,11 +268,15 @@ def get_active_location_groups(slot_data) -> list[LocationGroup]:
 
 def get_active_locations(slot_data) -> list[LocationData]:
     """For use in the ClientCheckLocations file. Slot data arg is the client's slot_data property."""
+    print(f'in get_active_locations: slot_data is {slot_data}')
+    location_groups = get_active_location_groups(slot_data)
     locgroups = get_active_location_groups(slot_data)
+    print('in get_active_locations: locgroups exists')
     loclist: list[LocationData] = []
     for group in locgroups:
         if not group:
             continue
         for location in group.locations:
             loclist.append(location)
+    print(f'in get_active_locations: loclist is {loclist}')
     return loclist

@@ -60,20 +60,21 @@ def create_regions(slot_data):
     regions = [
         RegionInfo(
             name=RegionName.Menu,
-            connections=[RegionName.DU_Goku, RegionName.Dragon_Arena, RegionName.Tournament, RegionName.Shop, RegionName.Training],
+            connections=[RegionName.Dragon_Arena, RegionName.Congrats], # remove congrats from this later
+            # add back later: RegionName.DU_Goku, RegionName.Tournament, RegionName.Shop, RegionName.Training
             groups=[]
         ),
-        RegionInfo(RegionName.Training, [RegionName.Menu], [locgroups[-3]]),
-        RegionInfo(RegionName.Tournament, [RegionName.Menu], [locgroups[-4]]),
-        RegionInfo(RegionName.Shop, [RegionName.Menu], [locgroups[-2]]),
-        RegionInfo(RegionName.Dragon_Arena, [RegionName.Menu], [*locgroups[-5:-4]]),
-        RegionInfo(
-            name=RegionName.DU_Goku,
-            connections=[RegionName.Shenron_Goku, RegionName.Credits],
-            groups=[*locgroups[0:3], *locgroups[5:8]]
-        ),
-        RegionInfo(RegionName.Shenron_Goku, [RegionName.Credits], [locgroups[4]]),
-        RegionInfo(RegionName.Credits, [RegionName.Congrats], []),
+        # RegionInfo(RegionName.Training, [RegionName.Menu], [locgroups[-3]]),
+        # RegionInfo(RegionName.Tournament, [RegionName.Menu], [locgroups[-4]]),
+        # RegionInfo(RegionName.Shop, [RegionName.Menu], [locgroups[-2]]),
+        RegionInfo(RegionName.Dragon_Arena, [RegionName.Menu], [*locgroups[-7:-5]]),
+        # RegionInfo(
+        #     name=RegionName.DU_Goku,
+        #     connections=[RegionName.Shenron_Goku, RegionName.Credits],
+        #     groups=[*locgroups[0:3], *locgroups[5:8]]
+        # ),
+        # RegionInfo(RegionName.Shenron_Goku, [RegionName.Credits], [locgroups[4]]),
+        # RegionInfo(RegionName.Credits, [RegionName.Congrats], []),
         RegionInfo(RegionName.Congrats, [RegionName.Menu], [locgroups[-1]]),
     ]
     return regions
